@@ -89,6 +89,7 @@ if RAILWAY_DB:
     DATABASES = {
         'default': db_config,
     }
+
 else:
 
     DATABASES = {
