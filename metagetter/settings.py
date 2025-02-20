@@ -84,12 +84,16 @@ RAILWAY_DB = True
 
 if RAILWAY_DB:
     
-    db_config = dj_database_url.config(default=os.getenv('${{ Postgres.DATABASE_URL }}'))
+   
     
-    DATABASES = {
-        'default': db_config,
-    }
+    # Get the database URL from the environment variables (provided by Railway)
+    DATABASE_URL = os.getenv('DATABASE_URL')
 
+# Configure the database using the dj_database_url package
+    DATABASES = {
+        'default': dj_database_url.config(default=DATABASE_URL)
+    }
+    
 else:
 
     DATABASES = {
