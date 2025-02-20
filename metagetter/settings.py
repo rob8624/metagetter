@@ -80,20 +80,17 @@ WSGI_APPLICATION = 'metagetter.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
-RAILWAY_DB = True
+DATABASE_URL = os.getenv('DATABASE_URL', 'False').lower() == 'true'
 
-if RAILWAY_DB:
+if DATABASE_URL:
     
-   
-    
-    # Get the database URL from the environment variables (provided by Railway)
     DATABASE_URL = os.getenv('DATABASE_URL')
 
-# Configure the database using the dj_database_url package
+
     DATABASES = {
         'default': dj_database_url.config(default=DATABASE_URL)
     }
-    
+
 else:
 
     DATABASES = {
