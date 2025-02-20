@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'metagetter.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
-RAILWAY_DB = True
+RAILWAY_DB = False
 
 if RAILWAY_DB:
     
