@@ -80,9 +80,9 @@ WSGI_APPLICATION = 'metagetter.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
-RAILWAY_DB_PUBLIC = False
+RAILWAY_DB = True
 
-if RAILWAY_DB_PUBLIC:
+if RAILWAY_DB:
     
     db_config = dj_database_url.config(default=os.getenv('RAILWAY_POSTGRES'))
     
