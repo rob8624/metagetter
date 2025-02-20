@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+import dj_database_url
 
 load_dotenv()
 
@@ -78,7 +79,19 @@ WSGI_APPLICATION = 'metagetter.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
+
+RAILWAY_DB = True
+
+if RAILWAY_DB:
+    
+    db_config = dj_database_url.config(default=os.getenv('RAILWAY_POSTGRES'))
+    
+    DATABASES = {
+        'default': db_config,
+    }
+else:
+
+    DATABASES = {
      'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv('POSTGRES_DB'), 
@@ -88,6 +101,7 @@ DATABASES = {
         'PORT': os.getenv('POSTGRES_PORT'),
     }
 }
+
 
 
 # Password validation
@@ -132,3 +146,5 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ALLOWED_HOSTS=['metagetter-production.up.railway.app', 'localhost']
+
+CSRF_TRUSTED_ORIGINS=['http://localhost:8000']
