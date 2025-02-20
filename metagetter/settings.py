@@ -84,7 +84,7 @@ RAILWAY_DB = True
 
 if RAILWAY_DB:
     
-    db_config = dj_database_url.config(default=os.getenv('RAILWAY_POSTGRES'))
+    db_config = dj_database_url.config(default=os.getenv('${{ Postgres.DATABASE_URL }}'))
     
     DATABASES = {
         'default': db_config,
