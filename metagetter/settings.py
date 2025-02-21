@@ -80,15 +80,16 @@ WSGI_APPLICATION = 'metagetter.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
-DATABASE_URL = os.getenv('DATABASE_URL')
+#checking against Railway env varible, so must match. If False, run dev database.
+DATABASE_URL = os.getenv('DATABASE_URL') 
 
 if DATABASE_URL:
-    # If DATABASE_URL is available, use it for the database configuration
+  
     DATABASES = {
         'default': dj_database_url.config(default=DATABASE_URL)
     }
 else:
-    # If DATABASE_URL is not set, use manual PostgreSQL configuration (fallback)
+    
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
