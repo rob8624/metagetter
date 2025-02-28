@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import { Button } from './components/ui/button'; 
 
 function App() {
   return (
@@ -7,7 +8,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Edit <code>srpp.js</code> and save to reload.
         </p>
         <a
           className="App-link"
@@ -15,8 +16,10 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          Learn Reactasdasdasd
         </a>
+        
+        <Button className="bg-blue-100 text-white">Click Me</Button>
       </header>
     </div>
   );

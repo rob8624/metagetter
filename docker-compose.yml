@@ -19,6 +19,8 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend:/frontend
+      - ./frontend/src:/frontend/src  # Mount src folder to track changes
+      - ./frontend/public:/frontend/public  # Mount public folder if needed
 
   db:
     image: postgres:13
