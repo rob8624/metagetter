@@ -1,17 +1,20 @@
-# Use Node.js to build the React app
-FROM node:18-slim as build
+FROM node:18-slim
 
-# Set working directory for React app inside the container
+# Set working directory
 WORKDIR /frontend
 
-# Copy package.json and package-lock.json from the current directory to the container
+# Set environment variables for development
+ENV NODE_ENV="development"
+ENV CHOKIDAR_USEPOLLING="true"
+ENV WATCHPACK_POLLING="true"
+ENV FAST_REFRESH="true"
+
+# Copy package files first (for better caching)
 COPY ./package.json ./package-lock.json ./
 RUN npm install
 
-# Copy all React source files from the current directory to the container
+# Copy the rest of the app
 COPY ./ ./
 
-# Build the React app
-RUN npm run build
-
+# Don't run build for development mode - just start the dev server
 CMD ["npm", "start"]
