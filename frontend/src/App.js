@@ -6,7 +6,7 @@ function App() {
   return (
     
         
-        <Button variant="outline" className="bg-red-500 min-w-80">robertC     lick Me</Button>
+    <Button className="bg-transparent text-black border border-black min-w-80">roberlickchangedMe</Button>
       
   )
 }
