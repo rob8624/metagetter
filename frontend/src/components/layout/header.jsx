@@ -14,18 +14,31 @@ const Header = () => {
   
   return (
   <div className='flex flex-row justify-center'> 
-    <div className="flex flex-col">
-        <h1>MetaGetter</h1>
+    <div className="flex flex-col items-center gap-5">
+        <div className="text-6xl text-sky-600 ">MetaGetter</div>
             <div>
                 <NavigationMenu >
                     <NavigationMenuList>
                         <NavigationMenuItem>
-                        <NavigationMenuTrigger className="bg-slate-300">About</NavigationMenuTrigger>
+                        <NavigationMenuTrigger className="bg-slate-100">About</NavigationMenuTrigger>
+                                <NavigationMenuContent>
+                                <div className="grid grid-cols-[repeat(2,auto)]">
+                                    <div className="col-span-1 text-xl p-5">
+                                        <h1 className="font-bold pb-5">Metagetter</h1>
+                                        <span className="text-sm text-center">
+                                            A tool to view, edit and save file metadata
+                                        </span>
+                                    </div>
+                                    <div className="col-span-1">asdsadasd</div>
+                                    
+                                </div>
+                                </NavigationMenuContent>
+                        </NavigationMenuItem>
+                        <NavigationMenuItem>
+                            <NavigationMenuTrigger className="bg-slate-100">Use</NavigationMenuTrigger>
                             <NavigationMenuContent>
-                                <div className="p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                                    <h1>Welcome to MetaGetter</h1>
-                                <NavigationMenuLink>About</NavigationMenuLink>
-                                <NavigationMenuLink>Usage</NavigationMenuLink>
+                                <div className="p-10">
+                                    Upload images(s)
                                 </div>
                             </NavigationMenuContent>
                         </NavigationMenuItem>
