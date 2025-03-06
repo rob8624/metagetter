@@ -20,25 +20,38 @@ const Header = () => {
                 <NavigationMenu >
                     <NavigationMenuList>
                         <NavigationMenuItem>
-                        <NavigationMenuTrigger className="bg-slate-100">About</NavigationMenuTrigger>
+                        <NavigationMenuTrigger className="">About</NavigationMenuTrigger>
                                 <NavigationMenuContent>
-                                <div className="grid grid-cols-[repeat(2,auto)]">
+                                <div className="grid grid-cols-[repeat(2,auto)] w-[300px]">
                                     <div className="col-span-1 text-xl p-5">
                                         <h1 className="font-bold pb-5">Metagetter</h1>
-                                        <span className="text-sm text-center">
-                                            A tool to view, edit and save file metadata
+                                        <span className="text-sm leading-[1.3] block">
+                                            A tool to view, edit and save file metadata.
+                                            Harnesing the pwer of Exoftool, Metagetter 
+                                            enables you take control of the hidden
+                                            dta within files.
                                         </span>
+                                        
                                     </div>
                                     <div className="col-span-1">asdsadasd</div>
                                     
                                 </div>
                                 </NavigationMenuContent>
                         </NavigationMenuItem>
+                    
                         <NavigationMenuItem>
-                            <NavigationMenuTrigger className="bg-slate-100">Use</NavigationMenuTrigger>
+                            <NavigationMenuTrigger className="">Use</NavigationMenuTrigger>
                             <NavigationMenuContent>
-                                <div className="p-10">
-                                    Upload images(s)
+                                <div className="p-5 w-[300px]">
+                                    <h1>Upload images(s)</h1>
+                                </div>
+                            </NavigationMenuContent>
+                        </NavigationMenuItem>
+                        <NavigationMenuItem>
+                            <NavigationMenuTrigger className="">Donate</NavigationMenuTrigger>
+                            <NavigationMenuContent>
+                                <div className="p-5">
+                                    <h1>Upload images(s)</h1>
                                 </div>
                             </NavigationMenuContent>
                         </NavigationMenuItem>

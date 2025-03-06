@@ -11,6 +11,7 @@ services:
     env_file:
       - .env
     depends_on:
+      - memcached
       - db
 
   frontend:
@@ -34,6 +35,14 @@ services:
       - .env
     ports:
       - "5432:5432"
+
+  memcached:
+    image: memcached:alpine
+    ports:
+      - "11211:11211"  # Expose the default Memcached port
+    environment:
+      - MEMCACHED_MEMORY=64  # Optional: You can customize memory settings
+      - MEMCACHED_MAXITEMSIZE=1048576  # Optional: Max item size in bytes
 
 volumes:
   postgres_data:
