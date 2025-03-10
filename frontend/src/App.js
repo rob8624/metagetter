@@ -3,10 +3,13 @@ import './App.css';
 import { Button } from './components/ui/button'; 
 import Header from './components/layout/header'; 
 import Footer from './components/layout/footer'; 
+import { MenuDataProvider } from './context/menuData';
+
 
 function App() {
   return (
     <>
+    <MenuDataProvider>
       <header>
         <Header/>  
       </header>
@@ -18,7 +21,9 @@ function App() {
       <footer>
         <Footer />
       </footer>
+    </MenuDataProvider>
     </>
+    
       
   )
 }

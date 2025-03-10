@@ -9,32 +9,14 @@ import {
 } from "../ui/navigation-menu";
 
 import {useMediaQuery } from '@react-hook/media-query'
+import { UseMenuData } from "../../context/menuData";
 
 
 export default function DesktopMenu() {
 
   const matches = useMediaQuery('only screen and (min-width: 600px)')
-
-  const menuData = [
-
-    {
-      
-      aboutContent: [{Label: 'About', title: 'Metagetter',
-                      firstText : `A tool to view, edit and save file metadata. Harnesing the
-                                  pwer of Exiftool, Metagetter enables you take control of the
-                                  hidden dta within files.`,
-                      subText: `improve SEO, add authenticity to AI
-                                  images, help catalog and label images`,
-                      secondTitle : 'MetaGetter Functionalities',
-                      secondText : `MetaGetter lets you view and edit all exifdata fields available and all data types,
-                                  incluing XMP (PhotoMechanic) IPTC (PHOTOSHOP).`}],
-     
-      
-      usageContent: [{Label: 'Usage', text: 'Use the upload function below to add upto five images',
-        foo: 'bar'
-      },]
-    }
-  ]
+  const menuData = UseMenuData()
+  
 
   const topDropdownStyles = `
   [&>div.absolute]:bottom-full 
