@@ -4,7 +4,7 @@ const Footer = () => {
   
   return (
   <div className='flex flex-row justify-center'> 
-     <h1>Footer</h1>
+     <h1>Metagetter/2025</h1>
   </div>
  )
 }

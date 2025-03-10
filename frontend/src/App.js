@@ -15,7 +15,7 @@ function App() {
       </header>
     
         <main id="main-wrapper" className="flex justify-center items-center bg-white w-5/6 mx-auto grow ">
-          <Button className="bg-transparent text-black border border-black min-w-80">roberlickchangedMe</Button>
+          <div>Upload dropzone here</div>
         </main>
     
       <footer>
