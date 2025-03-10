@@ -8,8 +8,12 @@ import {
   NavigationMenuTrigger,
 } from "../ui/navigation-menu";
 
+import {useMediaQuery } from '@react-hook/media-query'
+
 
 export default function DesktopMenu() {
+
+  const matches = useMediaQuery('only screen and (min-width: 600px)')
 
   const menuData = [
 
@@ -32,12 +36,20 @@ export default function DesktopMenu() {
     }
   ]
 
+  const topDropdownStyles = `
+  [&>div.absolute]:bottom-full 
+  [&>div.absolute]:top-auto 
+  [&>div.absolute>*]:mb-1.5 
+  [&>div.absolute>*]:mt-0
+  [&>div.absolute>*]:origin-bottom-center
+`;
 
+const navMenuClassName = matches ? '' : topDropdownStyles;
 
   return (
     <>
     
-    <NavigationMenu>
+    <NavigationMenu className={navMenuClassName}>
     {menuData.map((item, index) => (
       <NavigationMenuList key={index}>
       
