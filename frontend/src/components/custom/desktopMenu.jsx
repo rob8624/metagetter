@@ -34,16 +34,13 @@ const navMenuClassName = matches ? '' : topDropdownStyles;
     <NavigationMenu className={navMenuClassName}>
     {menuData.map((item, index) => (
       <NavigationMenuList key={index}>
-      
         <NavigationMenuItem>
-            
           {item.aboutContent && item.aboutContent.map((item, index) => (   
             <React.Fragment key={index}>
           <NavigationMenuTrigger>{item.Label}</NavigationMenuTrigger>
           <NavigationMenuContent>
               <div className="grid grid-cols-[repeat(2,auto)] auto-rows-auto gap-2 w-[300px] p-2">
                 <div className="col-span-2 text-xl">
-                  
                   <h1 className="font-bold" >{item.title}</h1>
                 </div>
                 <span  className="text-sm leading-tight">
