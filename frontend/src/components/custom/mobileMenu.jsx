@@ -12,7 +12,7 @@ export default function MobileMenu () {
         return(
   <Drawer>
     <DrawerTrigger>
-    <img className="h-10 m-2 rounded-md opacity-50 "src="/Burger-menu.svg" alt="Logo" />
+    <img className="h-10 m-2 rounded-md opacity-50" src="/burger-menu.svg" alt="Logo" />
     </DrawerTrigger>
     <DrawerContent >
       <div className="flex  justify-center pb-10">
