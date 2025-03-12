@@ -9,4 +9,4 @@ class Image(models.Model):
         return self.image.path
     
     def __str__(self):
-        return "Image"
+        return self.image.name
