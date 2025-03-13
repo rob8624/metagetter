@@ -5,10 +5,16 @@ import Header from './components/layout/header';
 import Footer from './components/layout/footer'; 
 import { MenuDataProvider } from './context/menuData';
 
+import { ThemeContextProvider } from './context/darkModeContext'
+
 
 function App() {
+
+  
+
   return (
     <>
+    <ThemeContextProvider >
     <MenuDataProvider>
       <header>
         <Header/>  
@@ -22,6 +28,7 @@ function App() {
         <Footer />
       </footer>
     </MenuDataProvider>
+    </ThemeContextProvider>
     </>
     
       
