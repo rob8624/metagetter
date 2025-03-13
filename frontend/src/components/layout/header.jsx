@@ -1,9 +1,11 @@
 import React from "react";
-import {useMediaQuery } from '@react-hook/media-query'
+import { useContext } from 'react';
+import { useMediaQuery } from '@react-hook/media-query'
 import DesktopMenu from "../custom/desktopMenu";
 import MobileMenu from "../custom/mobileMenu";
-
+import  { ThemeContext }  from '../../context/darkModeContext'
 import { MdDarkMode, MdOutlineDarkMode } from "react-icons/md";
+
 
 
 
@@ -11,16 +13,10 @@ import { MdDarkMode, MdOutlineDarkMode } from "react-icons/md";
 
 const Header = () => {
 
-  const [dark, setDark] = React.useState(false)
+  const { darkMode, handleDarkModeToggle } = useContext(ThemeContext);
 
   const matches = useMediaQuery('only screen and (min-width: 600px)')
 
-  const handleDarkModeToggle = () => {
-    setDark(!dark)
-    document.body.classList.toggle("dark")
-  }
-  
-  
   return (
   <div className='flex flex-row sm:justify-center dark:bg-black'> 
     <div className="flex w-screen sm:flex-col items-center justify-between sm:gap-5">
@@ -33,8 +29,8 @@ const Header = () => {
                 {matches ? <DesktopMenu/> : <MobileMenu/> }
             </div>
      </div>
-    <button onClick={() => handleDarkModeToggle()} className="self-start">
-      {dark ? < MdOutlineDarkMode size={'2em'}/> : <MdDarkMode size={'2em'}/> }
+    <button onClick={handleDarkModeToggle} className="self-start">
+      {darkMode ? < MdOutlineDarkMode size={'2em'}/> : <MdDarkMode size={'2em'}/> }
     </button>
   </div>
  )

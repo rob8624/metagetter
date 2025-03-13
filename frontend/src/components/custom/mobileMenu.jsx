@@ -1,4 +1,6 @@
 import React from 'react'
+import { useContext } from 'react'
+import  { ThemeContext }  from '../../context/darkModeContext'
 
 import { Drawer,
     DrawerContent,
@@ -7,13 +9,19 @@ import DesktopMenu from './desktopMenu.jsx'
 
 export default function MobileMenu () {
 
-  
+const { darkMode } = useContext(ThemeContext)
 
 
-        return(
+return(
   <Drawer>
     <DrawerTrigger>
-    <img className="h-10 m-2 rounded-md opacity-50" alt="Logo" />
+    <img 
+      className="h-12 m-2 rounded-md"
+      src={darkMode ? "/header/burger-menu-dark.png" : "/header/burger-menu.png"} 
+      alt="Hamburger-Logo" 
+      />
+    
+    
     </DrawerTrigger>
     <DrawerContent >
       <div className="flex  justify-center pb-10">
