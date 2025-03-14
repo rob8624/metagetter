@@ -21,8 +21,8 @@ const menuData = [
         foo: 'bar'
       }],
 
-      signupContent: [{Label: 'Login & Signup', text: `Users can sign in here, or if not registered, please
-        sign-up here!`}]
+      signinContent: [{Label: 'Login & Signup', text: `Users can sign in here, or if not registered, please
+        sign-up here!`, path: "/signin"}]
     }
   ]
 

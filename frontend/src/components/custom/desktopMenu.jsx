@@ -6,12 +6,14 @@ import {
   NavigationMenuItem,
   NavigationMenuList,
   NavigationMenuTrigger,
-  NavigationMenuLink,
+  
   navigationMenuTriggerStyle,
 } from "../ui/navigation-menu";
 
 import {useMediaQuery } from '@react-hook/media-query'
 import { UseMenuData } from "../../context/menuData";
+
+import { Link } from 'react-router-dom';
 
 
 export default function DesktopMenu() {
@@ -75,15 +77,17 @@ const navMenuClassName = matches ? '' : topDropdownStyles;
         </React.Fragment>
         ))}
 
-        { item.signupContent.map((item, index) => (
+        { item.signinContent.map((item, index) => (
           <React.Fragment key={index}>
         <NavigationMenuItem>
-        <a href="/docs" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              { item.Label}
-            </NavigationMenuLink>
-          </a>
-        </NavigationMenuItem>
+        <Link 
+          to={item.path} 
+          className={navigationMenuTriggerStyle()}
+          onClick={() => console.log("Link clicked!", item.path)}
+        >
+          {item.Label}
+        </Link>
+      </NavigationMenuItem>
         </React.Fragment>
         ))}
        
