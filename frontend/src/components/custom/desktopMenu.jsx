@@ -6,6 +6,8 @@ import {
   NavigationMenuItem,
   NavigationMenuList,
   NavigationMenuTrigger,
+  NavigationMenuLink,
+  navigationMenuTriggerStyle,
 } from "../ui/navigation-menu";
 
 import {useMediaQuery } from '@react-hook/media-query'
@@ -70,17 +72,21 @@ const navMenuClassName = matches ? '' : topDropdownStyles;
             </div>
           </NavigationMenuContent>
         </NavigationMenuItem>
+        </React.Fragment>
+        ))}
+
+        { item.signupContent.map((item, index) => (
+          <React.Fragment key={index}>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="">Donate</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <div className="p-5 w-[300px]">
-              <h1>Upload images(s)</h1>
-             
-            </div>  
-          </NavigationMenuContent>
+        <a href="/docs" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              { item.Label}
+            </NavigationMenuLink>
+          </a>
         </NavigationMenuItem>
         </React.Fragment>
         ))}
+       
       </NavigationMenuList>
      ))}
     </NavigationMenu>

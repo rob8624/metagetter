@@ -19,7 +19,10 @@ const menuData = [
       
       usageContent: [{Label: 'Usage', text: 'Use the upload function below to add upto five images',
         foo: 'bar'
-      },]
+      }],
+
+      signupContent: [{Label: 'Login & Signup', text: `Users can sign in here, or if not registered, please
+        sign-up here!`}]
     }
   ]
 
