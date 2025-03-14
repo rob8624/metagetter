@@ -6,7 +6,7 @@ import {
   NavigationMenuItem,
   NavigationMenuList,
   NavigationMenuTrigger,
-  NavigationMenuLink,
+  
   navigationMenuTriggerStyle,
 } from "../ui/navigation-menu";
 
@@ -80,12 +80,14 @@ const navMenuClassName = matches ? '' : topDropdownStyles;
         { item.signinContent.map((item, index) => (
           <React.Fragment key={index}>
         <NavigationMenuItem>
-        <Link href="/sign-in" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              { item.Label}
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
+        <Link 
+          to={item.path} 
+          className={navigationMenuTriggerStyle()}
+          onClick={() => console.log("Link clicked!", item.path)}
+        >
+          {item.Label}
+        </Link>
+      </NavigationMenuItem>
         </React.Fragment>
         ))}
        
