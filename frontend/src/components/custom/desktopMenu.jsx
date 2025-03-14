@@ -13,6 +13,8 @@ import {
 import {useMediaQuery } from '@react-hook/media-query'
 import { UseMenuData } from "../../context/menuData";
 
+import { Link } from 'react-router-dom';
+
 
 export default function DesktopMenu() {
 
@@ -75,14 +77,14 @@ const navMenuClassName = matches ? '' : topDropdownStyles;
         </React.Fragment>
         ))}
 
-        { item.signupContent.map((item, index) => (
+        { item.signinContent.map((item, index) => (
           <React.Fragment key={index}>
         <NavigationMenuItem>
-        <a href="/docs" legacyBehavior passHref>
+        <Link href="/sign-in" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               { item.Label}
             </NavigationMenuLink>
-          </a>
+          </Link>
         </NavigationMenuItem>
         </React.Fragment>
         ))}
