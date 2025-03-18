@@ -89,7 +89,7 @@ WSGI_APPLICATION = 'metagetter.wsgi.application'
 
 
 #checking against Railway env varible, so must match. If False, run dev database.
-DATABASE_URL = os.getenv('DATABASE_URL') 
+DATABASE_URL = os.getenv('DATABASE_URL') #Railway env
 
 if DATABASE_URL:
   
@@ -195,3 +195,15 @@ SIMPLE_JWT = {
     'ALGORITHM': 'HS256',
     'SIGNING_KEY': os.getenv('SIGNING_KEY')  
 }
+
+
+
+FRONTEND_URL = os.getenv('FRONTEND_URL') #Railway env
+
+if FRONTEND_URL:
+
+    CORS_ALLOWED_ORIGINS = [
+        'http://' + FRONTEND_URL, 'http://localhost:3000'
+    ]
+
+
