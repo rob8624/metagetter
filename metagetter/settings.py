@@ -200,10 +200,10 @@ SIMPLE_JWT = {
 
 FRONTEND_URL = os.getenv('FRONTEND_URL') #Railway env
 
-if FRONTEND_URL:
 
-    CORS_ALLOWED_ORIGINS = [
-        'http://' + FRONTEND_URL, 'http://localhost:3000'
-    ]
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    'http://' + str(FRONTEND_URL), 'http://localhost:3000'
+]
 
 
