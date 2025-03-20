@@ -19,12 +19,12 @@ export function LoginForm({
   const test = async (e) => {
     
     await axiosInstance.post('/api/register/', {
-      username: "robert",
-      first_name: "fafaf",
-      last_name : 'foo',
-      email: 'sdsadasd@hello.com',
-      password: "hello",
-      password2: "hello"
+      username: "robert2",
+      first_name: "fafaf2",
+      last_name : 'foo2',
+      email: 'sdsadasd2@hello.com',
+      password: "hello2",
+      password2: "hello2"
     }) 
 
     
