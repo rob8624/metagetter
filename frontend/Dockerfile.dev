@@ -8,6 +8,7 @@ ENV NODE_ENV="development"
 ENV CHOKIDAR_USEPOLLING="true"
 ENV WATCHPACK_POLLING="true"
 ENV FAST_REFRESH="true"
+ENV NODE_OPTIONS="--openssl-legacy-provider"
 
 # Copy package files first (for better caching)
 COPY ./package.json ./package-lock.json ./
