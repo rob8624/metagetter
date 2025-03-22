@@ -1,7 +1,15 @@
 from django.db import models
+
 from metagetter.storage_backends import PublicMediaStorage
 
 # Create your models here.
+
+
+    
+
+
+
+
 class Image(models.Model):
     image = models.ImageField(storage=PublicMediaStorage())
 

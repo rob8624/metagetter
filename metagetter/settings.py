@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 import dj_database_url
+from datetime import timedelta
 
 load_dotenv()
 
@@ -44,11 +45,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'core',
-    'storages'
+    'storages',
+    "corsheaders",
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -84,7 +89,7 @@ WSGI_APPLICATION = 'metagetter.wsgi.application'
 
 
 #checking against Railway env varible, so must match. If False, run dev database.
-DATABASE_URL = os.getenv('DATABASE_URL') 
+DATABASE_URL = os.getenv('DATABASE_URL') #Railway env
 
 if DATABASE_URL:
   
@@ -110,6 +115,8 @@ CACHES = {
         'LOCATION': 'memcached:11211',  # This points to the Memcached service in Docker Compose
     }
 }
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -170,3 +177,35 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ALLOWED_HOSTS=['metagetter-production.up.railway.app', 'localhost']
 
 CSRF_TRUSTED_ORIGINS=['http://localhost:8000', 'https://metagetter-production.up.railway.app']
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',  
+    ],
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': os.getenv('SIGNING_KEY')  
+}
+
+
+
+FRONTEND_URL = os.getenv('FRONTEND_URL') #Railway env
+
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOWED_ORIGINS = [
+    'http://' + str(FRONTEND_URL), 'http://localhost:3000'
+]
+
+

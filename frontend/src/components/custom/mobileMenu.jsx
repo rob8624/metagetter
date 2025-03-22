@@ -1,10 +1,12 @@
 import React from 'react'
 import { useContext } from 'react'
+
 import  { ThemeContext }  from '../../context/darkModeContext'
 
 import { Drawer,
     DrawerContent,
-    DrawerTrigger, } from '../ui/drawer'
+    DrawerTrigger,
+     } from '../ui/drawer'
 import DesktopMenu from './desktopMenu.jsx'
 
 export default function MobileMenu () {
@@ -25,7 +27,9 @@ return(
     </DrawerTrigger>
     <DrawerContent >
       <div className="flex  justify-center pb-10">
+      
           <DesktopMenu/>
+      
       </div>
     </DrawerContent>
 </Drawer>
