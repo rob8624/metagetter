@@ -5,6 +5,7 @@ import DesktopMenu from "../custom/desktopMenu";
 import MobileMenu from "../custom/mobileMenu";
 import  { ThemeContext }  from '../../context/darkModeContext'
 import { MdDarkMode, MdOutlineDarkMode } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 
 
@@ -20,12 +21,11 @@ const Header = () => {
   return (
   <div className='flex flex-row sm:justify-center dark:bg-black'> 
     <div className="flex w-screen sm:flex-col items-center justify-between sm:gap-5">
-        <div className=" text-4xl sm:text-6xl text-sky-600">
+        <Link to="/" className=" text-4xl sm:text-6xl text-sky-600">
             <img className="h-14 sm:h-32 m-2 rounded-md opacity-90 bg-black"src="/HeaderLogo.png" alt="Logo" />
             
-        </div>
+        </Link>
             <div>
-              
                 {matches ? <DesktopMenu/> : <MobileMenu/> }
             </div>
      </div>

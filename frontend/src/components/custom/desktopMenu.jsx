@@ -83,7 +83,7 @@ const navMenuClassName = matches ? '' : topDropdownStyles;
         <Link 
           to={item.path} 
           className={navigationMenuTriggerStyle()}
-          onClick={() => console.log("Link clicked!", item.path)}
+          
         >
           {item.Label}
         </Link>

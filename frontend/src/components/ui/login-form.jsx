@@ -1,4 +1,5 @@
-import axiosInstance from "../../api.js"
+// import axiosInstance from "../../api.js"
+import { Link } from "react-router-dom"
 import { cn } from "../../lib/utils"
 import { Button } from "./button"
 import {
@@ -16,21 +17,21 @@ export function LoginForm({
   ...props
 }) {
 
-  const test = async (e) => {
+  // const test = async (e) => {
     
-    await axiosInstance.post('/api/register/', {
-      username: "robert2",
-      first_name: "fafaf2",
-      last_name : 'foo2',
-      email: 'sdsadasd2@hello.com',
-      password: "hello2",
-      password2: "hello2"
-    }) 
+  //   await axiosInstance.post('/api/register/', {
+  //     username: "robert2",
+  //     first_name: "fafaf2",
+  //     last_name : 'foo2',
+  //     email: 'sdsadasd2@hello.com',
+  //     password: "hello2",
+  //     password2: "hello2"
+  //   }) 
 
     
-    e.preventDefault();
-    console.log('yes')
-  }
+  //   e.preventDefault();
+  //   console.log('yes')
+  // }
 
 
 
@@ -70,9 +71,9 @@ export function LoginForm({
             </div>
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}
-              <a href="/" className="underline underline-offset-4" onClick={(e) => test()}>
+              <Link to="/register" className="underline underline-offset-4" /*  onClick={(e) => test()} */>
                 Sign up
-              </a>
+              </Link>
             </div>
           </form>
         </CardContent>
