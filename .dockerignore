@@ -7,3 +7,5 @@
 Dockerfile
 db.sqlite3
 **/*.md
+node_modules
+.idea
