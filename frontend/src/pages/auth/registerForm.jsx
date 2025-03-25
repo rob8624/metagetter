@@ -15,8 +15,9 @@ import {
   FormMessage,
 } from "../../components/ui/form"
 import { Input } from "../../components/ui/input"
-
 import  { ThemeContext }  from '../../context/darkModeContext'
+import authService from '../../services/authServices.js'
+
 
 
 
@@ -54,9 +55,24 @@ export function SignupForm() {
   })
 
   // 3. Define the submit handler
-  const onSubmit = (data) => {
-    console.log(data) // Do something with the form values
-  }
+  const onSubmit = async (data) => {
+    try {
+      
+      const response = await authService.register({
+        username: data.username,
+        email: data.email,
+        password: data.password,
+        re_password: data.confirmPassword
+      });
+
+      
+      console.log('Registration successful:', response);
+    } catch (error) {
+      
+      console.error('Registration error:', error);
+    }
+    
+     }
 
   return (
     <>
