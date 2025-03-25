@@ -22,8 +22,8 @@ function App() {
       <header>
         <Header/>  
       </header>
-    
-        <main id="main-wrapper" className="flex justify-center items-center bg-white w-5/6 mx-auto grow ">
+       <div id="main-background" className="w-screen h-screen bg-white dark:bg-black">
+        <main id="main-wrapper" className="flex justify-center items-center w-5/6 mx-auto grow bg-transparent">
         <Routes>
             {/* Home route with the dropzone */}
             <Route path="/" element={<Hero/>} />
@@ -32,7 +32,7 @@ function App() {
             <Route path="/register" element={<SignupForm/>} />
           </Routes>
         </main>
-    
+      </div>
       <footer>
         <Footer />
       </footer>
