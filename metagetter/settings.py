@@ -209,3 +209,10 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 
+DJOSER = {
+    'USER_CREATE_PASSWORD_RETYPE': True,
+    'SERIALIZERS': {
+        'user_create': 'core.serializers.CustomUserCreateSerializer',
+        'user': 'core.serializers.CustomUserSerializer',
+    },
+}
