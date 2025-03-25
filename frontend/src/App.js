@@ -5,6 +5,7 @@ import SignIn from './pages/auth/signin';
 import { SignupForm } from './pages/auth/registerForm';
 import Header from './components/layout/header'; 
 import Footer from './components/layout/footer'; 
+import Hero from './components/layout/hero'
 import { MenuDataProvider } from './context/menuData';
 
 import { ThemeContextProvider } from './context/darkModeContext'
@@ -25,7 +26,7 @@ function App() {
         <main id="main-wrapper" className="flex justify-center items-center bg-white w-5/6 mx-auto grow ">
         <Routes>
             {/* Home route with the dropzone */}
-            <Route path="/" element={<div>Upload dropzone here</div>} />
+            <Route path="/" element={<Hero/>} />
             {/* Sign in route */}
             <Route path="/signin" element={<SignIn/>} />
             <Route path="/register" element={<SignupForm/>} />
