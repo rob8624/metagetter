@@ -1,8 +1,8 @@
 
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
-import SignIn from './pages/signin';
-import { SignupForm } from './pages/registerForm';
+import SignIn from './pages/auth/signin';
+import { SignupForm } from './pages/auth/registerForm';
 import Header from './components/layout/header'; 
 import Footer from './components/layout/footer'; 
 import { MenuDataProvider } from './context/menuData';
