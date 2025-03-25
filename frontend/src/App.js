@@ -6,7 +6,7 @@ import { SignupForm } from './pages/auth/registerForm';
 import Header from './components/layout/header'; 
 import Footer from './components/layout/footer'; 
 import Hero from './components/layout/hero'
-import CallToAction from './components/layout/cta'
+
 import { MenuDataProvider } from './context/menuData';
 
 import { ThemeContextProvider } from './context/darkModeContext'
