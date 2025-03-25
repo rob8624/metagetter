@@ -77,9 +77,7 @@ export function SignupForm() {
   return (
     <>
     <div className="flex flex-col items-center">
-            <Button className="w-20">
-                <Link to="/" className="">BACK</Link>
-            </Button>
+            
         <div className={`flex flex-col gap-10 mt-10 sm:mb-16 p-6 rounded-lg shadow-lg
           ${darkMode ? 'border border-gray-700 bg-black text-white' : 'border border-gray-200 bg-white text-black'}`}>
           <div>
@@ -199,6 +197,9 @@ export function SignupForm() {
             </form>
           </Form>
         </div>
+        <Button className="w-20">
+                <Link to="/" className="">BACK</Link>
+            </Button>
       </div>
     </>
   )
