@@ -6,6 +6,7 @@ import { SignupForm } from './pages/auth/registerForm';
 import Header from './components/layout/header'; 
 import Footer from './components/layout/footer'; 
 import Hero from './components/layout/hero'
+import { Toaster } from "./components/ui/sonner"
 
 import { MenuDataProvider } from './context/menuData';
 
@@ -23,8 +24,8 @@ function App() {
       <header>
         <Header/>  
       </header>
-       <div id="main-background" className="w-screen h-screen bg-white dark:bg-black">
-        <main id="main-wrapper" className="flex justify-center items-center w-5/6 mx-auto grow bg-transparent">
+       <div id="main-background" className="w-screen flex-grow bg-white dark:bg-black">
+        <main id="main-wrapper" className="flex justify-center items-center w-5/6 mx-auto bg-transparent">
         <Routes>
             {/* Home route with the dropzone */}
             <Route path="/" element={<Hero/>} />
@@ -33,6 +34,7 @@ function App() {
             <Route path="/register" element={<SignupForm/>} />
           </Routes>
         </main>
+        <Toaster />
       </div>
       <footer>
         <Footer />

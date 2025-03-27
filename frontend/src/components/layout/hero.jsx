@@ -1,4 +1,5 @@
 
+import { Button } from "../ui/button";
 import CallToAction from "./cta";
 
 
@@ -25,9 +26,15 @@ export default function Hero() {
         <span className="font-thin text-2xl sm:text-4xl pt-2  dark:text-white">
           Enpowering your Metadata
         </span>
-        <p className="font-thin text-base pt-5 dark:text-white">
+        <p className="font-thin text-base pt-2 dark:text-white">
           Create, edit & enable, content data.
         </p>
+        <div className="flex gap-4 w-64 justify-center pt-10 self-center">
+          <Button variant="outline" className="flex-grow bg-green-200 dark:bg-orange-300
+           dark:hover:bg-white dark:hover:text-black">Upload</Button>
+          <Button variant="outline" className="flex-grow bg-green-200 dark:bg-orange-300
+           dark:hover:bg-white dark:hover:text-black">FInd out more</Button>
+        </div>
       </div>
     <div className="flex flex-col items-center justify-center h-40"> 
         <CallToAction/>

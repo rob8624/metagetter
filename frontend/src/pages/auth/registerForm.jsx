@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Link } from 'react-router-dom';
+import { toast } from "sonner"
 
 import { Button } from "../../components/ui/button"
 import {
@@ -21,7 +22,7 @@ import authService from '../../services/authServices.js'
 
 
 
-// 1. Updated Zod schema for email and password confirmation
+// Updated Zod schema for email and password confirmation
 const formSchema = z.object({
 
   username: z.string().min(2, ({
@@ -42,8 +43,8 @@ const formSchema = z.object({
 
 export function SignupForm() {
   const { darkMode } = useContext(ThemeContext)
-
-  // 2. Define your form
+  
+  // Define form
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -54,7 +55,6 @@ export function SignupForm() {
     },
   })
 
-  // 3. Define the submit handler
   const onSubmit = async (data) => {
     try {
       
@@ -65,18 +65,18 @@ export function SignupForm() {
         re_password: data.confirmPassword
       });
 
-      
+      toast(`Registration Completed, thanks ${data.username}`)
       console.log('Registration successful:', response);
     } catch (error) {
+      toast("Server Error", error)
       
-      console.error('Registration error:', error);
     }
     
      }
 
   return (
     <>
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center mb-10 sm:mb-0">
             
         <div className={`flex flex-col gap-10 mt-10 sm:mb-16 p-6 rounded-lg shadow-lg
           ${darkMode ? 'border border-gray-700 bg-black text-white' : 'border border-gray-200 bg-white text-black'}`}>
