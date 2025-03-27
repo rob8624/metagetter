@@ -1,10 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-
+import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom"
 import { cn } from "../../lib/utils"
 import { Button } from "./button"
+import { toast } from "sonner"
 import {
   Card,
   CardContent,
@@ -14,12 +15,17 @@ import {
 } from "./card"
 import { Input } from "./input"
 import { Label } from "./label"
-// import authService from "../../services/authServices"
+import authService from "../../services/authServices"
+
+
+
 
 const formSchema = z.object({
   username: z.string().min(1, "Username is required"),
   password: z.string().min(1, "Password is required"),
 });
+
+
 
 export function LoginForm({
   className,
@@ -37,14 +43,21 @@ export function LoginForm({
     },
   });
 
+  const navigate = useNavigate();  
+
+  
   const onSubmit = async (data) => {
     try {
-      console.log('submitted', data.username)
-      // Add your login logic here
-    } catch(error) {
-      // Handle error
+        const success = await authService.login(data);
+        if (success) {
+            toast(`All logged in ${data.username}`);
+            navigate('/dashboard');
+        }
+    } catch (error) {
+        // Set error message to display to user
+        console.log('nope');
     }
-  }
+};
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>

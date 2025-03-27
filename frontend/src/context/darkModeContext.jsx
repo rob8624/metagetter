@@ -9,7 +9,6 @@ export function ThemeContextProvider({ children }) {
     const [darkMode, setDarkMode] = useState(false)
 
     const handleDarkModeToggle = () => {
-        console.log("clicked")
         setDarkMode(!darkMode)
         document.body.classList.toggle("dark")
 

@@ -6,6 +6,7 @@ import { SignupForm } from './pages/auth/registerForm';
 import Header from './components/layout/header'; 
 import Footer from './components/layout/footer'; 
 import Hero from './components/layout/hero'
+import Dashboard from './pages/app/dashboard';
 import { Toaster } from "./components/ui/sonner"
 
 import { MenuDataProvider } from './context/menuData';
@@ -32,6 +33,7 @@ function App() {
             {/* Sign in route */}
             <Route path="/signin" element={<SignIn/>} />
             <Route path="/register" element={<SignupForm/>} />
+            <Route path="/dashboard" element={<Dashboard/>} />
           </Routes>
         </main>
         <Toaster />
