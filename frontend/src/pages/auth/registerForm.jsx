@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from "sonner"
 
 import { Button } from "../../components/ui/button"
@@ -43,7 +44,9 @@ const formSchema = z.object({
 
 export function SignupForm() {
   const { darkMode } = useContext(ThemeContext)
-  
+  const navigate = useNavigate();
+
+
   // Define form
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -65,10 +68,11 @@ export function SignupForm() {
         re_password: data.confirmPassword
       });
 
-      toast(`Registration Completed, thanks ${data.username}`)
+      toast(`Registered! You can now sign in, thanks ${data.username}`)
+      navigate('/signin'); 
       console.log('Registration successful:', response);
     } catch (error) {
-      toast("Server Error", error)
+      toast("Could not register", error)
       
     }
     
