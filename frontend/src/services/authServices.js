@@ -27,19 +27,16 @@ class AuthService {
             }
         
         } catch(error) {
-            
             if (error.response && error.response.status === 401) {
-                // Unauthorized - likely invalid credentials
                 toast('Invalid username or password');
             } else if (error.response) {
                 
-                throw new Error(error.response.data.detail || 'Login failed');
+                toast('Server Error', error.response.status);
             } else if (error.request) {
               
-                throw new Error('No response from server');
+                toast('Server Error', error.response.status);;
             } else {
-                
-                throw new Error('Error logging in');
+                toast('Server Error', error.response.status);;
             }
             
         }
@@ -48,8 +45,22 @@ class AuthService {
     }
 
     async logout() {
-        localStorage.removeItem('a_t')
-        localStorage.removeItem('r_t')
+        const token = localStorage.getItem('r_t'); 
+        const data = {
+            refresh: token
+        };
+        try {
+             await axiosInstance.post('/api/token/blacklist/', data, {
+                headers: {
+                    "Content-Type": "application/json", 
+                }
+            });
+            localStorage.removeItem('a_t');
+            localStorage.removeItem('r_t');
+            toast('You have been logged out');
+        } catch (error) {
+            console.error('token error:', error.response || error.message);
+        }
     }
 }
 
