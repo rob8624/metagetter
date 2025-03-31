@@ -11,15 +11,25 @@ import {
 } from "../ui/navigation-menu";
 
 import {useMediaQuery } from '@react-hook/media-query'
-import { UseMenuData } from "../../context/menuData";
+import { Link, useNavigate } from 'react-router-dom';
 
-import { Link } from 'react-router-dom';
+//context
+import { UseMenuData } from "../../context/menuData";
+import { UseLoggedIn } from "../../context/userContext";
+
+import authService from "../../services/authServices";
+
+
 
 
 export default function DesktopMenu() {
 
   const matches = useMediaQuery('only screen and (min-width: 600px)')
   const menuData = UseMenuData()
+  const { loggedIn, setLoggedIn } = UseLoggedIn();
+  const navigate = useNavigate()
+
+  
   
 
   const topDropdownStyles = `
@@ -31,6 +41,14 @@ export default function DesktopMenu() {
 `;
 
 const navMenuClassName = matches ? '' : topDropdownStyles;
+
+
+const handleLogout = () => {
+  setLoggedIn(false);
+  authService.logout()
+  navigate('/');
+};
+
 
   return (
     <>
@@ -77,7 +95,19 @@ const navMenuClassName = matches ? '' : topDropdownStyles;
         </React.Fragment>
         ))}
 
-        { item.signinContent.map((item, index) => (
+        { loggedIn ? <React.Fragment key={index}>
+        <NavigationMenuItem>
+        <Link 
+          to={"/"} 
+          className={navigationMenuTriggerStyle()}
+          onClick={handleLogout}
+        >
+          Logout!
+        </Link>
+      </NavigationMenuItem>
+        </React.Fragment> : 
+        
+        item.signinContent.map((item, index) => (
           <React.Fragment key={index}>
         <NavigationMenuItem>
         <Link 
@@ -89,11 +119,14 @@ const navMenuClassName = matches ? '' : topDropdownStyles;
         </Link>
       </NavigationMenuItem>
         </React.Fragment>
-        ))}
+        )) 
+        
+        }
        
       </NavigationMenuList>
      ))}
     </NavigationMenu>
+    
    </>
   );
 }

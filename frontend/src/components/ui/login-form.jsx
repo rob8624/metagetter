@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod"
+import { UseLoggedIn } from "../../context/userContext";
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { useNavigate } from 'react-router-dom';
@@ -44,6 +45,8 @@ export function LoginForm({
   });
 
   const navigate = useNavigate();  
+  const { setLoggedIn } = UseLoggedIn();
+ 
 
   
   const onSubmit = async (data) => {
@@ -52,7 +55,9 @@ export function LoginForm({
         if (success) {
             toast(`All logged in ${data.username}`);
             navigate('/dashboard');
-        }
+            setLoggedIn(true)
+            
+          }
     } catch (error) {
         // Set error message to display to user
         console.log('nope');
