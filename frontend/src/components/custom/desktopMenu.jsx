@@ -11,7 +11,7 @@ import {
 } from "../ui/navigation-menu";
 
 import {useMediaQuery } from '@react-hook/media-query'
-import { Link, useNavigate } from 'react-router-dom';
+
 
 //context
 import { UseMenuData } from "../../context/menuData";
