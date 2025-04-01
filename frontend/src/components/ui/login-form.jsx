@@ -14,6 +14,7 @@ import {
   CardHeader,
   CardTitle,
 } from "./card"
+import ResetPassword from "../custom/resetPassword";
 import { Input } from "./input"
 import { Label } from "./label"
 import authService from "../../services/authServices"
@@ -94,11 +95,7 @@ export function LoginForm({
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  
-                  <a href="/"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline">
-                    Forgot your password?
-                  </a>
+                  <ResetPassword/>
                 </div>
                 <Input 
                   id="password" 

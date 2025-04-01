@@ -9,7 +9,7 @@ import authService from "../../services/authServices";
 
 
 
-export default function Logout({  }) {
+export default function Logout() {
     
   const { setLoggedIn } = UseLoggedIn();
   const navigate = useNavigate()
