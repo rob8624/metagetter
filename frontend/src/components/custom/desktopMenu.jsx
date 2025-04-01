@@ -17,8 +17,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { UseMenuData } from "../../context/menuData";
 import { UseLoggedIn } from "../../context/userContext";
 
-import authService from "../../services/authServices";
-
+//components
+import Logout from "./logout";
 
 
 
@@ -26,8 +26,8 @@ export default function DesktopMenu() {
 
   const matches = useMediaQuery('only screen and (min-width: 600px)')
   const menuData = UseMenuData()
-  const { loggedIn, setLoggedIn } = UseLoggedIn();
-  const navigate = useNavigate()
+  const { loggedIn } = UseLoggedIn();
+ 
 
   
   
@@ -43,11 +43,6 @@ export default function DesktopMenu() {
 const navMenuClassName = matches ? '' : topDropdownStyles;
 
 
-const handleLogout = () => {
-  setLoggedIn(false);
-  authService.logout()
-  navigate('/');
-};
 
 
   return (
@@ -95,26 +90,13 @@ const handleLogout = () => {
         </React.Fragment>
         ))}
 
-        { loggedIn ? <React.Fragment key={index}>
-        <NavigationMenuItem>
-        <Link 
-          to={"/"} 
-          className={navigationMenuTriggerStyle()}
-          onClick={handleLogout}
-        >
-          Logout!
-        </Link>
-      </NavigationMenuItem>
-        </React.Fragment> : 
-        
+        { loggedIn ? <Logout/>: 
         item.signinContent.map((item, index) => (
           <React.Fragment key={index}>
         <NavigationMenuItem>
         <Link 
           to={item.path} 
-          className={navigationMenuTriggerStyle()}
-          
-        >
+          className={navigationMenuTriggerStyle()}>
           {item.Label}
         </Link>
       </NavigationMenuItem>
