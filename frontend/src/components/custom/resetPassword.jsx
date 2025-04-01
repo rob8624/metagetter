@@ -17,7 +17,7 @@ import {
         console.log("Captcha value:", value);
       }
 
-    const recaptchaKey = process.env.REACT_APP_RECAPTCHA_KEY
+    const recaptchaKey = process.env.REACT_APP_RECAPTCHA_KEY 
   
   return (
   
@@ -31,7 +31,7 @@ import {
                     <span>Enter your registered email below to get reset.</span>
                     <Input />
                 </div>
-                <ReCAPTCHA className="pt-10"
+                <ReCAPTCHA className="pt-10 z-50"
                         sitekey={`${recaptchaKey}`}
                         onChange={onChange}
                     />,
