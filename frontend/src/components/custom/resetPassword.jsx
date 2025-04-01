@@ -1,3 +1,5 @@
+import ReCAPTCHA from "react-google-recaptcha";
+
 import {
     Dialog,
     DialogContent,
@@ -6,20 +8,33 @@ import {
     DialogTitle,
     DialogTrigger,
   } from "../../components/ui/dialog"
-
+  
+  import { Input } from "../../components/ui/input"
 
   export default function ResetPassword() {
+
+    function onChange(value) {
+        console.log("Captcha value:", value);
+      }
+
+    const recaptchaKey = process.env.REACT_APP_RECAPTCHA_KEY
   
   return (
   
         <Dialog>
-        <DialogTrigger>Change Password?</DialogTrigger>
+        <DialogTrigger className="text-xs">Reset Password?</DialogTrigger>
         <DialogContent>
             <DialogHeader>
-            <DialogTitle>Are you absolutely sure?</DialogTitle>
+            <DialogTitle>Password reset</DialogTitle>
             <DialogDescription>
-                This action cannot be undone. This will permanently delete your account
-                and remove your data from our servers.
+                <div className="flex flex-col gap-2">
+                    <span>Enter your registered email below to get reset.</span>
+                    <Input />
+                </div>
+                <ReCAPTCHA className="pt-10"
+                        sitekey={`${recaptchaKey}`}
+                        onChange={onChange}
+                    />,
             </DialogDescription>
             </DialogHeader>
         </DialogContent>
