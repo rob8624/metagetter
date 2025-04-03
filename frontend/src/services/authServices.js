@@ -62,6 +62,28 @@ class AuthService {
             console.error('token error:', error.response || error.message);
         }
     }
+
+    async reset(email) {
+        try {
+            const response = await axiosInstance.post('auth/users/reset_password/', {
+                email, // Make sure this matches the field name expected by Djoser
+            });
+    
+            // Handle the response based on status
+            if (response.status === 204) {
+                // HTTP_204_NO_CONTENT means success with no content returned (the typical success case)
+                toast('Link Sent');
+            } else if (response.status === 500)  {
+                // In case of some unexpected response
+                toast('Multiply users with this address or server error');
+            } 
+    
+        } catch (error) {
+            // Catch any errors that occur with the request
+            console.error('Request error:', error.response || error.message);
+            toast('Error sending link');
+        }
+    }
 }
 
 

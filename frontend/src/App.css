@@ -23,3 +23,5 @@ body {
   flex-direction: column;
   flex-grow: 1; /* Allow #root to grow and fill available space in body */
 }
+
+
