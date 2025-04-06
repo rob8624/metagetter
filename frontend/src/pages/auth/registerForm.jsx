@@ -58,25 +58,39 @@ export function SignupForm() {
     },
   })
 
-  const onSubmit = async (data) => {
-    try {
-      
-      const response = await authService.register({
-        username: data.username,
-        email: data.email,
-        password: data.password,
-        re_password: data.confirmPassword
-      });
+ 
+const onSubmit = async (data) => {
+  try {
+    const response = await authService.register({
+      username: data.username,
+      email: data.email,
+      password: data.password,
+      re_password: data.confirmPassword
+    });
 
-      toast(`Registered! You can now sign in, thanks ${data.username}`)
-      navigate('/signin'); 
-      console.log('Registration successful:', response);
-    } catch (error) {
-      toast("Could not register", error)
-      
+    // Success case
+    toast(`Registered! You can now sign in, thanks ${data.username}`);
+    navigate('/signin'); 
+    console.log('Registration successful:', response);
+  } catch (error) {
+    if (error.response && error.response.status === 400) {
+     
+      if (error.response.data.email) {
+        toast(`Sorry, that email address is already in use`);
+      } else if (error.response.data.username) {
+        toast(`Sorry, that username is already taken`);
+      } else if (error.response.data.password) {
+        toast(`Password error: ${error.response.data.password[0]}`);
+      } else {
+       
+        toast(`Registration failed: ${Object.values(error.response.data).flat()[0]}`);
+      }
+    } else {
+      toast('An unexpected error occurred during registration');
+      console.error('Registration error:', error);
     }
-    
-     }
+  }
+}
 
   
   

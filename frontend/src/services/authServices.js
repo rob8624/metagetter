@@ -10,12 +10,12 @@ class AuthService {
             const response = await axiosInstance.post('/auth/users/', userData)
             return response.data
         } catch(error){
-          throw error.response.data  
+            throw error;
         }
     }
 
     async login(credentials) {
-        
+    
         try{
             const response = await axiosInstance.post('/auth/jwt/create/', credentials)
 
