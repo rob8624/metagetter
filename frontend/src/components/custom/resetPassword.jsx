@@ -19,11 +19,7 @@ import {
     const [email, setEmail] = useState('')
     const [reset, setReset] = useState(false)
 
-    function onChange(value) {
-        console.log("Captcha value:", value);
-
-      
-      }
+    
 
     function handleOutsideClick(event) {
       event.preventDefault()

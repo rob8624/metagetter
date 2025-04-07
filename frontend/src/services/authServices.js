@@ -10,7 +10,7 @@ class AuthService {
             const response = await axiosInstance.post('/auth/users/', userData)
             return response.data
         } catch(error){
-            throw error;
+          throw error;
         }
     }
 
