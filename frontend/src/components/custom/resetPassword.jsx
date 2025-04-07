@@ -17,6 +17,7 @@ import {
   export default function ResetPassword() {
 
     const [email, setEmail] = useState('')
+    const [reset, setReset] = useState(false)
 
     function onChange(value) {
         console.log("Captcha value:", value);
@@ -32,8 +33,13 @@ import {
 
     function handleReset(e) {
         e.preventDefault()
+        console.log('hello')
         authService.reset(email)
       }
+
+    function handleChange() {
+      setReset(true)
+    }
      
   
   return (
@@ -54,14 +60,12 @@ import {
                       value={email} 
                       onChange={(e) => setEmail(e.target.value) }
                       required />
-                      <Button type="submit" className="mt-2">Reset</Button>
+                      {reset && <Button type="submit" className="mt-2">Reset</Button>}
                     </form>
                 </div>
                 <ReCAPTCHA className="pt-10"
                         sitekey={`${recaptchaKey}`}
-                        onChange={onChange}
-                        
-                    />,
+                        onChange={handleChange}/>,
             </DialogDescription>
             </DialogHeader>
         </DialogContent>
