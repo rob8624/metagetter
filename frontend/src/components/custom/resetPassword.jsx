@@ -29,6 +29,7 @@ import {
 
     function handleReset(e) {
         e.preventDefault()
+        e.stopPropagation();
         console.log('hello')
         authService.reset(email)
       }
