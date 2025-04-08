@@ -5,6 +5,7 @@ import { Routes, Route } from 'react-router-dom';
 //Pages
 import SignIn from './pages/auth/signin';
 import { SignupForm } from './pages/auth/registerForm';
+import PasswordReset from './pages/auth/passwordReset';
 
 //Components
 import Header from './components/layout/header'; 
@@ -40,6 +41,7 @@ function App() {
                 <Route path="/signin" element={<SignIn/>} />
                 <Route path="/register" element={<SignupForm/>} />
                 <Route path="/dashboard" element={<Dashboard/>} />
+                <Route path="/password-reset/confirm/:uid/:token" element={<PasswordReset/>} />
               </Routes>
             </main>
             <Toaster />

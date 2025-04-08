@@ -71,16 +71,9 @@ class AuthService {
     
             // Handle the response based on status
             if (response.status === 204) {
-                // HTTP_204_NO_CONTENT means success with no content returned (the typical success case)
-                toast('Link Sent');
-            } else if (response.status === 500)  {
-                // In case of some unexpected response
-                toast('Multiply users with this address or server error');
+                toast('Link Sent if email is registered');
             } 
-    
-        } catch (error) {
-            // Catch any errors that occur with the request
-            console.error('Request error:', error.response || error.message);
+            } catch (error) {
             toast('Error sending link');
         }
     }

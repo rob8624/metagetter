@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "anymail",
     'rest_framework',
     'core',
     'storages',
@@ -213,6 +214,7 @@ CORS_ALLOWED_ORIGINS = [
 
 DJOSER = {
     'USER_CREATE_PASSWORD_RETYPE': True,
+    'PASSWORD_RESET_CONFIRM_URL': 'localhost:300/password-reset/confirm/{uid}/{token}',
     'SERIALIZERS': {
         'user_create': 'core.serializers.CustomUserCreateSerializer',
         'user': 'core.serializers.CustomUserSerializer',
@@ -220,6 +222,15 @@ DJOSER = {
     'PERMISSIONS' : {
         'user_create': ['rest_framework.permissions.AllowAny']
         }
-}
-  
+    }
 
+
+  
+ANYMAIL = {
+    
+    "MAILGUN_API_KEY": os.getenv('MAILGUN_KEY'),
+    "MAILGUN_SENDER_DOMAIN": os.getenv('MAILGUN_DOMAIN'),  
+}
+EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"  
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')  
+SERVER_EMAIL = os.getenv('SERVER_EMAIL') 
