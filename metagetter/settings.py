@@ -214,7 +214,7 @@ CORS_ALLOWED_ORIGINS = [
 DOMAIN = ""
 
 if DATABASE_URL:
-    DOMAIN = os.getenv('RAILWAY_PUBLIC_DOMAIN')
+    DOMAIN = os.getenv('${{ frontend.RAILWAY_PUBLIC_DOMAIN }}')
 else:
     DOMAIN = 'localhost:3000'
 

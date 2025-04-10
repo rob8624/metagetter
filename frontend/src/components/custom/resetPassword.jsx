@@ -9,6 +9,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
+    DialogOverlay
   } from "../../components/ui/dialog"
   
   import { Button } from "../ui/button";
@@ -55,14 +56,17 @@ import {
 
     
      return (
-  
+      
         <Dialog modal={false} onOpenChange={(isOpen) => {
           if (!isOpen) {
             handleClose(); 
           }
         }}>
+          
         <DialogTrigger className="text-xs">Password Reset</DialogTrigger>
+       
         <DialogContent onInteractOutside={handleOutsideClick}>
+        
             <DialogHeader>
             <DialogTitle>Password reset</DialogTitle>
             <DialogDescription>
@@ -85,5 +89,7 @@ import {
             </DialogHeader>
         </DialogContent>
         </Dialog>
+       
+        
     )
   }

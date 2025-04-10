@@ -13,6 +13,7 @@ const DialogPortal = DialogPrimitive.Portal
 const DialogClose = DialogPrimitive.Close
 
 const DialogOverlay = React.forwardRef(({ className, ...props }, ref) => (
+  
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
@@ -20,6 +21,7 @@ const DialogOverlay = React.forwardRef(({ className, ...props }, ref) => (
       className
     )}
     {...props} />
+    
 ))
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 
@@ -77,7 +79,9 @@ const DialogDescription = React.forwardRef(({ className, ...props }, ref) => (
     ref={ref}
     className={cn("text-sm text-muted-foreground", className)}
     {...props} />
+   
 ))
+
 DialogDescription.displayName = DialogPrimitive.Description.displayName
 
 export {
