@@ -28,8 +28,9 @@ import {
     const recaptchaKey = process.env.REACT_APP_RECAPTCHA_KEY
 
     function handleReset(e) {
+      e.stopPropagation();
         e.preventDefault()
-        e.stopPropagation();
+        
         console.log('hello')
         authService.reset(email)
       }
@@ -42,7 +43,7 @@ import {
   return (
   
         <Dialog modal={false}>
-        <DialogTrigger className="text-xs">Reset Password?</DialogTrigger>
+        <DialogTrigger className="text-xs">Password Reset</DialogTrigger>
         <DialogContent onInteractOutside={handleOutsideClick}>
             <DialogHeader>
             <DialogTitle>Password reset</DialogTitle>

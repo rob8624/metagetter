@@ -95,7 +95,7 @@ export function LoginForm({
               <div className="grid gap-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password">Password</Label>
-                  <ResetPassword/>
+                  
                 </div>
                 <Input 
                   id="password" 
@@ -120,6 +120,9 @@ export function LoginForm({
               </Link>
             </div>
           </form>
+          <div className="w-full flex justify-center pt-5">
+          <ResetPassword />
+          </div>
         </CardContent>
       </Card>
     </div>
