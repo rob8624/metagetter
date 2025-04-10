@@ -211,6 +211,13 @@ CORS_ALLOWED_ORIGINS = [
     'http://' + str(FRONTEND_URL), 'http://localhost:3000'
 ]
 
+DOMAIN = ""
+
+if DATABASE_URL:
+    DOMAIN = os.getenv('RAILWAY_PUBLIC_DOMAIN')
+else:
+    DOMAIN = 'localhost:3000'
+
 
 DJOSER = {
     'USER_CREATE_PASSWORD_RETYPE': True,
@@ -221,7 +228,8 @@ DJOSER = {
     },
     'PERMISSIONS' : {
         'user_create': ['rest_framework.permissions.AllowAny']
-        }
+        },
+    'EMAIL_FRONTEND_DOMAIN': DOMAIN
     }
 
 
