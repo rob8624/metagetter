@@ -77,6 +77,18 @@ class AuthService {
             toast('Error sending link');
         }
     }
+
+    async confirmReset(uid, token, new_password) {
+       try {
+        console.log(uid, new_password, token)
+             await axiosInstance.post('auth/users/reset_password_confirm/', {
+                uid, token, new_password
+       })
+       }
+       catch(error) {
+        console.log(error)
+       }
+    }
 }
 
 
