@@ -103,6 +103,10 @@ const onSubmit = async (data) => {
           ${darkMode ? 'border border-gray-700 bg-black text-white' : 'border border-gray-200 bg-white text-black'}`}>
           <div>
             <h1 className="text-2xl font-bold">Please use the below form to register</h1>
+            <p>
+                <span className="font-bold">Email</span> must be unique, and will be used to reset password if needed.<br />
+                <span className="font-bold">Username</span> is used to log into your account.
+            </p>
           </div>
           
           <Form {...form}>

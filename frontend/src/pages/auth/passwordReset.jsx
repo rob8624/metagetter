@@ -121,21 +121,11 @@ export default function PasswordReset() {
         }
     
 
-   
-
-
     return (
-        <div className="flex flex-col justify-center items-center h-80 gap-5 ">
-            <div className="text-2xl">Please enter your new password</div>
-        <form className="flex gap-2"onSubmit={(e) => handleSubmit(e)}>
-            <Input type="password" name="password" onChange={handleInput}/>
-            <Input type="password" name="confirmPassword" onChange={handleConfirm}/>
-            <Button type="submit" className="mx-auto" disabled={formState.loading || !formState.match ? true : false}>
-                { formState.loading ? 'Resetting' : 'Reset'}
-            </Button>
-           
-        </form>
-            <div className="h-20 w-40">{
+        <div className="flex flex-col justify-center items-center h-80 gap-5 pt-10 ">
+            <div className="text-1xl">Reset your password using the form below</div>
+            
+            <div className="h-10 w-70">{
                 formState.error ? <div className="text-red-500">{ formState.error }</div>:
                 formState.success ? <div>{ formState.success }</div> :
                 formState.loading ? <div>{ formState.loading }</div> :
@@ -147,6 +137,23 @@ export default function PasswordReset() {
                 <div className="text-red-500">Passwords do not match ❌</div>
                 )}
             </div>
+
+        <form className="flex flex-col gap-2"onSubmit={(e) => handleSubmit(e)}>
+        <Button type="submit" className="mx-auto" disabled={formState.loading || !formState.match ? true : false}>
+                { formState.loading ? 'Resetting' : 'Reset'}
+            </Button>
+            <label>
+                New Password
+                <Input type="password" name="password" onChange={handleInput}/>
+            </label>
+            <label>
+                Confirm new password
+            <Input type="password" name="confirmPassword" onChange={handleConfirm}/>
+            </label>
+            
+           
+        </form>
+           
         </div>
     )
     }
