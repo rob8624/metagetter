@@ -49,15 +49,14 @@ export function LoginForm({
   const { setLoggedIn } = UseLoggedIn();
  
 
-  
   const onSubmit = async (data) => {
     try {
         const success = await authService.login(data);
         if (success) {
             toast(`All logged in ${data.username}`);
+           
             navigate('/dashboard');
             setLoggedIn(true)
-            
           }
     } catch (error) {
         // Set error message to display to user

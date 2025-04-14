@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 
 import {
   NavigationMenu,
@@ -23,16 +24,29 @@ import Logout from "./logout";
 
 
 
+
 export default function DesktopMenu() {
 
   const matches = useMediaQuery('only screen and (min-width: 600px)')
   const menuData = UseMenuData()
-  const { loggedIn } = UseLoggedIn();
+  const { loggedIn, setLoggedIn } = UseLoggedIn();
  
-
+  useEffect(() => {
+    const token = localStorage.getItem('a_t');
+    if (token) {
+      setLoggedIn(true);
+     
+      
+    } else {
+      setLoggedIn(false);
+     
+    }
+  }, [setLoggedIn]); // Empty dependency array ensures it runs only once
   
   
 
+  
+  
   const topDropdownStyles = `
   [&>div.absolute]:bottom-full 
   [&>div.absolute]:top-auto 
@@ -57,6 +71,7 @@ const navMenuClassName = matches ? '' : topDropdownStyles;
             <React.Fragment key={index}>
           <NavigationMenuTrigger>{item.Label}</NavigationMenuTrigger>
           <NavigationMenuContent>
+            
               <div className="grid grid-cols-[repeat(2,auto)] auto-rows-auto gap-2 w-[300px] p-2">
                 <div className="col-span-2 text-xl">
                   <h1 className="font-bold" >{item.title}</h1>
@@ -90,10 +105,21 @@ const navMenuClassName = matches ? '' : topDropdownStyles;
         </NavigationMenuItem>
         </React.Fragment>
         ))}
+        {loggedIn && (
+  <NavigationMenuItem>
+    <Link 
+      to="/profile" 
+      className={navigationMenuTriggerStyle()}>
+      Profile
+    </Link>
+  </NavigationMenuItem>
+)}
+          
 
-        { loggedIn ? <Logout/>: 
+        { loggedIn ? <Logout/> : 
         item.signinContent.map((item, index) => (
           <React.Fragment key={index}>
+     
         <NavigationMenuItem>
         <Link 
           to={item.path} 
@@ -101,6 +127,7 @@ const navMenuClassName = matches ? '' : topDropdownStyles;
           {item.Label}
         </Link>
       </NavigationMenuItem>
+    
         </React.Fragment>
         )) 
         
