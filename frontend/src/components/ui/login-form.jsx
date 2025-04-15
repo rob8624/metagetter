@@ -91,6 +91,11 @@ export function LoginForm({
                   </p>
                 )}
               </div>
+              
+              <div className=" flex flex-col">
+                  <div className="text-sm">Forgot username?</div>
+                  <div className="text-xs">Reset password and it will be sent</div>
+              </div>
               <div className="grid gap-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password">Password</Label>
@@ -102,7 +107,7 @@ export function LoginForm({
                   {...register("password")}
                   required 
                 />
-                {errors.password && (
+                {errors.password && ( 
                   <p className="text-red-500 text-sm">
                     {errors.password.message}
                   </p>
