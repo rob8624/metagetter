@@ -11,6 +11,8 @@ import {
   navigationMenuTriggerStyle,
 } from "../ui/navigation-menu";
 
+import ProfileSheet from "./profileSlider";
+
 import {useMediaQuery } from '@react-hook/media-query'
 import { Link } from 'react-router-dom';
 
@@ -107,11 +109,7 @@ const navMenuClassName = matches ? '' : topDropdownStyles;
         ))}
         {loggedIn && (
   <NavigationMenuItem>
-    <Link 
-      to="/profile" 
-      className={navigationMenuTriggerStyle()}>
-      Profile
-    </Link>
+    <ProfileSheet/>
   </NavigationMenuItem>
 )}
           
