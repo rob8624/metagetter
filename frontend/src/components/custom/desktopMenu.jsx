@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import {
   NavigationMenu,
@@ -29,6 +29,8 @@ import Logout from "./logout";
 
 export default function DesktopMenu() {
 
+
+  const [ isOpen, setIsOpen ] = useState(false)
   const matches = useMediaQuery('only screen and (min-width: 600px)')
   const menuData = UseMenuData()
   const { loggedIn, setLoggedIn } = UseLoggedIn();
@@ -108,8 +110,8 @@ const navMenuClassName = matches ? '' : topDropdownStyles;
         </React.Fragment>
         ))}
         {loggedIn && (
-  <NavigationMenuItem>
-    <ProfileSheet/>
+  <NavigationMenuItem onClick={() => {setIsOpen(true)}}>
+        <ProfileSheet isOpen={isOpen} setIsOpen={setIsOpen} />
   </NavigationMenuItem>
 )}
           

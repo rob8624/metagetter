@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import axiosInstance from "../../services/api"
 
 import {
@@ -11,35 +11,43 @@ import {
   } from "../ui/sheet"
 
 
- export default function ProfileSheet() {
-
+ export default function ProfileSheet({ isOpen, setIsOpen }) {
+    const [ userData, setUserData] = useState([])
+    
 
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axiosInstance.get('api/user-profile/')
-                console.log(response)
+                setUserData(response.data)
             }
             catch(error) {
                 console.log(error)
             }
         }
-    
-        fetchData()
-
-    }, [])
+       
+        if (isOpen === true) {
+        
+            fetchData()}
+           
+    }, [isOpen, setIsOpen])
 
 
     return (
         <Sheet>
+            
             <SheetTrigger>Profile</SheetTrigger>
             <SheetContent>
                 <SheetHeader>
-                <SheetTitle>Are you absolutely sure?</SheetTitle>
+                <SheetTitle>Your profile data</SheetTitle>
                 <SheetDescription>
-                    This action cannot be undone. This will permanently delete your account
-                    and remove your data from our servers.
+                
+                    <div>ID: {userData.id}</div>
+                    <div>Username: {userData.username}</div>
+                    <div>Account email: {userData.email}</div>
+                    <div>Status: {userData.active ? 'Active': 'Inactive'}</div>
+                
                 </SheetDescription>
                 </SheetHeader>
             </SheetContent>
