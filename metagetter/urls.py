@@ -21,12 +21,14 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView
 )
+from core.views import UserProfileCachedView
 from rest_framework_simplejwt.views import TokenBlacklistView
 
 urlpatterns = [
     path('', include('core.urls')),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
+    path('api/user-profile/', UserProfileCachedView.as_view(), name='user-profile-cached'),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),

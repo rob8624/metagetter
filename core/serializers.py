@@ -7,9 +7,13 @@ from django.contrib.auth.models import User
 
 
 class CustomUserCreateSerializer(UserCreateSerializer):
+    def __init__(self, *args, **kwargs):
+        print("Custom serializer instantiated")
+        super().__init__(*args, **kwargs)
+        
     class Meta(UserCreateSerializer.Meta):
         model = User
-        fields = ('id', 'email', 'username', 'password')
+        fields = ('dsfsdfsdf', 'dsfsdf', 'sdfsdf', 'dsfdsfsdf')
 
     
 

@@ -1,3 +1,6 @@
+import { useEffect } from "react"
+import axiosInstance from "../../services/api"
+
 import {
     Sheet,
     SheetContent,
@@ -12,9 +15,20 @@ import {
 
 
 
-    // function getProfileData() {
-    //     const respose = 
-    // }
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axiosInstance.get('api/user-profile/')
+                console.log(response)
+            }
+            catch(error) {
+                console.log(error)
+            }
+        }
+    
+        fetchData()
+
+    }, [])
 
 
     return (

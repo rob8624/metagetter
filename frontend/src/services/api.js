@@ -10,5 +10,21 @@ const axiosInstance = axios.create({
   },
 });
 
+
+axiosInstance.interceptors.request.use(
+  config => {
+    const token = localStorage.getItem('a_t'); // or wherever you store your token
+    if (token) {
+      console.log('got token')
+      config.headers['Authorization'] = `Bearer ${token}`; // Use Bearer, JWT, or whatever your auth scheme is
+    }
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
+
+
 export default axiosInstance;
 
