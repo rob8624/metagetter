@@ -1,5 +1,6 @@
 import axiosInstance from "./api.js"
 import { toast } from "sonner"
+import UserServices from "./userServices.js";
 
 
 
@@ -7,7 +8,7 @@ import { toast } from "sonner"
 class AuthService {
     async register(userData) {
         try{
-            const response = await axiosInstance.post('/auth/users/', userData)
+            const response = await UserServices.getProfile()
             return response.data
         } catch(error){
           throw error;

@@ -110,9 +110,13 @@ const navMenuClassName = matches ? '' : topDropdownStyles;
         </React.Fragment>
         ))}
         {loggedIn && (
+         
   <NavigationMenuItem onClick={() => {setIsOpen(true)}}>
+   
         <ProfileSheet isOpen={isOpen} setIsOpen={setIsOpen} />
+      
   </NavigationMenuItem>
+ 
 )}
           
 
