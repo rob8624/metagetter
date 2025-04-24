@@ -71,10 +71,10 @@ class AuthService {
     async reset(email) {
         try {
             const response = await axiosInstance.post('auth/users/reset_password/', {
-                email, // Make sure this matches the field name expected by Djoser
+                email, 
             });
     
-            // Handle the response based on status
+           
             if (response.status === 204) {
                 toast('Link Sent if email is registered');
             } 

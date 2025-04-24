@@ -20,7 +20,7 @@ export default function ProfileSheet({ isOpen, setIsOpen }) {
 
 
   useEffect(() => {
-    // Only fetch if the sheet is open and we don't have data
+ 
     if (isOpen && !userData && !loading) {
       const fetchData = async () => {
         setLoading(true);
@@ -40,28 +40,53 @@ export default function ProfileSheet({ isOpen, setIsOpen }) {
 
  
 
-  function ProfileData() {
-    return(
-      <>
-      <dl className="flex flex-wrap gap-x-8 gap-y-2 items-center">
-        <div className="flex gap-2 items-center">
-          <dt className="font-bold">ID#</dt>
-          <dd>{userData.id}</dd>
-        </div>
-      
-        <div className="flex gap-2 items-center">
-          <dt className="font-bold">Status</dt>
-          <dd>{userData.active ? "Active" : "Inactive"}</dd>
-        </div>
-      </dl>
-    <hr className="mb-10" />
-    <dl>
-      <dt>Account email:</dt>
-      <dd>{userData.email}</dd>
-    </dl>
-    </>
-    )
-  }
+      function ProfileData() {
+
+        const date = new Date(userData.date_joined);
+        const formattedDate = date.toLocaleString('en-GB', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false, // 24-hour format
+        });
+
+        return(
+          <>
+          <dl className="flex flex-wrap gap-x-8 gap-y-2 items-center justify-center sm:justify-start">
+            <div className="flex gap-2 items-center">
+              <dt className="font-bold">ID#</dt>
+              <dd>{userData.id}</dd>
+            </div>
+          
+            <div className="flex gap-2 items-center">
+              <dt className="font-bold">Status</dt>
+              <dd>{userData.active ? "Active" : "Inactive"}</dd>
+            </div>
+          </dl>
+        <hr className="mb-10" />
+        <dl>
+          <div>
+            <dt className="font-bold">Account name:</dt>
+            <dd>{userData.username}</dd>
+          </div>
+          <div>
+            <dt className="font-bold">Account email:</dt>
+            <dd>{userData.email}</dd>
+          </div>
+          <div>
+            <dt className="font-bold">Date joined:</dt>
+            <dd>{formattedDate}</dd>
+          </div>
+          <div>
+            <dt className="font-bold">Uploads#:</dt>
+            <dd>{userData.uploaded_images}</dd>
+          </div>
+        </dl>
+        </>
+        )
+      }
 
 
 

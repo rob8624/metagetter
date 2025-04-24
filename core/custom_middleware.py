@@ -64,6 +64,7 @@ class UserProfileData:
                     if 'access' in response_data:
                         # Get the user model
                         User = get_user_model()
+                        
                         try:
                             # Get the user object
                             user = User.objects.get(username=username)
@@ -74,6 +75,8 @@ class UserProfileData:
                                 'username': user.username,
                                 'email': user.email,
                                 'active' : user.is_active,
+                                'date_joined' : json.dumps(user.date_joined, default=str),
+                                'uploaded_images' : user.profile.images_uploaded
                                 
                                 # Add other fields you need
                             }
