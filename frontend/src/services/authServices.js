@@ -3,12 +3,15 @@ import { toast } from "sonner"
 import UserServices from "./userServices.js";
 
 
+function saveToLocalStorage(key, value) {
+    localStorage.setItem(key, JSON.stringify(value))
 
+}
 
 class AuthService {
     async register(userData) {
         try{
-            const response = await UserServices.getProfile()
+            const response = await axiosInstance.post('/auth/users/', userData)
             return response.data
         } catch(error){
           throw error;
@@ -23,6 +26,7 @@ class AuthService {
             if (response.data.access && response.data.refresh) {
                 localStorage.setItem('a_t', response.data.access)
                 localStorage.setItem('r_t', response.data.refresh)
+                saveToLocalStorage("loggedin", true)
                 
                 return true
             }

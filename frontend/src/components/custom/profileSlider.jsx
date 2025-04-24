@@ -42,11 +42,24 @@ export default function ProfileSheet({ isOpen, setIsOpen }) {
 
   function ProfileData() {
     return(
-      <div>
-        <div className="mb-2">ID: {userData.id}</div>
-                  
-        <div>Status: {userData.active ? 'Active' : 'Inactive'}</div>
-      </div>
+      <>
+      <dl className="flex flex-wrap gap-x-8 gap-y-2 items-center">
+        <div className="flex gap-2 items-center">
+          <dt className="font-bold">ID#</dt>
+          <dd>{userData.id}</dd>
+        </div>
+      
+        <div className="flex gap-2 items-center">
+          <dt className="font-bold">Status</dt>
+          <dd>{userData.active ? "Active" : "Inactive"}</dd>
+        </div>
+      </dl>
+    <hr className="mb-10" />
+    <dl>
+      <dt>Account email:</dt>
+      <dd>{userData.email}</dd>
+    </dl>
+    </>
     )
   }
 
