@@ -18,7 +18,6 @@ export default function Logout() {
     const handleLogout = () => {
         setLoggedIn(false);
         authService.logout()
-        localStorage.removeItem("a_t")
         navigate('/');
       };
 
