@@ -7,6 +7,7 @@ import {
   NavigationMenuItem,
   NavigationMenuList,
   NavigationMenuTrigger,
+ 
   
   navigationMenuTriggerStyle,
 } from "../ui/navigation-menu";
@@ -66,7 +67,7 @@ const navMenuClassName = matches ? '' : topDropdownStyles;
 
   return (
     <>
-    
+    <div className="flex">
     <NavigationMenu className={navMenuClassName}>
     {menuData.map((item, index) => (
       <NavigationMenuList key={index}>
@@ -109,18 +110,7 @@ const navMenuClassName = matches ? '' : topDropdownStyles;
         </NavigationMenuItem>
         </React.Fragment>
         ))}
-        {loggedIn && (
-         
-  <NavigationMenuItem onClick={() => {setIsOpen(true)}}>
-   
-        <ProfileSheet isOpen={isOpen} setIsOpen={setIsOpen} />
-      
-  </NavigationMenuItem>
- 
-)}
-          
-
-        { loggedIn ? <Logout/> : 
+        { loggedIn ? null : 
         item.signinContent.map((item, index) => (
           <React.Fragment key={index}>
      
@@ -134,13 +124,50 @@ const navMenuClassName = matches ? '' : topDropdownStyles;
     
         </React.Fragment>
         )) 
-        
         }
+       
        
       </NavigationMenuList>
      ))}
     </NavigationMenu>
     
+    { loggedIn ?
+    <NavigationMenu className={navMenuClassName}>
+      <NavigationMenuList >
+       <NavigationMenuItem>
+          <NavigationMenuTrigger>User Menu</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul>
+              <li className="p-2 text-xs">
+                <NavigationMenuItem className={navigationMenuTriggerStyle()}>
+                 <Link to={"/dashboard"}> 
+                    Dashboard
+                 </Link>
+                </NavigationMenuItem>
+              </li>
+              <li className="p-2">
+                <NavigationMenuItem className={navigationMenuTriggerStyle()} onClick={() => {setIsOpen(true)}}>
+                    <ProfileSheet isOpen={isOpen} setIsOpen={setIsOpen} />
+                </NavigationMenuItem>
+              </li>
+              <li className="p-2">
+                 <NavigationMenuItem className={navigationMenuTriggerStyle()}>
+                   <Link to="/">
+                      Home
+                   </Link>
+                 </NavigationMenuItem>
+              </li>
+              <li className="p-2">
+                <Logout/>
+              </li>
+            </ul>
+            
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu> : null
+    }
+   </div>
    </>
   );
 }
