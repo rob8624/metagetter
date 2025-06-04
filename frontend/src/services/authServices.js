@@ -27,7 +27,6 @@ class AuthService {
                 localStorage.setItem('a_t', response.data.access)
                 localStorage.setItem('r_t', response.data.refresh)
                 saveToLocalStorage("loggedin", true)
-                
                 return true
             }
         
@@ -62,6 +61,7 @@ class AuthService {
             });
             localStorage.removeItem('a_t');
             localStorage.removeItem('r_t');
+            localStorage.removeItem('loggedin');
             toast('You have been logged out');
         } catch (error) {
             console.error('token error:', error.response || error.message);

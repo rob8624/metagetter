@@ -2,8 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { UseLoggedIn } from "../../context/userContext";
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { useNavigate } from 'react-router-dom';
-import { Link } from "react-router-dom"
+
 import { cn } from "../../lib/utils"
 import { Button } from "./button"
 import { toast } from "sonner"
@@ -19,6 +18,10 @@ import { Input } from "./input"
 import { Label } from "./label"
 import authService from "../../services/authServices"
 
+//router
+import { useNavigate } from 'react-router-dom';
+import { Link } from "react-router-dom"
+import { useLocation } from "react-router-dom";
 
 
 
@@ -46,7 +49,7 @@ export function LoginForm({
   });
 
   const navigate = useNavigate();  
-  const { setLoggedIn } = UseLoggedIn();
+  const { loggedIn, setLoggedIn } = UseLoggedIn();
  
 
   const onSubmit = async (data) => {
@@ -55,7 +58,7 @@ export function LoginForm({
         if (success) {
             toast(`All logged in ${data.username}`);
            
-            navigate('/dashboard');
+            navigate('/dashboard', { replace: true});
             setLoggedIn(true)
           }
     } catch (error) {
@@ -64,12 +67,26 @@ export function LoginForm({
     }
 };
 
+//checking if user came from upload button in hero
+const location = useLocation();
+const fromHero = location.state?.fromHero;
+
+
   return (
+    
     <div className={cn("flex flex-col gap-6", className)} {...props}>
+
+      { loggedIn ? <div> You are aleady signed in</div> :
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl">Login</CardTitle>
           <CardDescription>
+            { fromHero ? 
+            <div>
+              <div className="text-2xl font-bold text-stone-950 text-center dark:text-white">Lets get you signed up first!</div> 
+              <p className="text-2xl font-bold text-stone-950 text-center dark:text-white">OR...</p>
+            </div> : 
+         <div className="text-2xl font-bold text-stone-950 text-center dark:text-white">OK! Sign in or sign up.</div>  } 
             Enter your username below to login to your account
           </CardDescription>
         </CardHeader>
@@ -127,8 +144,8 @@ export function LoginForm({
           <div className="w-full flex justify-center pt-5">
           <ResetPassword />
           </div>
-        </CardContent>
-      </Card>
+        </CardContent> 
+      </Card> }
     </div>
   );
 }

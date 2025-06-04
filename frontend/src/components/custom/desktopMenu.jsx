@@ -7,7 +7,7 @@ import {
   NavigationMenuItem,
   NavigationMenuList,
   NavigationMenuTrigger,
- 
+  NavigationMenuLink,
   
   navigationMenuTriggerStyle,
 } from "../ui/navigation-menu";
@@ -16,6 +16,7 @@ import ProfileSheet from "./profileSlider";
 
 import {useMediaQuery } from '@react-hook/media-query'
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 //context
@@ -61,6 +62,8 @@ export default function DesktopMenu() {
 `;
 
 const navMenuClassName = matches ? '' : topDropdownStyles;
+
+let navigate = useNavigate();
 
 
 
@@ -115,11 +118,12 @@ const navMenuClassName = matches ? '' : topDropdownStyles;
           <React.Fragment key={index}>
      
         <NavigationMenuItem>
-        <Link 
-          to={item.path} 
+        <button
+          onClick={() => navigate('/signin', { replace: true})}
+          
           className={navigationMenuTriggerStyle()}>
           {item.Label}
-        </Link>
+        </button>
       </NavigationMenuItem>
     
         </React.Fragment>
@@ -138,28 +142,38 @@ const navMenuClassName = matches ? '' : topDropdownStyles;
           <NavigationMenuTrigger>User Menu</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul>
-              <li className="p-2 text-xs">
+              <li className="pb-1 text-xs">
                 <NavigationMenuItem className={navigationMenuTriggerStyle()}>
+                  <NavigationMenuLink asChild>
                  <Link to={"/dashboard"}> 
                     Dashboard
                  </Link>
+                 </NavigationMenuLink>
                 </NavigationMenuItem>
               </li>
-              <li className="p-2">
+              <li className="pb-1">
                 <NavigationMenuItem className={navigationMenuTriggerStyle()} onClick={() => {setIsOpen(true)}}>
+                  <NavigationMenuLink asChild>
                     <ProfileSheet isOpen={isOpen} setIsOpen={setIsOpen} />
+                  </NavigationMenuLink>
                 </NavigationMenuItem>
               </li>
-              <li className="p-2">
+              <li className="pb-1">
                  <NavigationMenuItem className={navigationMenuTriggerStyle()}>
-                   <Link to="/">
-                      Home
-                   </Link>
+                  <NavigationMenuLink asChild>
+                    <Link to="/">
+                        Home
+                    </Link>
+                   </NavigationMenuLink>
                  </NavigationMenuItem>
               </li>
-              <li className="p-2">
-                <Logout/>
-              </li>
+              <NavigationMenuItem className={navigationMenuTriggerStyle()}>
+              <NavigationMenuLink asChild>
+                
+                  <Logout/>
+               </NavigationMenuLink> 
+                
+              </NavigationMenuItem>
             </ul>
             
           </NavigationMenuContent>

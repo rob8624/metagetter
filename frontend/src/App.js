@@ -20,11 +20,12 @@ import { UserDataProvider } from './context/userContext';
 import { ThemeContextProvider } from './context/darkModeContext'
 
 
+
+
 function App() {
 
-  
 
-  return (
+ return (
     <>
     <UserDataProvider >
       <ThemeContextProvider >
@@ -34,9 +35,11 @@ function App() {
           </header>
           <div id="main-background" className="w-screen flex-grow bg-white dark:bg-black">
             <main id="main-wrapper" className="flex justify-center items-center w-5/6 mx-auto bg-transparent">
+            {/* <AppContent /> */}
             <Routes>
                 {/* Home route with the dropzone */}
                 <Route path="/" element={<Hero/>} />
+                
                 {/* Sign in route */}
                 <Route path="/signin" element={<SignIn/>} />
                 <Route path="/register" element={<SignupForm/>} />
@@ -52,10 +55,16 @@ function App() {
         </MenuDataProvider>
       </ThemeContextProvider>
     </UserDataProvider>
+
     </>
-    
-      
   )
+
+  // function AppContent() {
+  //   const { loggedIn } = UseLoggedIn(); 
+  
+  //   return <>{loggedIn ? <div></div> : <div></div>}</>;
+  // }
+
 }
 
 export default App;

@@ -2,15 +2,28 @@
 import { Button } from "../ui/button";
 import CallToAction from "./cta";
 
+//router
+import { useNavigate } from 'react-router-dom';
+
+//hooks
+import { UseLoggedIn } from "../../context/userContext";
 
 
 
 export default function Hero() {
+ 
+  const { loggedIn } = UseLoggedIn();
+  const navigate = useNavigate();
 
+  //handling click conditional, passing state to signin form 
+  const handleclick = () => {
+        if (loggedIn) {
+          navigate("/dashboard")
+        } else {
+          navigate("/signin", { state : { fromHero:true }})
+        }
+   }
   
-
-
-
   return (
     <div className="h-full">
       <div className="flex flex-col text-center mt-16 ">
@@ -31,7 +44,7 @@ export default function Hero() {
         </p>
         <div className="flex gap-4 w-64 justify-center pt-10 self-center">
           <Button variant="outline" className="flex-grow bg-green-200 dark:bg-orange-300
-           dark:hover:bg-white dark:hover:text-black">Upload</Button>
+           dark:hover:bg-white dark:hover:text-black" onClick={handleclick}>Upload</Button>
           <Button variant="outline" className="flex-grow bg-green-200 dark:bg-orange-300
            dark:hover:bg-white dark:hover:text-black">FInd out more</Button>
         </div>

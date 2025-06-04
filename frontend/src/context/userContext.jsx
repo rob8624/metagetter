@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 // Create the context with a default value structure
 const UserContext = createContext({
@@ -8,12 +8,21 @@ const UserContext = createContext({
 
 export function UserDataProvider({ children }) {
   const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("loggedin");
+    if (stored === "true") {
+      setLoggedIn(true);
+    }
+  }, []);
   
   // Create the value object that will be provided
   const value = {
     loggedIn,
     setLoggedIn
   };
+
+ 
   
   // Provide the value to all children
   return (

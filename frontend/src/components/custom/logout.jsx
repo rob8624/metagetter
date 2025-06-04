@@ -1,7 +1,6 @@
 import React from "react";
 import {
-    NavigationMenuItem,
-    navigationMenuTriggerStyle,
+   
   } from "../ui/navigation-menu";
 import { Link, useNavigate } from 'react-router-dom';
 import { UseLoggedIn } from "../../context/userContext";
@@ -24,15 +23,11 @@ export default function Logout() {
 
     return (
         <React.Fragment>
-        <NavigationMenuItem>
-        <Link 
-          to={"/"} 
-          className={navigationMenuTriggerStyle()}
-          onClick={handleLogout}
-        >
+       
+        <Link to={"/"} onClick={handleLogout} className="pb-1">
           Logout!
         </Link>
-      </NavigationMenuItem>
+      
         </React.Fragment> 
     )
 }
