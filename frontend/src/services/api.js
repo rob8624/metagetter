@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+
+
+
 const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
 
 const axiosInstance = axios.create({
@@ -68,13 +71,16 @@ axiosInstance.interceptors.response.use(
 
         return axiosInstance(originalRequest);  // Retry the original failed request
       } catch (err) {
+        
+
         failedQueue.forEach(prom => prom.reject(err));
         failedQueue = [];  // Reset the queue
         // Handle error (perhaps redirect to login)
         console.log("Refresh token failed", err);
         localStorage.removeItem('a_t');
         localStorage.removeItem('r_t');
-        window.location.href = '/login';  // Redirect to login
+        localStorage.setItem('loggedin', false);
+        window.location.href = '/signin?reason=sessionExpired'; // Redirect to login
         return Promise.reject(err);
       } finally {
         isRefreshing = false;
@@ -84,5 +90,8 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);  // For other errors, just reject the promise
   }
 );
+
+
+
 
 export default axiosInstance;

@@ -22,6 +22,7 @@ import authService from "../../services/authServices"
 import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom"
 import { useLocation } from "react-router-dom";
+import { useSearchParams } from 'react-router-dom';
 
 
 
@@ -36,6 +37,7 @@ export function LoginForm({
   className,
   ...props
 }) {
+  
   const { 
     register, 
     handleSubmit, 
@@ -47,10 +49,10 @@ export function LoginForm({
       password: "",
     },
   });
-
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();  
   const { loggedIn, setLoggedIn } = UseLoggedIn();
- 
+  
 
   const onSubmit = async (data) => {
     try {
@@ -67,9 +69,40 @@ export function LoginForm({
     }
 };
 
+const renderMessage = () => {
+  const reason = searchParams.get('reason');
+  if (location.state?.fromHero) {
+    return (
+      <div>
+        <div className="text-2xl font-bold text-stone-950 text-center dark:text-white">
+          Let's get you signed up first!
+        </div>
+        <p className="text-2xl font-bold text-stone-950 text-center dark:text-white">
+          OR...
+        </p>
+      </div>
+    );
+  } else if (reason) {
+    return (
+      <>
+      <div className="text-xl font-bold text-stone-950 text-center dark:text-white">
+        Logged out due to inactivity
+      </div>
+      <p className="text-stone-950 text-center">Please Sign in again</p>
+      </>
+    );
+  } else {
+    return (
+      <div className="text-2xl font-bold text-stone-950 text-center dark:text-white">
+        OK! Sign in or sign up.
+      </div>
+    );
+  }
+};
+
 //checking if user came from upload button in hero
 const location = useLocation();
-const fromHero = location.state?.fromHero;
+console.log(location.state);
 
 
   return (
@@ -81,12 +114,7 @@ const fromHero = location.state?.fromHero;
         <CardHeader>
           <CardTitle className="text-2xl">Login</CardTitle>
           <CardDescription>
-            { fromHero ? 
-            <div>
-              <div className="text-2xl font-bold text-stone-950 text-center dark:text-white">Lets get you signed up first!</div> 
-              <p className="text-2xl font-bold text-stone-950 text-center dark:text-white">OR...</p>
-            </div> : 
-         <div className="text-2xl font-bold text-stone-950 text-center dark:text-white">OK! Sign in or sign up.</div>  } 
+            { renderMessage() } 
             Enter your username below to login to your account
           </CardDescription>
         </CardHeader>
