@@ -42,8 +42,9 @@ export default function ProfileSheet({ isOpen, setIsOpen }) {
 
       function ProfileData() {
 
-        const date = new Date(userData.date_joined);
-        const formattedDate = date.toLocaleString('en-GB', {
+        const formatDate = (obj) => {
+          const date = new Date(obj)
+          const formattedDate = date.toLocaleString('en-GB', {
           day: '2-digit',
           month: '2-digit',
           year: 'numeric',
@@ -51,6 +52,19 @@ export default function ProfileSheet({ isOpen, setIsOpen }) {
           minute: '2-digit',
           hour12: false, // 24-hour format
         });
+
+          return formattedDate
+        }
+
+        // const date = new Date(userData.date_joined);
+        // const formattedDate = date.toLocaleString('en-GB', {
+        //   day: '2-digit',
+        //   month: '2-digit',
+        //   year: 'numeric',
+        //   hour: '2-digit',
+        //   minute: '2-digit',
+        //   hour12: false, // 24-hour format
+        // });
 
         return(
           <>
@@ -77,11 +91,15 @@ export default function ProfileSheet({ isOpen, setIsOpen }) {
           </div>
           <div>
             <dt className="font-bold">Date joined:</dt>
-            <dd>{formattedDate}</dd>
+            <dd>{formatDate(userData.date_joined)}</dd>
           </div>
           <div>
             <dt className="font-bold">Uploads#:</dt>
             <dd>{userData.uploaded_images}</dd>
+          </div>
+          <div>
+            <dt className="font-bold">Last login:</dt>
+            <dd>{formatDate(userData.last_login)}</dd>
           </div>
         </dl>
         </>

@@ -232,7 +232,8 @@ DJOSER = {
     'PERMISSIONS' : {
         'user_create': ['rest_framework.permissions.AllowAny']
         },
-    'EMAIL_FRONTEND_DOMAIN': DOMAIN
+    'EMAIL_FRONTEND_DOMAIN': DOMAIN,
+    'TOKEN_MODEL': None,
     }
 
 
