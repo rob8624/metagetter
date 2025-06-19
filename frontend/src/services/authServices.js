@@ -27,6 +27,7 @@ class AuthService {
                 localStorage.setItem('a_t', response.data.access)
                 localStorage.setItem('r_t', response.data.refresh)
                 saveToLocalStorage("loggedin", true)
+
                 return true
             }
         

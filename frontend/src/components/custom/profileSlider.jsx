@@ -27,6 +27,7 @@ export default function ProfileSheet({ isOpen, setIsOpen }) {
         try {
           const response = await UserServices.getProfile();
           setUserData(response);
+          
         } catch (error) {
           console.log("Error fetching profile:", error);
         } finally {

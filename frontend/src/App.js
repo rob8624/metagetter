@@ -34,7 +34,7 @@ function App() {
            <Header/>  
           </header>
           <div id="main-background" className="w-screen flex-grow bg-white dark:bg-black">
-            <main id="main-wrapper" className="flex justify-center items-center w-5/6 mx-auto bg-transparent">
+            <main id="main-wrapper" className="flex justify-center items-center w-5/6 mx-auto bg-transparent h-auto">
             {/* <AppContent /> */}
             <Routes>
                 {/* Home route with the dropzone */}
@@ -43,7 +43,7 @@ function App() {
                 {/* Sign in route */}
                 <Route path="/signin" element={<SignIn/>} />
                 <Route path="/register" element={<SignupForm/>} />
-                <Route path="/dashboard" element={<Dashboard/>} />
+                <Route path="/dashboard" element={<Dashboard/>}/>
                 <Route path="/password-reset/confirm/:uid/:token" element={<PasswordReset/>} />
               </Routes>
             </main>
