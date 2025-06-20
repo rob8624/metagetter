@@ -24,4 +24,27 @@ body {
   flex-grow: 1; /* Allow #root to grow and fill available space in body */
 }
 
+.filepond--root,
+.filepond--root .filepond--drop-label {
+  
+ 
+  border-radius: 15px;
+  border: 1px solid black;
+}
 
+.filepond--wrapper {
+  
+ 
+  
+}
+
+.filepond--drop-label {
+  
+}
+
+.filepond--label-action {
+  text-decoration: none;
+  color: black;
+  font-size: 18px !important;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+} 

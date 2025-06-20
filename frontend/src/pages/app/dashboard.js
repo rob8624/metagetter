@@ -11,22 +11,26 @@ import { Button } from "../../components/ui/button"
 import { FaArrowUp,} from 'react-icons/fa';
 import { FaCompressArrowsAlt } from "react-icons/fa";
 
+import { Link } from "react-router";
+
 
 export default function Dashboard({ children }) {
 
 
    const DashboardCard = ({title, description, showButton, 
-    buttonName, footer, buttonColor, icon}) => {
+    buttonName, footer, buttonColor, backgroundColor, icon, link}) => {
     return (
         <>
-         <Card>
+         <Card className={`${backgroundColor} dark:bg-black`}>
             <CardHeader>
                 <CardTitle className="flex justify-center">{title}</CardTitle>
                 <CardDescription className="flex justify-center">{description}</CardDescription>
             </CardHeader>
             <CardContent>
                <div className="flex flex-wrap items-center justify-center gap-2 md:flex-row">
-                    { showButton && <Button variant="outline" className={`${buttonColor}`}> {icon} {buttonName}</Button>}
+                    { showButton && <Button asChild variant="outline" className={`${buttonColor}`}> 
+                            <Link to={link}>{icon} {buttonName}</Link>
+                        </Button>}
                 </div>
             </CardContent>
             <CardFooter>
@@ -50,8 +54,10 @@ export default function Dashboard({ children }) {
                 footer={'You can upload a maximun of five images'}
                 showButton={true}
                 buttonName={'Upload'}
-                buttonColor={'bg-blue-500'}
-                icon={<FaArrowUp className="pr-2 text-2xl" />}/>
+                buttonColor={'bg-green-500'}
+                backgroundColor={'bg-yellow-200'}
+                icon={<FaArrowUp className="pr-2 text-2xl"/>}
+                link={'/upload'}/>
             </div>
             <div>
                 <DashboardCard title={'View Metadata'} 
@@ -60,7 +66,10 @@ export default function Dashboard({ children }) {
                 showButton={true}
                 buttonName={'View data'}
                 buttonColor={'bg-green-500'}
-                icon={<FaCompressArrowsAlt className="pr-2 text-2xl"/>}/>
+                backgroundColor={'bg-blue-200'}
+                icon={<FaCompressArrowsAlt className="pr-2 text-2xl"/>}
+                link={'/viewer/'}
+                />
             </div>
         </div>
     )

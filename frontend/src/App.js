@@ -13,6 +13,7 @@ import Footer from './components/layout/footer';
 import Hero from './components/layout/hero'
 import Dashboard from './pages/app/dashboard';
 import { Toaster } from "./components/ui/sonner"
+import Upload from './pages/app/upload';
 
 //Context 
 import { MenuDataProvider } from './context/menuData';
@@ -45,6 +46,9 @@ function App() {
                 <Route path="/register" element={<SignupForm/>} />
                 <Route path="/dashboard" element={<Dashboard/>}/>
                 <Route path="/password-reset/confirm/:uid/:token" element={<PasswordReset/>} />
+
+                {/* Dashboard routes */}
+                <Route path="/upload" element={<Upload/>} />
               </Routes>
             </main>
             <Toaster />
