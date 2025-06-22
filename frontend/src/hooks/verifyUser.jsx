@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react'
-import axiosInstance from "../services/api.js"
-import axios from 'axios'
+import { useState, useEffect } from 'react';
+import axiosInstance from "../services/api.js"// adjust import path
 
-
-
-const VerifyUser = () => {
+const useVerifyUser = () => {
     const [isVerified, setVerified] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const checkUser = async () => {
@@ -16,15 +14,19 @@ const VerifyUser = () => {
                 });
                 console.log('Verified successfully:', response.data);
                 setVerified(true);
+                console.log('ising hook')
             } catch (error) {
                 console.log('Verification failed:', error.response?.data || error.message);
+                setVerified(false);
+            } finally {
+                setLoading(false);
             }
         };
 
         checkUser();
-    }, []); // dependency array to run once on mount
+    }, []);
 
-    return null;
+    return { isVerified, loading };
 };
 
-export default VerifyUser;
+export default useVerifyUser;

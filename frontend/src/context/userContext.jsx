@@ -1,30 +1,46 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import axiosInstance from "../services/api"; // assuming axios setup
 
-// Create the context with a default value structure
 const UserContext = createContext({
   loggedIn: false,
+  loading: true,
   setLoggedIn: () => {}
 });
 
 export function UserDataProvider({ children }) {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true)
+  
 
   useEffect(() => {
-    const stored = localStorage.getItem("loggedin");
-    if (stored === "true") {
-      setLoggedIn(true);
-    }
+    const verifyUser = async () => {
+      const token = localStorage.getItem("a_t");
+      if (!token) {
+        setLoggedIn(false);
+        return;
+      }
+
+      try {
+        await axiosInstance.post("/auth/jwt/verify/", { token });
+        setLoggedIn(true);
+        setLoading(false)
+        console.log(loading, 'loading in context')
+      } catch (err) {
+        setLoggedIn(false);
+      } finally {
+        setLoading(false)
+      }
+    };
+
+    verifyUser();
   }, []);
-  
-  // Create the value object that will be provided
+
   const value = {
     loggedIn,
-    setLoggedIn
+    setLoggedIn,
+    loading
   };
 
- 
-  
-  // Provide the value to all children
   return (
     <UserContext.Provider value={value}>
       {children}
@@ -34,10 +50,8 @@ export function UserDataProvider({ children }) {
 
 export function UseLoggedIn() {
   const context = useContext(UserContext);
-  
   if (context === undefined) {
     throw new Error("UseLoggedIn must be used within a UserDataProvider");
   }
-  
   return context;
 }

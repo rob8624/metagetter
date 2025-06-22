@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import VerifyUser from '../../hooks/verifyUser.jsx';
+import React, { useState } from 'react';
+import { UseLoggedIn } from '../../context/userContext';
+import useVerifyUser from '../../hooks/verifyUser';
+// import VerifyUser from '../../hooks/verifyUser.jsx';
 
 import { FaArrowUp,} from 'react-icons/fa';
 
@@ -17,16 +19,15 @@ import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orien
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 
+
 // Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 // Our app
 export default function Upload() {
     const [files, setFiles] = useState([]);
-
+    const {loading} = useVerifyUser()
     
-     const test = VerifyUser()   
-     console.log(test)
 
 
     const UploadTitle = ({title, descripition, subDescription, icon, color}) => {
@@ -59,6 +60,7 @@ return (
             subDescription={'Here you can upload files using the uploader below'}
             icon={<FaArrowUp />}
             color={'grey'}/>
+                { loading ? <div>loading</div> :
                 <FilePond 
                     files={files}
                     onupdatefiles={setFiles}
@@ -67,8 +69,8 @@ return (
                     server="/api"
                     name="files"
                     labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
-                    credits={false}
-                />
+                    credits={false}/>
+                    }
             </div>
             </>
         );
