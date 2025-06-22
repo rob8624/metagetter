@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import VerifyUser from '../../hooks/verifyUser.jsx';
+
+import { FaArrowUp,} from 'react-icons/fa';
 
 
 // Import React FilePond
@@ -21,34 +24,41 @@ registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 export default function Upload() {
     const [files, setFiles] = useState([]);
 
+    
+     const test = VerifyUser()   
+     console.log(test)
 
-    const UploadTitle = ({title, descripition, subDescription}) => {
+
+    const UploadTitle = ({title, descripition, subDescription, icon, color}) => {
         return (
-            <div className="grid grid-cols-[auto_1fr] gap-x-8">
-                <div className='text-4xl sm:text-6xl'>
-                    <h2>{title}</h2>
+            <div className="grid grid-cols-[auto_1fr] gap-x-6 mb-5">
+                <div className='sm:place-self-end'>
+                    <div className='flex text-4xl sm:text-6xl'>
+                        <h2>{title}</h2>
+                        <div style={{ color: color }} className="icon-container">
+                            {icon}
+                        </div>
+                    </div>
+                    <p className='text-sm text-muted-foreground pt-2'>{subDescription}</p>
                 </div>
-                <div className='col-span-full sm:col-start-2'>
-                    <h3 className='mb-2 text-xl'>{descripition}</h3>
-                    <p className='text-sm font-bold'>{subDescription}</p>
+                 
+                <div className='col-span-full lg:col-start-2'>
+                    <h3 className='mb-2 text-3xl lg:text-5xl font-bold  black'>{descripition}</h3>
                 </div>
+              
             </div>
         )
     }
 
-
-
-
-
-
-
-    return (
+return (
             <>
             
-            <div className='flex flex-col w-full md:w-1/2 mt-10'>
-            <UploadTitle title={'UPLOAD.'} 
-            descripition={'Welcome to your upload page'} 
-            subDescription={'Here you can upload files using the uploader below'}/>
+            <div className='flex flex-col w-full md:w-1/2 mt-14'>
+            <UploadTitle title={'UPLOAD'} 
+            descripition={'Welcome to your upload page...'} 
+            subDescription={'Here you can upload files using the uploader below'}
+            icon={<FaArrowUp />}
+            color={'grey'}/>
                 <FilePond 
                     files={files}
                     onupdatefiles={setFiles}
