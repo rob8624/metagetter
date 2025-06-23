@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "corsheaders",
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
+    'django_drf_filepond'
     
 ]
 
@@ -246,3 +247,7 @@ ANYMAIL = {
 EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"  
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')  
 SERVER_EMAIL = os.getenv('SERVER_EMAIL') 
+
+
+
+DJANGO_DRF_FILEPOND_STORAGES_BACKEND = 'storages.backends.s3boto3.S3Boto3Storage'
