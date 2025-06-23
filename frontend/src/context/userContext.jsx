@@ -24,7 +24,7 @@ export function UserDataProvider({ children }) {
         await axiosInstance.post("/auth/jwt/verify/", { token });
         setLoggedIn(true);
         setLoading(false)
-        console.log(loading, 'loading in context')
+        
       } catch (err) {
         setLoggedIn(false);
       } finally {
