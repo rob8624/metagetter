@@ -25,9 +25,13 @@ registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 // Our app
 export default function Upload() {
+
+
     const [files, setFiles] = useState([]);
     const {loading} = useVerifyUser()
     const [csrfToken, setCsrfToken] = useState('');
+
+    const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
 
     // Get CSRF token when component mounts
   useEffect(() => {
@@ -60,6 +64,8 @@ export default function Upload() {
     getCSRFToken();
   }, []);
 
+
+ 
 
     
 
@@ -104,7 +110,7 @@ return (
       labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
       credits={false}
       server={{
-        url: 'http://localhost:8000/fp',
+        url: {API_URL},
         headers: {
           'X-CSRFToken': csrfToken,
         },
