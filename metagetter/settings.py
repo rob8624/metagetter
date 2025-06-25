@@ -251,3 +251,11 @@ SERVER_EMAIL = os.getenv('SERVER_EMAIL')
 
 
 DJANGO_DRF_FILEPOND_STORAGES_BACKEND = 'storages.backends.s3boto3.S3Boto3Storage'
+
+DJANGO_DRF_FILEPOND_UPLOAD_TMP = os.path.join(BASE_DIR, 'filepond-temp-uploads-test')
+DJANGO_DRF_FILEPOND_FILE_STORE_PATH = os.path.join(BASE_DIR, 'stored_uploads-test')
+
+
+# Create temp directory if it doesn't exist
+os.makedirs(DJANGO_DRF_FILEPOND_UPLOAD_TMP, exist_ok=True)
+

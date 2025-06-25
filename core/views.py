@@ -67,3 +67,13 @@ class CustomJWTCreateView(TokenObtainPairView):
             except Exception as e:
                 print(f'Error updating last_login: {e}')
         return response
+    
+
+
+def handle_file_upload(request):
+    if request.method == 'POST':
+        # Get the upload IDs from FilePond
+        # FilePond sends these as the field name you specified
+        upload_ids = request.POST.getlist('filepond')  # or whatever field name you use
+        
+        uploaded_files = []

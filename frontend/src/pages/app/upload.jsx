@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import useVerifyUser from '../../hooks/verifyUser';
 // import VerifyUser from '../../hooks/verifyUser.jsx';
@@ -27,6 +27,40 @@ registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 export default function Upload() {
     const [files, setFiles] = useState([]);
     const {loading} = useVerifyUser()
+    const [csrfToken, setCsrfToken] = useState('');
+
+    // Get CSRF token when component mounts
+  useEffect(() => {
+    const getCSRFToken = () => {
+      // Try to get from cookie
+      const cookieValue = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('csrftoken='))
+        ?.split('=')[1];
+      
+      if (cookieValue) {
+        setCsrfToken(cookieValue);
+        return;
+      }
+      
+      // Try to get from meta tag
+      const metaTag = document.querySelector('meta[name=csrf-token]');
+      if (metaTag) {
+        setCsrfToken(metaTag.getAttribute('content'));
+        return;
+      }
+      
+      // Try to get from hidden input
+      const hiddenInput = document.querySelector('[name=csrfmiddlewaretoken]');
+      if (hiddenInput) {
+        setCsrfToken(hiddenInput.value);
+      }
+    };
+
+    getCSRFToken();
+  }, []);
+
+
     
 
 
@@ -61,15 +95,47 @@ return (
             icon={<FaArrowUp />}
             color={'grey'}/>
                 { loading ? <div>loading</div> :
-                <FilePond 
-                    files={files}
-                    onupdatefiles={setFiles}
-                    allowMultiple={true}
-                    maxFiles={5}
-                    server="/api"
-                    name="files"
-                    labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
-                    credits={false}/>
+                <FilePond
+                            files={files}
+      onupdatefiles={setFiles}
+      allowMultiple={true}
+      maxFiles={5}
+      name="file"
+      labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+      credits={false}
+      server={{
+        url: 'http://localhost:8000/fp',
+        headers: {
+          'X-CSRFToken': csrfToken,
+        },
+        process: {
+          url: '/process/',
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': csrfToken,
+          },
+          withCredentials: false,
+          ondata: (formData) => {
+            // This is the crucial part from the blog - add fp_upload_field
+            let upload_field = '';
+            for (let item of formData.keys()) {
+              upload_field = item;
+              break;
+            }
+            if (upload_field !== '') {
+              formData.append('fp_upload_field', upload_field);
+            }
+            return formData;
+          },
+          onerror: (response) => { 
+            console.log('Upload error:', response); 
+          },
+        },
+        patch: '/patch/',
+        revert: '/revert/',
+        fetch: '/fetch/?target=',
+      }}
+/>
                     }
             </div>
             </>
