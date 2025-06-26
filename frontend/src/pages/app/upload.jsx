@@ -60,8 +60,7 @@ export default function Upload() {
         setCsrfToken(hiddenInput.value);
       }
     };
-    const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
-    console.log('API URL:', API_URL);
+    
     getCSRFToken();
   }, []);
 
@@ -111,7 +110,7 @@ return (
       labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
       credits={false}
       server={{
-        url: API_URL,
+        url: `${API_URL}/fp/`,
         headers: {
           'X-CSRFToken': csrfToken,
         },
