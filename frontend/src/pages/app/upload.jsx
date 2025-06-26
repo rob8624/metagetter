@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router";
 
 import useVerifyUser from '../../hooks/verifyUser';
 // import VerifyUser from '../../hooks/verifyUser.jsx';
@@ -30,6 +31,11 @@ export default function Upload() {
     const [files, setFiles] = useState([]);
     const {loading} = useVerifyUser()
     const [csrfToken, setCsrfToken] = useState('');
+    const [success, setSuccess] = useState(false) 
+
+    const navigate = useNavigate();
+
+    
 
     const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
 
@@ -60,10 +66,13 @@ export default function Upload() {
         setCsrfToken(hiddenInput.value);
       }
     };
-    
-    getCSRFToken();
+        
+       getCSRFToken();
   }, []);
 
+
+
+  
 
  
 
@@ -95,11 +104,14 @@ return (
             <>
             
             <div className='flex flex-col w-full md:w-1/2 mt-14'>
+            
             <UploadTitle title={'UPLOAD'} 
             descripition={'Welcome to your upload page...'} 
             subDescription={'Here you can upload files using the uploader below'}
             icon={<FaArrowUp />}
             color={'grey'}/>
+            { success ? <div>Uploads Finished</div>: <div>Testing</div>}
+           
                 { loading ? <div>loading</div> :
                 <FilePond
                             files={files}
@@ -141,7 +153,14 @@ return (
         revert: '/revert/',
         fetch: '/fetch/?target=',
       }}
-/>
+      onprocessfiles = {() => {
+        setSuccess((prev) => !prev)
+        setTimeout(() => {
+            navigate("/viewer");
+        }, 3000)
+      }}
+     
+            />
                     }
             </div>
             </>
