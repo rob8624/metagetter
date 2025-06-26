@@ -31,7 +31,7 @@ export default function Upload() {
     const {loading} = useVerifyUser()
     const [csrfToken, setCsrfToken] = useState('');
 
-    const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
+    
 
     // Get CSRF token when component mounts
   useEffect(() => {
@@ -60,7 +60,8 @@ export default function Upload() {
         setCsrfToken(hiddenInput.value);
       }
     };
-
+    const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
+    console.log('API URL:', API_URL);
     getCSRFToken();
   }, []);
 
