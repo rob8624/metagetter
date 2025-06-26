@@ -20,11 +20,8 @@ def create_user_profile(sender, instance, created, **kwargs):
 def store_temporary_upload(sender, instance, created, **kwargs):
     if created:
         print(f"Storing upload: {instance.upload_name}")
-        date_path = datetime.now().strftime('%Y-%m-%d')  # Changed from '%Y/%m/%d' to '%Y-%m-%d'
-        destination = os.path.join(date_path, instance.upload_name)
+        # date_path = datetime.now().strftime('%Y-%m-%d')  # Changed from '%Y/%m/%d' to '%Y-%m-%d'
+        # destination = os.path.join(date_path, instance.upload_name)
         
-        su = store_upload(
-            instance.upload_id, 
-            destination
-        )
+        su = store_upload(instance.upload_id, os.path.join(instance.upload_id, instance.upload_name))
         print(f"Stored successfully: {su}")
