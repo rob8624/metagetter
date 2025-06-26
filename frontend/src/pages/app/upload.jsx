@@ -110,7 +110,7 @@ return (
       labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
       credits={false}
       server={{
-        url: {API_URL},
+        url: API_URL,
         headers: {
           'X-CSRFToken': csrfToken,
         },
