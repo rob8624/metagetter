@@ -18,6 +18,7 @@ const useVerifyUser = () => {
             } catch (error) {
                 console.log('Verification failed:', error.response?.data || error.message);
                 setVerified(false);
+                localStorage.removeItem('loggedin')
             } finally {
                 setLoading(false);
             }

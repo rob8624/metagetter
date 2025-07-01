@@ -183,7 +183,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ALLOWED_HOSTS=['metagetter-production.up.railway.app', 'localhost']
 
-CSRF_TRUSTED_ORIGINS=['http://localhost:8000', 'https://metagetter-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS=['http://localhost:8000', 'http://localhost:3000' 'https://metagetter-production.up.railway.app']
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [

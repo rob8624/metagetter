@@ -32,15 +32,22 @@ body {
   border: 1px solid black;
 }
 
-.filepond--wrapper {
-  
- 
-  
+
+
+/* This creates grid for filepond upload, change image size by altering the percentage */
+.filepond--item {
+    width: calc(50% - 0.5em);
 }
 
-.filepond--drop-label {
-  
+@media only screen and (max-width: 600px) {
+    .filepond--item {
+        width: calc(50% - 0.5em);
+    }
 }
+
+
+
+
 
 .filepond--label-action {
   text-decoration: none;

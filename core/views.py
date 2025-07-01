@@ -1,20 +1,49 @@
+#general python utilities
 import json
+import os
+
+#django responses
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.http import JsonResponse
+from django.views.generic import View
 
+#django models
+from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+
+#project models
+from .models import UserImages
+
+#django utils
+from django.utils import timezone
+
+#filepond
+from django_drf_filepond.views import ProcessView
+from django_drf_filepond.models import TemporaryUpload, StoredUpload
+from django_drf_filepond.api import store_upload
+
+#drf auth
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+#drf imports
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth.models import User
-# from .serializers import RegisterSerializer, UserSerializer
+
+
+
+#memcahce
 from pymemcache.client.base import Client
 
-from rest_framework_simplejwt.views import TokenObtainPairView
-from django.utils import timezone
-from rest_framework.response import Response
-from django.contrib.auth import get_user_model
+
+
+
+
 
 
 
@@ -70,10 +99,34 @@ class CustomJWTCreateView(TokenObtainPairView):
     
 
 
-def handle_file_upload(request):
-    if request.method == 'POST':
-        # Get the upload IDs from FilePond
-        # FilePond sends these as the field name you specified
-        upload_ids = request.POST.getlist('filepond')  # or whatever field name you use
-        
-        uploaded_files = []
+
+class FilePondProcessView(ProcessView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        response = super().post(request)
+
+        if response.status_code == 200:
+            upload_id = response.data
+
+            try:
+                temp_upload = TemporaryUpload.objects.get(upload_id=upload_id)
+                stored_image = store_upload(
+                    temp_upload.upload_id,
+                    os.path.join(temp_upload.upload_id, temp_upload.upload_name)
+                )
+
+                user_image = UserImages.objects.create(
+                    user=request.user,
+                    image=stored_image, 
+                    upload_id=upload_id,
+                    upload_name=temp_upload.upload_name
+                )
+                print("UserImage created:", user_image)
+
+            except TemporaryUpload.DoesNotExist:
+                print("Temp upload does not exist for upload_id:", upload_id)
+            except Exception as e:
+                print("Unexpected error during UserImage creation:", e)
+
+        return response
