@@ -151,6 +151,7 @@ export default function Upload() {
                   "X-CSRFToken": csrfToken,
                   'Authorization': `Bearer ${accessToken}`
                 },
+                maxParallelUploads:1,
                 withCredentials: false,
                 ondata: (formData) => {
                   // This is the crucial part from the blog - add fp_upload_field

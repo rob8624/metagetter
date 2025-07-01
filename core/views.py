@@ -113,10 +113,7 @@ class FilePondProcessView(ProcessView):
 
             try:
 
-                # Add random sleep to stagger database operations
-                sleep_time = random.uniform(0.5, 2.0)  # Random 0.5-2 seconds
-                print(f"Sleeping for {sleep_time:.2f} seconds before DB operations")
-                time.sleep(sleep_time)
+                
 
                 temp_upload = TemporaryUpload.objects.get(upload_id=upload_id)
                 stored_image = store_upload(
