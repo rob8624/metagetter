@@ -51,7 +51,7 @@ export function LoginForm({
   });
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();  
-  const { loggedIn, setLoggedIn } = UseLoggedIn();
+  const { setLoggedIn } = UseLoggedIn();
 
   const loggedInUser = localStorage.getItem('loggedin')
   

@@ -9,7 +9,7 @@ const useVerifyUser = () => {
     const [isVerified, setVerified] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    const { loggedIn,setLoggedIn } = UseLoggedIn()
+    const { loggedIn, setLoggedIn } = UseLoggedIn()
 
     useEffect(() => {
         const checkUser = async () => {
@@ -34,7 +34,7 @@ const useVerifyUser = () => {
         };
 
         checkUser();
-    }, []);
+    }, [loggedIn, setLoggedIn]);
 
     return { isVerified, loading };
 };
