@@ -130,7 +130,7 @@ class FilePondProcessView(ProcessView):
 
     def post(self, request):
        
-        if request.user.profile.images_uploaded == 5:
+        if request.user.profile.images_uploaded >= 5:
             return HttpResponse("Upload limit reached", status=500)
         else:
             response = super().post(request)
