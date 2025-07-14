@@ -1,15 +1,21 @@
 import { useState, useEffect } from 'react';
-import axiosInstance from "../services/api.js"// adjust import path
+import { UseLoggedIn } from "../context/userContext";
+
+import axiosRaw from "../services/axiosRaw";
+import authService from '../services/authServices';
+
 
 const useVerifyUser = () => {
     const [isVerified, setVerified] = useState(false);
     const [loading, setLoading] = useState(true);
 
+    const { loggedIn,setLoggedIn } = UseLoggedIn()
+
     useEffect(() => {
         const checkUser = async () => {
             try {
                 const token = localStorage.getItem('a_t');
-                const response = await axiosInstance.post('/auth/jwt/verify/', {
+                const response = await axiosRaw.post('/auth/jwt/verify/', {
                     token: token
                 });
                 console.log('Verified successfully:', response.data);
@@ -18,7 +24,10 @@ const useVerifyUser = () => {
             } catch (error) {
                 console.log('Verification failed:', error.response?.data || error.message);
                 setVerified(false);
-                localStorage.removeItem('loggedin')
+                setLoggedIn(false)
+                console.log(loggedIn + 'loggedin state value')
+                authService.logout()
+                
             } finally {
                 setLoading(false);
             }

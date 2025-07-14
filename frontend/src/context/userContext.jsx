@@ -1,15 +1,20 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import axiosInstance from "../services/api"; // assuming axios setup
+import axiosRaw from "../services/axiosRaw";
 
-const UserContext = createContext({
+
+
+export const UserContext = createContext({
   loggedIn: false,
   loading: true,
-  setLoggedIn: () => {}
+  setLoggedIn: () => {},
+  updating: false,
+  setUpdating: () => {}
 });
 
 export function UserDataProvider({ children }) {
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true)
+  const [updating, setUpdating] = useState(false)
   
 
   useEffect(() => {
@@ -21,12 +26,15 @@ export function UserDataProvider({ children }) {
       }
 
       try {
-        await axiosInstance.post("/auth/jwt/verify/", { token });
+        await axiosRaw.post("/auth/jwt/verify/", { token });
         setLoggedIn(true);
         setLoading(false)
         
       } catch (err) {
+        localStorage.removeItem('a_t');
+        localStorage.removeItem('r_t');
         setLoggedIn(false);
+       
       } finally {
         setLoading(false)
       }
@@ -38,7 +46,9 @@ export function UserDataProvider({ children }) {
   const value = {
     loggedIn,
     setLoggedIn,
-    loading
+    loading,
+    updating,
+    setUpdating
   };
 
   return (

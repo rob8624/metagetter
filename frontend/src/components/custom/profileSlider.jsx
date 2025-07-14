@@ -1,4 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+
+//context
+import { UserContext } from "../../context/userContext";
 
 import UserServices from "../../services/userServices";
 
@@ -16,12 +19,13 @@ export default function ProfileSheet({ isOpen, setIsOpen }) {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(false);
   
- 
+  const {  updating, setUpdating } = useContext(UserContext);
 
 
   useEffect(() => {
  
-    if (isOpen && !userData && !loading) {
+    if (isOpen && !userData && !loading || updating ) {
+      console.log(updating + 'updating value', )
       const fetchData = async () => {
         setLoading(true);
         try {
@@ -32,12 +36,21 @@ export default function ProfileSheet({ isOpen, setIsOpen }) {
           console.log("Error fetching profile:", error);
         } finally {
           setLoading(false);
+          setUpdating(false)
+          
         }
       };
       
       fetchData();
     }
-  }, [isOpen, userData, loading]);
+  }, [isOpen, userData, loading, updating, setUpdating]);
+
+  
+  useEffect(() => {
+  if (!isOpen) {
+    setUserData(null); // Clear data when sheet closes
+  }
+}, [isOpen]);
 
  
 

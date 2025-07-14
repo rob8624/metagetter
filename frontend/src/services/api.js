@@ -30,6 +30,7 @@ axiosInstance.interceptors.request.use(
   }
 );
 
+
 // Response interceptor to handle 401 (Unauthorized)
 axiosInstance.interceptors.response.use(
   response => response,  // Success, return the response as is
@@ -77,10 +78,13 @@ axiosInstance.interceptors.response.use(
         failedQueue = [];  // Reset the queue
         // Handle error (perhaps redirect to login)
         console.log("Refresh token failed", err);
-        localStorage.removeItem('a_t');
-        localStorage.removeItem('r_t');
-        localStorage.setItem('loggedin', false);
-        window.location.href = '/signin?reason=sessionExpired'; // Redirect to login
+        
+        localStorage.removeItem('loggedin')
+
+        setTimeout(() => {
+          window.location.href = '/signin?reason=sessionExpired'; 
+        }, 1000)
+
         return Promise.reject(err);
       } finally {
         isRefreshing = false;

@@ -17,7 +17,13 @@ class Profile(models.Model):
     joined_date = models.DateTimeField(auto_now_add=True)
     images_uploaded = models.PositiveIntegerField(default=0)
     active = models.BooleanField(default=True)
+
+    def count_total_images(self):
+        self.images_uploaded = UserImages.objects.filter(user=self.user).count()
+        self.save()
     
+
+
 
 class UserImages(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="images" )

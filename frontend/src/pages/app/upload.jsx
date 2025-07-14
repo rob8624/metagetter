@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router";
+
+//context
+import { UserContext } from "../../context/userContext";
 
 import useVerifyUser from "../../hooks/verifyUser";
 // import VerifyUser from '../../hooks/verifyUser.jsx';
@@ -42,6 +45,8 @@ export default function Upload() {
 
   const navigate = useNavigate();
 
+  const { setUpdating } = useContext(UserContext)
+
   const API_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:8000";
 
   const accessToken = localStorage.getItem('a_t')
@@ -79,6 +84,7 @@ export default function Upload() {
   }, []);
 
   const handleAllFilesComplete = () => {
+    setUpdating(true)
     setSuccess(true);
     setProcessedStated(false)
     if (checked) {

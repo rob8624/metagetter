@@ -20,6 +20,7 @@ from .models import UserImages
 #django utils
 from django.utils import timezone
 
+
 #filepond
 from django_drf_filepond.views import ProcessView
 from django_drf_filepond.models import TemporaryUpload, StoredUpload
@@ -31,6 +32,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
+from django.contrib.auth.decorators import user_passes_test
 
 #drf imports
 from rest_framework import status
@@ -64,16 +66,33 @@ class UserProfileCachedView(APIView):
 
     def get(self, request):
         user_id = request.user.id 
-
         client = Client(('memcached', 11211))
-
         cache_key = f'user_profile_{user_id}'
         cached_data = client.get(cache_key)
 
         if cached_data:
+            print(f"Cache hit for user {user_id}")
             return Response(json.loads(cached_data.decode('utf-8')))
         else:
-            return Response('Error getting data')
+            print(f"Cache miss for user {user_id}, generating fresh data")
+            
+            # Generate fresh data (same as your middleware)
+            user = request.user
+            fresh_data = {
+                'id': user.id,
+                'username': user.username,
+                'email': user.email,
+                'active': user.is_active,
+                'date_joined': json.dumps(user.date_joined, default=str),
+                'uploaded_images': user.profile.images_uploaded,  # Fresh count!
+                'last_login': json.dumps(user.last_login, default=str),
+            }
+            
+            # Cache the fresh data for next time
+            client.set(cache_key, json.dumps(fresh_data), expire=86400)
+            print(f"Cached fresh data for user {user_id}")
+            
+            return Response(fresh_data)
         
             
 
@@ -102,36 +121,58 @@ class CustomJWTCreateView(TokenObtainPairView):
 
 
 
+
+   
+
+
 class FilePondProcessView(ProcessView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        response = super().post(request)
+       
+        if request.user.profile.images_uploaded == 5:
+            return HttpResponse("Upload limit reached", status=500)
+        else:
+            response = super().post(request)
 
-        if response.status_code == 200:
-            upload_id = response.data
+            if response.status_code == 200:
+                upload_id = response.data
 
-            try:
+                try:
 
-                
+                    
 
-                temp_upload = TemporaryUpload.objects.get(upload_id=upload_id)
-                stored_image = store_upload(
-                    temp_upload.upload_id,
-                    os.path.join(temp_upload.upload_id, temp_upload.upload_name)
-                )
+                    temp_upload = TemporaryUpload.objects.get(upload_id=upload_id)
+                    stored_image = store_upload(
+                        temp_upload.upload_id,
+                        os.path.join(temp_upload.upload_id, temp_upload.upload_name)
+                    )
+                    
+                    current_user = request.user
 
-                user_image = UserImages.objects.create(
-                    user=request.user,
-                    image=stored_image, 
-                    upload_id=upload_id,
-                    upload_name=temp_upload.upload_name
-                )
-                print("UserImage created:", user_image)
+                    #delete cached data so new data is requested on profile check after upload, move this to helper function
+                    client = Client(('memcached', 11211))
+                    cache_key = f'user_profile_{current_user.id}'
+                    print(cache_key)
+                    client.delete(cache_key)  # Clear the cache
 
-            except TemporaryUpload.DoesNotExist:
-                print("Temp upload does not exist for upload_id:", upload_id)
-            except Exception as e:
-                print("Unexpected error during UserImage creation:", e)
+                    user_profile = current_user.profile
+
+                    user_image = UserImages.objects.create(
+                        user = current_user,
+                        image=stored_image, 
+                        upload_id=upload_id,
+                        upload_name=temp_upload.upload_name
+                    )
+                    
+                    #model method to count how many images uploaded and save to users instance
+                    user_profile.count_total_images()
+                    
+                   
+
+                except TemporaryUpload.DoesNotExist:
+                    print("Temp upload does not exist for upload_id:", upload_id)
+                except Exception as e:
+                    print("Unexpected error during UserImage creation:", e)
 
         return response

@@ -52,6 +52,8 @@ export function LoginForm({
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();  
   const { loggedIn, setLoggedIn } = UseLoggedIn();
+
+  const loggedInUser = localStorage.getItem('loggedin')
   
 
   const onSubmit = async (data) => {
@@ -109,7 +111,7 @@ console.log(location.state);
     
     <div className={cn("flex flex-col gap-6", className)} {...props}>
 
-      { loggedIn ? <div> You are aleady signed in</div> :
+      { loggedInUser ? <div> You are aleady signed in</div> :
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl">Login</CardTitle>
