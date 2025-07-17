@@ -9,6 +9,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.generic import View
+from django.http import JsonResponse
 
 #django models
 from django.contrib.auth.models import User
@@ -65,34 +66,23 @@ class UserProfileCachedView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        user_id = request.user.id 
-        client = Client(('memcached', 11211))
-        cache_key = f'user_profile_{user_id}'
-        cached_data = client.get(cache_key)
-
-        if cached_data:
-            print(f"Cache hit for user {user_id}")
-            return Response(json.loads(cached_data.decode('utf-8')))
-        else:
-            print(f"Cache miss for user {user_id}, generating fresh data")
-            
-            # Generate fresh data (same as your middleware)
-            user = request.user
-            fresh_data = {
-                'id': user.id,
-                'username': user.username,
-                'email': user.email,
-                'active': user.is_active,
-                'date_joined': json.dumps(user.date_joined, default=str),
-                'uploaded_images': user.profile.images_uploaded,  # Fresh count!
-                'last_login': json.dumps(user.last_login, default=str),
-            }
-            
-            # Cache the fresh data for next time
-            client.set(cache_key, json.dumps(fresh_data), expire=86400)
-            print(f"Cached fresh data for user {user_id}")
-            
-            return Response(fresh_data)
+        
+        user = request.user
+       
+        fresh_data = {
+            'id': user.id,
+            'username': user.username,
+            'email': user.email,
+            'active': user.is_active,
+            'date_joined': user.date_joined.isoformat(),
+            'uploaded_images': user.profile.count_total_images(),  # Fresh count!
+            'last_login': user.last_login.isoformat() if user.last_login else None,
+        }
+        print(fresh_data)
+        
+      
+        
+        return JsonResponse(fresh_data)
         
             
 

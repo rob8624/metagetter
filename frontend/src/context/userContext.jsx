@@ -33,6 +33,7 @@ export function UserDataProvider({ children }) {
       } catch (err) {
         localStorage.removeItem('a_t');
         localStorage.removeItem('r_t');
+        localStorage.removeItem('loggedin');
         setLoggedIn(false);
        
       } finally {

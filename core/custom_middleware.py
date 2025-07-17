@@ -76,7 +76,7 @@ class UserProfileData:
                                 'email': user.email,
                                 'active' : user.is_active,
                                 'date_joined' : json.dumps(user.date_joined, default=str),
-                                'uploaded_images' : user.profile.images_uploaded,
+                                'uploaded_images' : user.profile.count_total_images(),
                                 'last_login' : json.dumps(user.last_login, default=str),
                                 
                                 # Add other fields you need

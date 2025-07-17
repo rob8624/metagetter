@@ -19,8 +19,10 @@ class Profile(models.Model):
     active = models.BooleanField(default=True)
 
     def count_total_images(self):
-        self.images_uploaded = UserImages.objects.filter(user=self.user).count()
+        count = UserImages.objects.filter(user=self.user).count()
+        self.images_uploaded = count
         self.save()
+        return count
     
 
 
