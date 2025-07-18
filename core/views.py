@@ -140,11 +140,7 @@ class FilePondProcessView(ProcessView):
                     
                     current_user = request.user
 
-                    #delete cached data so new data is requested on profile check after upload, move this to helper function
-                    client = Client(('memcached', 11211))
-                    cache_key = f'user_profile_{current_user.id}'
-                    print(cache_key)
-                    client.delete(cache_key)  # Clear the cache
+                  
 
                     user_profile = current_user.profile
 
@@ -166,3 +162,14 @@ class FilePondProcessView(ProcessView):
                     print("Unexpected error during UserImage creation:", e)
 
         return response
+    
+
+
+class CanUploadImagesView(APIView):
+        permission_classes = [IsAuthenticated]
+
+        def get(self, request):
+            user = request.user
+            image_count = user.profile.images_uploaded
+            can_upload = image_count < 5
+            return Response({'can_upload': can_upload})

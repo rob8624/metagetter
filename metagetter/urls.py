@@ -22,7 +22,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView
 )
-from core.views import UserProfileCachedView,  CustomJWTCreateView, FilePondProcessView
+from core.views import UserProfileCachedView,  CustomJWTCreateView, FilePondProcessView, CanUploadImagesView
 from rest_framework_simplejwt.views import TokenBlacklistView
 
 
@@ -37,6 +37,7 @@ urlpatterns = [
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('api/token/blacklist/', TokenBlacklistView.as_view(), name='token_blacklist'),
     path('fp/process/', FilePondProcessView.as_view(), name="filepond_process"),
+    path('api/can-upload', CanUploadImagesView.as_view(), name='can_upload' ),
     re_path(r'^fp/', include('django_drf_filepond.urls')),
   
     path('admin/', admin.site.urls),
