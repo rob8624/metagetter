@@ -18,7 +18,9 @@ import {
 export default function ProfileSheet({ isOpen, setIsOpen }) {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [maxWarning, setMaxWarning] = useState(false)
   
+
   const {  updating, setUpdating } = useContext(UserContext);
 
 
@@ -31,7 +33,7 @@ export default function ProfileSheet({ isOpen, setIsOpen }) {
         try {
           const response = await UserServices.getProfile();
           setUserData(response);
-          
+          console.log(userData)
         } catch (error) {
           console.log("Error fetching profile:", error);
         } finally {
@@ -51,6 +53,12 @@ export default function ProfileSheet({ isOpen, setIsOpen }) {
     setUserData(null); // Clear data when sheet closes
   }
 }, [isOpen]);
+
+  useEffect(() => {
+  if (userData && userData.uploaded_images === 5) {
+    setMaxWarning(true);
+  }
+}, [userData]);
 
  
 
@@ -109,7 +117,8 @@ export default function ProfileSheet({ isOpen, setIsOpen }) {
           </div>
           <div>
             <dt className="font-bold">Uploads#:</dt>
-            <dd>{userData.uploaded_images}</dd>
+            <dd className="inline-block pr-2">{userData.uploaded_images}</dd>
+            { maxWarning ? <span className="text-red-600">Limit Reached</span> : null }
           </div>
           <div>
             <dt className="font-bold">Last login:</dt>
