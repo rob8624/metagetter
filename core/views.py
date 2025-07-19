@@ -16,7 +16,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 
 #project models
-from .models import UserImages
+from .models import UserImages, ImageMetadata
 
 #django utils
 from django.utils import timezone
@@ -40,7 +40,10 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-
+#exitool
+import exiftool
+#Exiftool helpers
+from core.pyexiftool_helpers import get_all_metadata
 
 #memcahce
 from pymemcache.client.base import Client
@@ -119,7 +122,6 @@ class FilePondProcessView(ProcessView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-       
         if request.user.profile.images_uploaded >= 5:
             return HttpResponse("Upload limit reached", status=500)
         else:
@@ -129,32 +131,38 @@ class FilePondProcessView(ProcessView):
                 upload_id = response.data
 
                 try:
-
-                    
-
+                    # Get temp_upload FIRST
                     temp_upload = TemporaryUpload.objects.get(upload_id=upload_id)
+                    
+                    # NOW you can use it for metadata extraction
+                    metadata_obj = None
+                    try:
+                        temp_file_path = temp_upload.file.path
+                        metadata_dict = get_all_metadata(temp_file_path)
+                        metadata_obj = ImageMetadata.objects.create(data=metadata_dict)
+                    except Exception as e:
+                        print(f"Error extracting metadata: {e}")
+
+                    # Continue with storing the upload
                     stored_image = store_upload(
                         temp_upload.upload_id,
                         os.path.join(temp_upload.upload_id, temp_upload.upload_name)
                     )
                     
                     current_user = request.user
-
-                  
-
                     user_profile = current_user.profile
 
                     user_image = UserImages.objects.create(
-                        user = current_user,
+                        user=current_user,
                         image=stored_image, 
                         upload_id=upload_id,
-                        upload_name=temp_upload.upload_name
+                        upload_name=temp_upload.upload_name,
+                        metadata=metadata_obj 
                     )
+
                     
-                    #model method to count how many images uploaded and save to users instance
+                    
                     user_profile.count_total_images()
-                    
-                   
 
                 except TemporaryUpload.DoesNotExist:
                     print("Temp upload does not exist for upload_id:", upload_id)
