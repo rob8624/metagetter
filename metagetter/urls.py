@@ -17,14 +17,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 
+from rest_framework.routers import DefaultRouter
+
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
     TokenVerifyView
 )
-from core.views import UserProfileCachedView,  CustomJWTCreateView, FilePondProcessView, CanUploadImagesView
+from core.views import UserProfileCachedView,  CustomJWTCreateView, FilePondProcessView, CanUploadImagesView, UserImagesViewSet
 from rest_framework_simplejwt.views import TokenBlacklistView
 
+router = DefaultRouter()
+router.register(r'api/images', UserImagesViewSet, basename='user-images')
 
 urlpatterns = [
     path('', include('core.urls')),
@@ -38,7 +42,7 @@ urlpatterns = [
     path('api/token/blacklist/', TokenBlacklistView.as_view(), name='token_blacklist'),
     path('fp/process/', FilePondProcessView.as_view(), name="filepond_process"),
     path('api/can-upload', CanUploadImagesView.as_view(), name='can_upload' ),
+    path('', include(router.urls)),
     re_path(r'^fp/', include('django_drf_filepond.urls')),
-  
     path('admin/', admin.site.urls),
 ]

@@ -92,7 +92,7 @@ export default function Upload() {
     setCount(countdownValue);
     
     const countdownInterval = setInterval(() => {
-      countdownValue = countdownValue - 1;  // Same as countdownValue--
+      countdownValue = countdownValue - 1;  
       setCount(countdownValue);
       
       if (countdownValue <= 0) {
@@ -116,8 +116,8 @@ export default function Upload() {
           color={"grey"}
         />
         <div className="flex flex-col justify-center items-center">
-            { processedStarted ? <div className="text-2xl">UPLOADING</div> : <div className="text-2xl">Ready to upload</div>}
-          {success && checked ? <div>Uploads Finished - Redirecting in <span className="text-blue-950 text-6xl">{count}</span> seconds...</div> : null}
+            { processedStarted ? <div className="text-2xl">Processing data</div> : <div className="text-2xl">Ready to upload</div>}
+          {success && checked ? <div>Completed - Redirecting in <span className="text-blue-950 text-6xl">{count}</span> seconds...</div> : null}
           {success ? null :
             <label>
             <input type="checkbox" checked={checked}
@@ -134,7 +134,7 @@ export default function Upload() {
             files={files}
             onupdatefiles={(fileItems) => {
               setFiles(fileItems);
-              // Reset states when files change
+              
               if (fileItems.length === 0) {
                 setSuccess(false);
                 setProcessedCount(0);
@@ -160,7 +160,7 @@ export default function Upload() {
                 maxParallelUploads:1,
                 withCredentials: false,
                 ondata: (formData) => {
-                  // This is the crucial part from the blog - add fp_upload_field
+                  
                   let upload_field = "";
                   for (let item of formData.keys()) {
                     upload_field = item;

@@ -1,6 +1,6 @@
-const PageGridTitle = ({title, descripition, subDescription, icon, color}) => {
+const PageGridTitle = ({title, descripition, subDescription, icon, color, className}) => {
         return (
-            <div className="grid grid-cols-[auto_1fr] gap-x-6 mb-5">
+            <div className={`grid grid-cols-[auto_1fr] gap-x-6 mb-5 ${className}`}>
                 <div className='sm:place-self-end'>
                     <div className='flex text-4xl sm:text-6xl'>
                         <h2>{title}</h2>
@@ -12,7 +12,7 @@ const PageGridTitle = ({title, descripition, subDescription, icon, color}) => {
                 </div>
                  
                 <div className='col-span-full lg:col-start-2'>
-                    <h3 className='mb-2 text-3xl lg:text-5xl font-bold  black'>{descripition}</h3>
+                    <h3 className='mb-2 text-3xl lg:text-5xl font-bold black w-80'>{descripition}</h3>
                 </div>
               
             </div>

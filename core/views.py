@@ -15,6 +15,7 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 
+
 #project models
 from .models import UserImages, ImageMetadata
 
@@ -39,6 +40,10 @@ from django.contrib.auth.decorators import user_passes_test
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import viewsets
+
+#serializers
+from .serializers import UserImagesSerializer
 
 #exitool
 import exiftool
@@ -181,3 +186,12 @@ class CanUploadImagesView(APIView):
             image_count = user.profile.images_uploaded
             can_upload = image_count < 5
             return Response({'can_upload': can_upload})
+        
+
+class UserImagesViewSet(viewsets.ModelViewSet):
+    serializer_class = UserImagesSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return UserImages.objects.filter(user=self.request.user)
+        
