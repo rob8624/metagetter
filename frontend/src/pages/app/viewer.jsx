@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import axiosRaw from "../../services/axiosRaw";
 
@@ -18,7 +18,8 @@ import "react-image-gallery/styles/css/image-gallery.css";
 
 export default function Viewer () {
 
-
+  const [data, setData] = useState([])
+  const [images, setImages] = useState([])
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -29,29 +30,36 @@ export default function Viewer () {
           Authorization: `Bearer ${token}`
         },
           })
-          console.log(response)
+          
+          setData(response.data)
+          setImages(response.data.map(item => item.image_url));
+          
       } catch(error) {
         console.log(error)
       }
     }
     
     fetchImages()
-}, )
+}, [])
 
-    const images = [
-  {
-    original: "https://picsum.photos/id/1018/1000/600/",
-    thumbnail: "https://picsum.photos/id/1018/250/150/",
-  },
-  {
-    original: "https://picsum.photos/id/1015/1000/600/",
-    thumbnail: "https://picsum.photos/id/1015/250/150/",
-  },
-  {
-    original: "https://picsum.photos/id/1019/1000/600/",
-    thumbnail: "https://picsum.photos/id/1019/250/150/",
-  },
-];
+
+
+
+
+//     const images = [
+//   {
+//     original: "https://picsum.photos/id/1018/1000/600/",
+//     thumbnail: "https://picsum.photos/id/1018/250/150/",
+//   },
+//   {
+//     original: "https://picsum.photos/id/1015/1000/600/",
+//     thumbnail: "https://picsum.photos/id/1015/250/150/",
+//   },
+//   {
+//     original: "https://picsum.photos/id/1019/1000/600/",
+//     thumbnail: "https://picsum.photos/id/1019/250/150/",
+//   },
+// ];
 
 
 
@@ -60,6 +68,9 @@ export default function Viewer () {
     return (
         <>
         <div className="flex flex-col justify-center items-center">
+        {images.map((item) => {
+          return <img src={item} alt=""/>
+        })}
         <PageGridTitle className="pt-5"
                   title={"Viewer"}
                   descripition={"Here you can view and edit your data"}
