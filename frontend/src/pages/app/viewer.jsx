@@ -33,6 +33,7 @@ export default function Viewer () {
           
           setData(response.data)
           setImages(response.data.map(item => item.image_url));
+          console.log(data)
           
       } catch(error) {
         console.log(error)
