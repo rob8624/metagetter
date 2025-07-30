@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+
+import { useQuery } from '@tanstack/react-query'
 
 import axiosRaw from "../../services/axiosRaw";
 
@@ -7,41 +8,63 @@ import { Separator } from "../../components/ui/separator";
 
 import { FaCompressArrowsAlt } from "react-icons/fa";
 
-import ImageGallery from "react-image-gallery";
+
 import "react-image-gallery/styles/css/image-gallery.css";
 
 
 
 
+// Fetch function for your images
+const fetchData = async () => {
+  const token = localStorage.getItem('a_t');
+  if (!token) {
+    console.log('No token found'); // Log if the token is missing
+    throw new Error('No token found');
+  }
 
+  const response = await axiosRaw.get('api/images', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  console.log('Fetched Data:', response.data); // Log the response data
+  return response.data;
+};
 
 
 export default function Viewer () {
 
-  const [data, setData] = useState([])
-  const [images, setImages] = useState([])
+  
+  const { data, isLoading } = useQuery({
+  queryKey: ['images'], 
+  queryFn: fetchData
+});
 
-  useEffect(() => {
-    const fetchImages = async () => {
-      const token = localStorage.getItem('a_t');
-      try{
-          const response = await axiosRaw('api/images' , {
-             headers: {
-          Authorization: `Bearer ${token}`
-        },
-          })
+console.log('data', data)
+// const userImages = data ? data.map(item => item.image_url) : [];
+  
+  
+//   useEffect(() => {
+//     const fetchImages = async () => {
+//       const token = localStorage.getItem('a_t');
+//       try{
+//           const response = await axiosRaw('api/images' , {
+//              headers: {
+//           Authorization: `Bearer ${token}`
+//         },
+//           })
           
-          setData(response.data)
-          setImages(response.data.map(item => item.image_url));
-          console.log(data)
+//           setData(response.data)
+//           setImages(response.data.map(item => item.image_url));
+//           console.log(data)
           
-      } catch(error) {
-        console.log(error)
-      }
-    }
+//       } catch(error) {
+//         console.log(error)
+//       }
+//     }
     
-    fetchImages()
-}, [data])
+//     fetchImages()
+// }, [data])
 
 
 
@@ -69,9 +92,7 @@ export default function Viewer () {
     return (
         <>
         <div className="flex flex-col justify-center items-center">
-        {images.map((item) => {
-          return <img src={item} alt=""/>
-        })}
+        
         <PageGridTitle className="pt-5"
                   title={"Viewer"}
                   descripition={"Here you can view and edit your data"}
@@ -81,7 +102,18 @@ export default function Viewer () {
                 />
 
         <Separator/>
-        <ImageGallery items={images}/>
+        {isLoading ? <div>Loading</div> : data.map((item,) => {
+          return <div>
+            <img src={item.image_url} alt=""/> 
+            {Object.entries(item.metadata.data[0]).map(([key, value]) => (
+                <div className={key.startsWith('XMP') ? 'text-blue-200 flex': null}
+                 key={key}>
+                {key}: {typeof value === 'object' ? JSON.stringify(value) : value}
+            </div>
+              ))}
+            </div>
+        })} 
+       
         </div>
         
         </>
