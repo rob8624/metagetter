@@ -2,6 +2,11 @@ from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
 from django.contrib.auth.models import User
 
+from imagekit import ImageSpec
+from imagekit.processors import ResizeToFill
+from imagekit.cachefiles import ImageCacheFile
+
+
 from core.views import ImageMetadata, UserImages
 
 
@@ -26,6 +31,12 @@ class CustomUserSerializer(UserSerializer):
         fields = ('id', 'email', 'username')
 
 
+class ThumbnailSpec(ImageSpec):
+    processors = [ResizeToFill(100, 50)]
+    format = 'JPEG'
+    options = {'quality': 60}
+
+
 class ImageMetadataSerializer(serializers.ModelSerializer):
     class Meta:
         model = ImageMetadata
@@ -37,6 +48,7 @@ class UserImagesSerializer(serializers.ModelSerializer):
      metadata = ImageMetadataSerializer()
      user = serializers.StringRelatedField(read_only=True)
      image_url = serializers.SerializerMethodField()
+     image_thumbnail_url = serializers.SerializerMethodField()
 
      class Meta:
          model = UserImages
@@ -46,6 +58,7 @@ class UserImagesSerializer(serializers.ModelSerializer):
             'user',
             'image',
             'image_url',
+            'image_thumbnail_url',
             'metadata',
             'created_at',
             'upload_id',
@@ -61,8 +74,32 @@ class UserImagesSerializer(serializers.ModelSerializer):
             print(obj.image.file)
             return request.build_absolute_uri(obj.image.file.url)
         return None
-
-    
+     
+     def get_image_thumbnail_url(self, obj):
+        """Generate thumbnail URL using imagekit"""
+        request = self.context.get('request')
+        if obj.image and obj.image.file:
+            try:
+                # Create thumbnail spec
+                thumbnail_spec = ThumbnailSpec(source=obj.image.file)
+                
+                # Create cache file from the spec
+                cache_file = ImageCacheFile(thumbnail_spec)
+                cache_file.generate()
+                
+                # Get the URL from the cache file
+                thumbnail_url = cache_file.url
+                
+                # # Debug logging
+                # print(f"Original URL: {obj.image.file.url}")
+                # print(f"Thumbnail URL: {thumbnail_url}")
+                
+                return request.build_absolute_uri(thumbnail_url)
+                
+            except Exception as e:
+                print(f"Error generating thumbnail URL: {e}")
+                return request.build_absolute_uri(obj.image.file.url)
+        return None
 
     
     

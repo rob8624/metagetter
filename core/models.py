@@ -5,6 +5,9 @@ import uuid
 
 from django.utils import timezone
 
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill
+
 
 from metagetter.storage_backends import PublicMediaStorage
 
@@ -36,10 +39,16 @@ class ImageMetadata(models.Model):
 class UserImages(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="images" )
     image = models.OneToOneField(StoredUpload, on_delete=models.SET_NULL, null=True)
+    image_thumbnail = ImageSpecField(source='source_file',
+                                      processors=[ResizeToFill(100, 50)],
+                                      format='JPEG',
+                                      options={'quality': 60})
     metadata = models.ForeignKey(ImageMetadata, on_delete=models.SET_NULL, null=True, related_name="user_images")
     created_at = models.DateTimeField(default=timezone.now) 
     upload_id = models.CharField(null=True, max_length=50)
     upload_name = models.CharField(null=True, max_length=200)
+
+   
 
     class Meta:
         verbose_name = "User Image"
@@ -53,7 +62,6 @@ class UserImages(models.Model):
             self.image.file.delete(save=False)
             
         super().delete(*args, **kwargs)
-
 
 
 
