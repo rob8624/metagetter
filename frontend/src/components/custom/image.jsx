@@ -1,10 +1,13 @@
+import { useState } from "react"
+import MetaData from "./metaData"
 
 
 
 
 
+export default function Image({ src, alt, width, height, id, metadata }) {
+    const [showMetaData ] = useState(true)
 
-export default function Image({ src, alt, width, height, id, metadata}) {
     return (
        <>
  <div className="flex flex-col items-center">
@@ -20,10 +23,12 @@ export default function Image({ src, alt, width, height, id, metadata}) {
     />
   </div>
 
-  {/* Metadata area */}
-  <div className={`${width} backdrop:sm:w-80 h-80 overflow-scroll border rounded p-2 mt-2`}>
-    {metadata}
-  </div>
+  {showMetaData ? 
+  <MetaData classname={`${width} backdrop:sm:w-80 h-80 overflow-scroll border rounded p-2 mt-2`} metadata={metadata} width={width}/>
+  :
+  null
+  }
+ 
 </div>
 </>
     )

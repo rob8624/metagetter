@@ -26,7 +26,7 @@ import "react-image-gallery/styles/css/image-gallery.css";
 const fetchData = async () => {
   const token = localStorage.getItem('a_t');
   if (!token) {
-    console.log('No token found'); // Log if the token is missing
+    console.log('No token found'); 
     throw new Error('No token found');
   }
 
@@ -35,7 +35,7 @@ const fetchData = async () => {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log('Fetched Data:', response.data); // Log the response data
+  console.log('Fetched Data:', response.data);
   return response.data;
 };
 
@@ -43,7 +43,7 @@ const fetchData = async () => {
 export default function Viewer () {
 
   
-  const { data, isLoading } = useQuery({
+  const { data, isFetching } = useQuery({
   queryKey: ['images'], 
   queryFn: fetchData
 });
@@ -63,7 +63,14 @@ console.log('data', data)
                 />
 
         <Separator/>
-        {isLoading ? <ClipLoader loading={isLoading}/> : <ImageGrid data={data}/>} 
+        {isFetching ? 
+        <div className='flex flex-col justify-center items-center mt-40'>
+        
+        <ClipLoader loading={isFetching}/> 
+        <div className='font-serif'>Processing images</div>
+        </div>
+        : 
+        <ImageGrid data={data}/>} 
        </div>
     )
 }

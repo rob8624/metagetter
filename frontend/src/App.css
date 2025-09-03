@@ -15,6 +15,10 @@ body {
   display: flex;
   flex-direction: column; 
   min-height: 100vh; 
+  /*Below code stops page becoming unresponive after shad dialog is closed */
+  @apply bg-background text-foreground;
+  pointer-events: auto !important; 
+  
   
 }
 

@@ -32,9 +32,60 @@ class CustomUserSerializer(UserSerializer):
 
 
 class ThumbnailSpec(ImageSpec):
-    processors = [ResizeToFill(100, 50)]
+    processors = [ResizeToFill(600, 400 )]
     format = 'JPEG'
-    options = {'quality': 60}
+    options = {'quality': 30}
+
+# Serializers to process images as thumbnails if view is list
+class ImageListSerializer(serializers.ModelSerializer):
+    
+    image_thumbnail_url = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = UserImages
+
+
+        fields = [
+            'id',
+            'user',    
+           'image_thumbnail_url'
+           'metadata'
+           'created_at',
+           'upload_id',
+            'upload_name'
+        ]
+
+        def get_image_thumbnail_url(self, obj):
+            request = self.context.get('request')
+            if obj.image and obj.image.file:
+                try:
+                    # Create thumbnail spec
+                    thumbnail_spec = ThumbnailSpec(source=obj.image.file)
+                    
+                    # Create cache file from the spec
+                    cache_file = ImageCacheFile(thumbnail_spec)
+                    cache_file.generate()
+                    
+                    # Get the URL from the cache file
+                    thumbnail_url = cache_file.url
+                    
+                    # # Debug logging
+                    # print(f"Original URL: {obj.image.file.url}")
+                    # print(f"Thumbnail URL: {thumbnail_url}")
+                    
+                    return request.build_absolute_uri(thumbnail_url)
+                    
+                except Exception as e:
+                    print(f"Error generating thumbnail URL: {e}")
+                    return request.build_absolute_uri(obj.image.file.url)
+            return None
+
+
+
+
+
+
+
 
 
 class ImageMetadataSerializer(serializers.ModelSerializer):

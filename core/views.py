@@ -43,7 +43,7 @@ from rest_framework.response import Response
 from rest_framework import viewsets
 
 #serializers
-from .serializers import UserImagesSerializer
+from .serializers import UserImagesSerializer, ImageListSerializer
 
 #exitool
 import exiftool
@@ -144,6 +144,9 @@ class FilePondProcessView(ProcessView):
                     try:
                         temp_file_path = temp_upload.file.path
                         metadata_dict = get_all_metadata(temp_file_path)
+                        for k, v in metadata_dict[0].items():
+                            if type(v) is list:
+                               metadata_dict[0][k] = ",".join(str(x) for x in v)
                         metadata_obj = ImageMetadata.objects.create(data=metadata_dict)
                     except Exception as e:
                         print(f"Error extracting metadata: {e}")
@@ -194,4 +197,9 @@ class UserImagesViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return UserImages.objects.filter(user=self.request.user)
+    
+    def get_serliazer_class(self):
+        if self.action == 'list':
+            return ImageListSerializer
+        return UserImagesSerializer 
         
