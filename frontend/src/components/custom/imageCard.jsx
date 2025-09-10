@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import { useDeleteImage } from "../../services/mutations"
 import { FaAngleDown } from "react-icons/fa6";
 
