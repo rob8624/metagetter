@@ -48,7 +48,7 @@ export default function Viewer () {
   queryFn: fetchData
 });
 
-console.log('data', data)
+console.log('data (viewer.jsx)', data)
 
  return (
         
@@ -67,7 +67,7 @@ console.log('data', data)
         <div className='flex flex-col justify-center items-center mt-40'>
         
         <ClipLoader loading={isFetching}/> 
-        <div className='font-serif'>Processing images</div>
+        <div className='font-serif font-semibold text-xs text-green-900'>Processing images</div>
         </div>
         : 
         <ImageGrid data={data}/>} 

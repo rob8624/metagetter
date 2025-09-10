@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 //components 
 import GridView from "./gridView";
@@ -12,16 +12,57 @@ import { Button } from "../ui/button";
 
 
 // Main ImageGrid Component
+
+
+
+
 export default function ImageGrid({ data }) {
   //state
   const [gridView, setGridView] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
   const [images] = useState(data);
+  const [imageToDelete, setImageToDelete] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
   
-  //refs
+
+
+
+
+
+
+  //refs used to not add click event to menu and image
   const menuRef = useRef(null)
+  const imageRef = useRef(null)
+
+
+  //useEffect handling outside click of images
+  useEffect(() => {
+  if (!selectedImage) return;
+
+  const handleOutsideClick = (e) => {
+    console.log('outside click');
+    if (menuRef.current && !menuRef.current.contains(e.target)) {
+      setSelectedImage(null);
+    }
+  };
+
+  const timer = setTimeout(() => {
+    window.addEventListener("click", handleOutsideClick);
+  }, 0);
+
+  // This cleanup runs when selectedImage changes or component unmounts
+  return () => {
+    window.removeEventListener("click", handleOutsideClick);
+    clearTimeout(timer);
+  };
+}, [selectedImage]); // Re-run when selectedImage changes
+
+const handleImageClick = (item) => {
+  setSelectedImage(item); // This will trigger useEffect cleanup + setup
+};
   
+
+
   //checking if data if not return empty message
   if (!data || data.length === 0) {
     return <div className="flex flex-col items-center justify-center h-52">
@@ -40,32 +81,9 @@ export default function ImageGrid({ data }) {
     ));
   };
 
-  
-  
-  //function to handle the click event outside of the selcted 
-  //image to unselect it on window click
-  //menuRef.current.contains(e.target): Checks if the clicked element (e.target) is inside the menu element
-  const handleImageClick = (item) => {
-  setSelectedImage(item);
-
-  const handleOutsideClick = (e) => {
-    
-    if (menuRef.current && !menuRef.current.contains(e.target)) {
-      setSelectedImage(null);
-      window.removeEventListener("click", handleOutsideClick);
-    }
-  };
-
-  setTimeout(() => {
-    window.addEventListener("click", handleOutsideClick);
-  }, 0);
-};
-
-
-
 
   
-
+ 
   return (
     <>
     
@@ -84,11 +102,15 @@ export default function ImageGrid({ data }) {
         <GridView 
           data={images}
           selectedImage={selectedImage}
+          setSelectedImage={setSelectedImage}
           onImageClick={handleImageClick}
           getMetadata={getMetadata}
           confirmDelete={confirmDelete}
           setConfirmDelete={setConfirmDelete}
-          menyRef={menuRef}
+          menuRef={menuRef}
+          imageRef={imageRef}
+          imageToDelete={imageToDelete}
+          setImageToDelete={setImageToDelete}
         />
       ) : (
         <SlideshowView 

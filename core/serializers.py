@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
 from django.contrib.auth.models import User
@@ -97,6 +99,7 @@ class ImageMetadataSerializer(serializers.ModelSerializer):
 class UserImagesSerializer(serializers.ModelSerializer):
      
      metadata = ImageMetadataSerializer()
+     grouped_metadata = serializers.SerializerMethodField()
      user = serializers.StringRelatedField(read_only=True)
      image_url = serializers.SerializerMethodField()
      image_thumbnail_url = serializers.SerializerMethodField()
@@ -111,10 +114,29 @@ class UserImagesSerializer(serializers.ModelSerializer):
             'image_url',
             'image_thumbnail_url',
             'metadata',
+            'grouped_metadata',
             'created_at',
             'upload_id',
             'upload_name'
         ]
+         
+     def get_grouped_metadata(self, obj):
+        data = ImageMetadataSerializer(obj.metadata).data['data'][0]
+        print('start of test date', data, 'serializer data')
+        
+        grouped_data = defaultdict(dict)
+
+        for key, value in data.items():
+            try:
+                data_type, item = key.split(":")
+                grouped_data[data_type][item] = value
+            except ValueError:
+                f"skipping {key}"
+
+        
+        print(grouped_data, 'grouped_data test from serializer')
+        return grouped_data
+            
          
      def get_image_url(self, obj):
         """
