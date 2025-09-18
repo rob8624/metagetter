@@ -1,4 +1,5 @@
 from collections import defaultdict
+import re
 
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
@@ -100,6 +101,7 @@ class UserImagesSerializer(serializers.ModelSerializer):
      
      metadata = ImageMetadataSerializer()
      grouped_metadata = serializers.SerializerMethodField()
+     summary_metadata = serializers.SerializerMethodField()
      user = serializers.StringRelatedField(read_only=True)
      image_url = serializers.SerializerMethodField()
      image_thumbnail_url = serializers.SerializerMethodField()
@@ -115,27 +117,161 @@ class UserImagesSerializer(serializers.ModelSerializer):
             'image_thumbnail_url',
             'metadata',
             'grouped_metadata',
+            'summary_metadata',
             'created_at',
             'upload_id',
             'upload_name'
         ]
          
-     def get_grouped_metadata(self, obj):
-        data = ImageMetadataSerializer(obj.metadata).data['data'][0]
-        print('start of test date', data, 'serializer data')
-        
-        grouped_data = defaultdict(dict)
+     def _process_metadata(self, obj):
+         """Shared method to process metadata into groups"""
+         data = ImageMetadataSerializer(obj.metadata).data['data'][0]
+         
 
-        for key, value in data.items():
+         grouped_data = defaultdict(dict)
+
+         for key, value in data.items():
             try:
                 data_type, item = key.split(":")
                 grouped_data[data_type][item] = value
+                
             except ValueError:
                 f"skipping {key}"
+         return grouped_data
 
         
-        print(grouped_data, 'grouped_data test from serializer')
+         
+     def get_grouped_metadata(self, obj):
+        grouped_data = self._process_metadata(obj)
         return grouped_data
+     
+     
+     def get_summary_metadata(self, obj):
+         grouped_data = self._process_metadata(obj)
+          
+         summary = defaultdict(dict)
+         
+         #dictionry of keys to iterate through grouped_data[exif] and create camera_details summary
+         #values are custom names used as keys in summary_data, mapped over in frontend
+         camera_keys = {'Make':'Camera Make', 
+                        'Model': 'Camera Model', 
+                        'SerialNumber': 'Serial#', 
+                        'LensModel': 'Lens' }
+         
+         
+         
+         image_keys = {'Description': 'Description', 
+                       'DateCreated': 'Creation Date', 
+                       'Credit': 'Credit', 
+                       'Rights': 'Copyright', 
+                       'Subject': 'Keywords',
+                       'Format':'Image Format'}
+         creator_keys = {
+                        'CreatorWorkEmail':'Email', 
+                         'CreatorCountry': 'Country', 
+                         'CreatorAddress': 'Address'}
+
+         
+         
+         #comprehension syntax {new_key: new_value for item in iterable if condition}
+         #using comprehension to creat new sumamry dictionary
+         
+         #the comprehension need to be made into a seperate funtion for DRYness
+
+         for key, value in grouped_data.items():
+             summary['data_types'][key] = len(value)
+
+         if 'EXIF' in grouped_data: 
+             summary['camera_details'] = {
+                 custom_key: grouped_data['EXIF'][original_key]
+                 for original_key, custom_key in camera_keys.items()
+                 if original_key in grouped_data['EXIF']
+                 }
+         else:
+             raise ValueError("EXIF not in data")
+         
+         if 'XMP' in grouped_data:
+             summary['image_details'] = {
+                 custom_key: grouped_data['XMP'][original_key]
+                 for original_key, custom_key in image_keys.items()
+                 if original_key in grouped_data['XMP']
+             }
+             summary['image_details']['Keywords'] = re.split(r'[,\s]+', summary['image_details']['Keywords']) #formats keywords into a list
+
+             summary['creator_details'] = {
+                 custom_key: grouped_data['XMP'][original_key]
+                 for original_key, custom_key in creator_keys.items()
+                 if original_key in grouped_data['XMP']
+                 
+             }
+             
+         else:
+             raise ValueError("XMP not in data")
+         
+
+         
+         
+         
+
+         
+         def format_date(date:str, date_key: str, time_key:str) -> None:
+            """
+            Formats the date from the grouped_date dictionary
+            Takes a key from summary dict and processes
+            Also takes args to be used in summary_data dict to use are keys
+            """            
+            try:
+                date_and_time = date.split(" ")
+                date, time = date_and_time[0], date_and_time[1]    
+
+                raw_date = date.split(":")
+                summary['image_details']['Creation Date'] = {
+                    date_key : "-".join(raw_date),
+                    time_key : time
+                }
+                print(date)
+                
+                
+            except Exception as e:
+                print(f"Could not format data {e}")
+            
+         format_date(summary['image_details'].get('Creation Date'), 'Date', 'Time')
+
+         
+         
+         
+         
+         
+         
+             
+         
+         
+                 
+            
+
+             
+
+         """ for key, value in grouped_data.items():
+             summary['data_types'][key] = len(grouped_data[key])
+             summary['camera_details'] = {key: grouped_data['EXIF'][key] for key in camera_keys if key in grouped_data['EXIF']}
+             summary['image_details'] = {key: grouped_data['XMP'][key] for key in image_keys if key in grouped_data['XMP']}
+             """
+
+           
+             
+             
+             
+         #removes exiftool from data_types
+         if 'ExifTool' in summary.get('data_types', {}):
+            del summary['data_types']['ExifTool']
+    
+    
+         
+         
+        #  print('grouped_daata', grouped_data)
+        #  print('summer data', summary)
+         return summary
+     
             
          
      def get_image_url(self, obj):
@@ -144,7 +280,7 @@ class UserImagesSerializer(serializers.ModelSerializer):
         """
         request = self.context.get('request')
         if obj.image and obj.image.file:
-            print(obj.image.file)
+            
             return request.build_absolute_uri(obj.image.file.url)
         return None
      

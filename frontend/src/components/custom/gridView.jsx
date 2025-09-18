@@ -56,6 +56,7 @@ const GridView = ({
         <MetadataPanel 
           selectedImage={selectedImage} 
           getMetadata={getMetadata} 
+          data={data}
         />
       </div>
 
