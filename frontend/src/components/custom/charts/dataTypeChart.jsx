@@ -1,5 +1,5 @@
 
-import { BarChart, CartesianGrid, XAxis,  YAxis, Bar, Legend } from 'recharts';
+import { BarChart, CartesianGrid, XAxis,  YAxis, Bar,} from 'recharts';
 import { ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent, ChartContainer  } from "../../../components/ui/chart"
 
 export function DataTypeChart({ data }) {
@@ -26,17 +26,17 @@ export function DataTypeChart({ data }) {
  } 
 
 
- function CustomLegend({ data }) {
-    return (
-      <div className="flex justify-center gap-2 mt-2 text-xs w-40 flex-wrap">
-        {data.map((item, index) => (
-          <div key={item.name} className="flex items-center gap-1">
-              <span>{item.name}: {item.value}</span>
-          </div>
-        ))}
-      </div>
-    );
-  }
+//  f/* unction CustomLegend({ data }) {
+//     return (
+//       <div className="flex justify-center gap-2 mt-2 text-xs w-40 flex-wrap">
+//         {data.map((item, index) => (
+//           <div key={item.name} className="flex items-center gap-1">
+//               <span>{item.name}: {item.value}</span>
+//           </div>
+//         ))}
+//       </div>
+//     );
+//   } */
 
   return (
     <>
