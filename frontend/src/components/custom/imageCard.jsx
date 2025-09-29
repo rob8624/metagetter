@@ -27,15 +27,14 @@ const ImageCard = ({
   item, 
   isSelected, 
   setSelectedImage,
-  selectedImage,
+
   onImageClick, 
-  onDelete, 
+
   confirmDelete,
   setConfirmDelete,
-  showTools = false,
+ 
   className = "" ,
-  menuRef,
-  imageRef,
+  refs,
   imageToDelete,
   setImageToDelete
 }) => {
@@ -64,17 +63,18 @@ const ImageCard = ({
         onClick={() => onImageClick(item)}
       >
         <img
-          ref={imageRef}
+          ref={el => refs.current.image = el}
           src={item.image_thumbnail_url}
           alt={item.id}
-          className="w-full h-10 sm:h-32 object-cover"
+          className="w-40 sm:h-32 object-cover"
         />
+        <div className="text-xs">{item.upload_name}</div>
       </div>
 
 
       {/* image menu */}
        <DropdownMenu>
-        <DropdownMenuTrigger ref={menuRef} onClick={() => {setSelectedImage(item);}}><FaAngleDown size={35} /></DropdownMenuTrigger>
+        <DropdownMenuTrigger ref={el => refs.current.menu = el} onClick={() => {setSelectedImage(item);}}><FaAngleDown size={35} /></DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>Image Menu</DropdownMenuLabel>
           <DropdownMenuSeparator />

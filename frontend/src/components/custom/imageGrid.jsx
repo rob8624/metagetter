@@ -23,6 +23,7 @@ export default function ImageGrid({ data }) {
   const [images] = useState(data);
   const [imageToDelete, setImageToDelete] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [showPanel, setShowPanel] = useState(false);
   
 
 
@@ -30,9 +31,10 @@ export default function ImageGrid({ data }) {
 
 
 
-  //refs used to not add click event to menu and image
-  const menuRef = useRef(null)
-  const imageRef = useRef(null)
+  //refs object used to not add click event to menu and image
+  const refs = useRef({image:null, menu:null, dataSection:null, summary:null})
+  
+  
 
 
   //useEffect handling outside click of images
@@ -41,10 +43,20 @@ export default function ImageGrid({ data }) {
 
   const handleOutsideClick = (e) => {
     console.log('outside click');
-    if (menuRef.current && !menuRef.current.contains(e.target)) {
+     // Get the current refs
+    const { image, menu, dataSection, summary} = refs.current;
+    
+    // Check if click is outside both image and menu
+    const isInsideImage = image && image.contains(e.target);
+    const isInsideMenu = menu && menu.contains(e.target);
+    const isInsideData = dataSection && dataSection.contains(e.target)
+    const isInsideSummary = summary && summary.contains(e.target);
+
+    if (!isInsideImage && !isInsideMenu && !isInsideData && !isInsideSummary) {
       setSelectedImage(null);
     }
   };
+  
 
   const timer = setTimeout(() => {
     window.addEventListener("click", handleOutsideClick);
@@ -97,7 +109,7 @@ const handleImageClick = (item) => {
           {gridView ? 'Comparision view' : 'Grid View'}
         </Button>
       </div>
-      
+     
       { gridView ? (
         <GridView 
           data={images}
@@ -107,10 +119,11 @@ const handleImageClick = (item) => {
           getMetadata={getMetadata}
           confirmDelete={confirmDelete}
           setConfirmDelete={setConfirmDelete}
-          menuRef={menuRef}
-          imageRef={imageRef}
+          refs={refs}
           imageToDelete={imageToDelete}
           setImageToDelete={setImageToDelete}
+          showPanel={showPanel}   
+          setShowPanel={setShowPanel}
         />
       ) : (
         <SlideshowView 
@@ -120,6 +133,7 @@ const handleImageClick = (item) => {
           getMetadata={getMetadata}
         />
       )} 
+     
     </>
   );
 }

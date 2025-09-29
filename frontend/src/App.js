@@ -38,7 +38,7 @@ function App() {
            <Header/>  
           </header>
           <div id="main-background" className="w-screen flex-grow bg-white dark:bg-black">
-            <main id="main-wrapper" className="flex justify-center items-center w-5/6 mx-auto bg-transparent h-auto overflow-hidden">
+            <main id="main-wrapper" className="flex justify-center items-center sm:w-5/6 mx-auto bg-transparent h-auto">
             {/* <AppContent /> */}
             <Routes>
                 {/* Home route with the dropzone */}
