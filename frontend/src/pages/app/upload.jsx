@@ -146,6 +146,7 @@ export default function Upload() {
             labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
             credits={false}
             server={{
+              instantUpload: true,
               url: `${API_URL}/fp`,
               headers: {
                 "X-CSRFToken": csrfToken,

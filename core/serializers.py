@@ -188,7 +188,8 @@ class UserImagesSerializer(serializers.ModelSerializer):
                  if original_key in grouped_data['EXIF']
                  }
          else:
-             raise ValueError("EXIF not in data")
+             summary['camera_details'] = {'message': 'No EXIF data available'}
+             
          
          if 'XMP' in grouped_data:
              summary['image_details'] = {
@@ -196,17 +197,19 @@ class UserImagesSerializer(serializers.ModelSerializer):
                  for original_key, custom_key in image_keys.items()
                  if original_key in grouped_data['XMP']
              }
-             summary['image_details']['Keywords'] = re.split(r'[,\s]+', summary['image_details']['Keywords']) #formats keywords into a list
+             try:
+                summary['image_details']['Keywords'] = re.split(r'[,\s]+', summary['image_details']['Keywords']) #formats keywords into a list
+             except KeyError:
+                 print('No keywords')
 
              summary['creator_details'] = {
                  custom_key: grouped_data['XMP'][original_key]
                  for original_key, custom_key in creator_keys.items()
                  if original_key in grouped_data['XMP']
-                 
-             }
+                }
              
          else:
-             raise ValueError("XMP not in data")
+             summary['camera_details'] = {'message': 'No EXIF data available'}
          
 
          
