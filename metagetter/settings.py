@@ -201,6 +201,7 @@ SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
     'ALGORITHM': 'HS256',
+    'AUTH_HEADER_TYPES': ('Bearer',),
     'SIGNING_KEY': os.getenv('SIGNING_KEY')  
 }
 

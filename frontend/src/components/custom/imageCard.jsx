@@ -1,4 +1,5 @@
 
+
 import { useDeleteImage } from "../../services/mutations"
 import { FaAngleDown } from "react-icons/fa6";
 
@@ -23,6 +24,7 @@ import {Dialog,
   } from "../ui/dialog";
 
 
+
 const ImageCard = ({ 
   item, 
   isSelected, 
@@ -36,13 +38,16 @@ const ImageCard = ({
   className = "" ,
   refs,
   imageToDelete,
-  setImageToDelete
+  setImageToDelete,
+
+  openDropdownId,
+  setOpenDropdownId,
 }) => {
 
   
   
   
-  const { mutate: deleteImage } = useDeleteImage();
+  const { mutate: deleteImage, isPending} = useDeleteImage();
   
 
   // function that handles the deleting of an image
@@ -51,9 +56,10 @@ const ImageCard = ({
 };
 
 
+
   return (
    
-    <div className={`flex flex-col items-center justify-center ${className}`}>
+    <div className={`flex flex-col items-center justify-center ${className}` }>
       <div
         className={`cursor-pointer border-2 rounded-md overflow-hidden transition-all duration-200 ${
           isSelected 
@@ -66,14 +72,20 @@ const ImageCard = ({
           ref={el => refs.current.image = el}
           src={item.image_thumbnail_url}
           alt={item.id}
-          className="w-40 sm:h-32 object-cover"
+          className="w-20 sm:w-40 sm:h-32 object-cover"
         />
-        <div className="text-xs">{item.upload_name}</div>
+        <div className="text-xs w-20 overflow-hidden sm:overflow-visible">{item.upload_name}</div>
       </div>
 
 
       {/* image menu */}
-       <DropdownMenu>
+       <DropdownMenu modal={false}
+          open={openDropdownId === item.id}
+          onOpenChange={(isOpen) => {
+            setOpenDropdownId(isOpen ? item.id : null);
+            ;
+          }}
+        >
         <DropdownMenuTrigger ref={el => refs.current.menu = el} onClick={() => {setSelectedImage(item);}}><FaAngleDown size={35} /></DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>Image Menu</DropdownMenuLabel>
@@ -89,8 +101,8 @@ const ImageCard = ({
   Delete image
 </DropdownMenuItem>
           
-          <DropdownMenuItem>Billing</DropdownMenuItem>
-          <DropdownMenuItem>Team</DropdownMenuItem>
+          <DropdownMenuItem>Download Image</DropdownMenuItem>
+          <DropdownMenuItem>Delete data</DropdownMenuItem>
           <DropdownMenuItem>Subscription</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu> 
@@ -111,11 +123,13 @@ const ImageCard = ({
                 
             </DialogTitle>
             <DialogDescription>
+              {isPending ? 'DELETING' : null}
               <span className="text-red-600">WARNING!</span> This will permanently delete your image
               and remove it from our servers.
             </DialogDescription>
             <DialogFooter>
-              <Button className="sm:mr-5" variant="destructive" onClick={() => handleDelete(imageToDelete)}>Delete</Button>
+              
+              <Button className="sm:mr-5" variant="destructive" disabled={isPending} onClick={() => handleDelete(imageToDelete)}>Delete</Button>
               <DialogClose asChild>
                 <Button>Cancel</Button>
               </DialogClose>

@@ -1,8 +1,10 @@
+import { useState } from "react";
 
 
 import MetadataPanel from "./metadataPanel";
 import ImageCard from "./imageCard";
 import DetailPanel from "./detailPanel";
+import { DataTools } from "./dataTools";
 
 
 // Grid View Component
@@ -23,7 +25,7 @@ const GridView = ({
 
 }) => {
 
-  
+const [openDropdownId, setOpenDropdownId] = useState(null);
   
   
  
@@ -35,7 +37,7 @@ const GridView = ({
     ref={el => refs.current.summary = el}>
       {/* Images Grid - Left Side */}
       <div className="flex-1 flex-col justify-center items-center">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sticky top-0 rounded-lg  backdrop-blur-xl z-10 p-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sticky top-0 rounded-lg backdrop-blur-xl z-10 sm:p-10">
           {data.map((item) => (
             <ImageCard
               key={item.id}
@@ -51,8 +53,14 @@ const GridView = ({
               refs={refs}
               imageToDelete={imageToDelete}
               setImageToDelete={setImageToDelete}
+              openDropdownId={openDropdownId}
+              setOpenDropdownId={setOpenDropdownId}
+
             />
           ))}
+
+          {selectedImage ? <DataTools /> : null}
+
         </div>
        
        
@@ -73,7 +81,9 @@ const GridView = ({
 
 
           </div>
+          
         <div className="w-screen sm:w-full order-2 sm:order-1" ref={el => refs.current.dataSection = el}>
+          
           <DetailPanel selectedImage={selectedImage} data={data}/>
         </div>
         
@@ -94,7 +104,7 @@ const GridView = ({
         />
       </div> 
      
-
+          
     </div>
     
     

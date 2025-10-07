@@ -17,7 +17,7 @@ from django.contrib.auth import get_user_model
 
 
 #project models
-from .models import UserImages, ImageMetadata
+from .models import UserImages, ImageMetadata, Profile
 
 #django utils
 from django.utils import timezone
@@ -35,6 +35,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth.decorators import user_passes_test
+from rest_framework import permissions
+from rest_framework.exceptions import PermissionDenied
 
 #drf imports
 from rest_framework import status
@@ -68,6 +70,16 @@ User = get_user_model()
 def home(request):
     return HttpResponse('HELLO')
 
+
+class ImageLimitPermission(permissions.BasePermission):
+    def has_permission(self, request, view):
+        if not request.user or not request.user.is_authenticated:
+            return False
+
+        image_count = UserImages.objects.filter(user=request.user).count()
+        if image_count >= 5:
+            raise PermissionDenied(detail="Upload limit of 5 images reached.")
+        return True
 
 
 class UserProfileCachedView(APIView):
@@ -124,7 +136,7 @@ class CustomJWTCreateView(TokenObtainPairView):
 
 
 class FilePondProcessView(ProcessView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, ImageLimitPermission]
 
     def post(self, request):
         if request.user.profile.images_uploaded >= 5:
@@ -182,13 +194,19 @@ class FilePondProcessView(ProcessView):
 
 
 class CanUploadImagesView(APIView):
-        permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
-        def get(self, request):
-            user = request.user
-            image_count = user.profile.images_uploaded
-            can_upload = image_count < 5
-            return Response({'can_upload': can_upload})
+    def get(self, request):
+        user = request.user
+
+        # Use the same logic as ImageLimitPermission, but non-blocking
+        permission = ImageLimitPermission()
+        try:
+            can_upload = permission.has_permission(request, self)
+        except Exception:
+            can_upload = False
+
+        return Response({'can_upload': can_upload})
         
 
 class UserImagesViewSet(viewsets.ModelViewSet):
@@ -202,4 +220,14 @@ class UserImagesViewSet(viewsets.ModelViewSet):
         if self.action == 'list':
             return ImageListSerializer
         return UserImagesSerializer 
+    
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+
+        profile = request.user.profile
+        profile.count_total_images()
+        profile.save()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
         

@@ -70,7 +70,8 @@ export default function ImageGrid({ data }) {
 }, [selectedImage]); // Re-run when selectedImage changes
 
 const handleImageClick = (item) => {
-  setSelectedImage(item); // This will trigger useEffect cleanup + setup
+  setSelectedImage(item);
+  console.log(selectedImage, 'selectedimage') // This will trigger useEffect cleanup + setup
 };
   
 

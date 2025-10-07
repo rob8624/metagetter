@@ -48,7 +48,7 @@ export default function DesktopMenu() {
       setLoggedIn(false);
      
     }
-  }, [setLoggedIn]); // Empty dependency array ensures it runs only once
+  }, [setLoggedIn]); 
   
   
 
