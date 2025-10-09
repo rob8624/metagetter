@@ -19,6 +19,8 @@ import {
 
 
 export function TaskDialog({selectedImage, taskName}) {
+    const metadataTask = useDataTask('textFile');
+    
     return(
          
                       <Dialog>
@@ -31,7 +33,7 @@ export function TaskDialog({selectedImage, taskName}) {
                           <DialogHeader>
                             <DialogTitle>To {taskName} data from {selectedImage?.upload_name} click download</DialogTitle>
                             <DialogDescription>
-                              <button>Download</button>
+                              <button onClick={() => metadataTask.mutate(selectedImage, 'textFile')}>Download</button>
                             </DialogDescription>
                           </DialogHeader>
                         </DialogContent>
