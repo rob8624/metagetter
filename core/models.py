@@ -33,6 +33,9 @@ class ImageMetadata(models.Model):
     data = models.JSONField()
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
+    edited = models.BooleanField(null=True)
+    downloaded = models.BooleanField(null=True)
+
 
 
 
@@ -47,6 +50,7 @@ class UserImages(models.Model):
     created_at = models.DateTimeField(default=timezone.now) 
     upload_id = models.CharField(null=True, max_length=50)
     upload_name = models.CharField(null=True, max_length=200)
+    
 
    
 

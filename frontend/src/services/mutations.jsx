@@ -2,6 +2,8 @@
 import axiosInstance from './api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+
+
 export function useDeleteImage() {
   const queryClient = useQueryClient();
 
@@ -14,4 +16,14 @@ export function useDeleteImage() {
       queryClient.invalidateQueries(['images']);
     },
   });
+}
+
+export function useDataTask(task) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (image) => {
+      await axiosInstance.get(`/api/images/${image.id}/metadata/?task=${task}`)
+    }
+  })
 }

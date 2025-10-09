@@ -1,10 +1,12 @@
 import { useState } from "react";
 
 
+
+
 import MetadataPanel from "./metadataPanel";
 import ImageCard from "./imageCard";
 import DetailPanel from "./detailPanel";
-import { DataTools } from "./dataTools";
+import { DataTools } from "./datamenu/dataTools";
 
 
 // Grid View Component
@@ -59,10 +61,10 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
             />
           ))}
 
-          {selectedImage ? <DataTools /> : null}
+          {selectedImage ? <DataTools selectedImage={selectedImage}/> : null}
 
         </div>
-       
+        
        
         
           <div className="m-2 bg-gray-50 border  rounded-md p-4 h-fit order-1 sm:order-2 block sm:hidden">

@@ -36,38 +36,46 @@ export default function ImageGrid({ data }) {
   
   
 
-
-  //useEffect handling outside click of images
-  useEffect(() => {
+useEffect(() => {
   if (!selectedImage) return;
 
   const handleOutsideClick = (e) => {
     console.log('outside click');
-     // Get the current refs
-    const { image, menu, dataSection, summary} = refs.current;
     
-    // Check if click is outside both image and menu
+    // Get the current refs
+    const { image, menu, dataSection, summary, dataMenu } = refs.current;
+    
+    // Check if click is inside any of your refs
     const isInsideImage = image && image.contains(e.target);
     const isInsideMenu = menu && menu.contains(e.target);
-    const isInsideData = dataSection && dataSection.contains(e.target)
+    const isInsideData = dataSection && dataSection.contains(e.target);
     const isInsideSummary = summary && summary.contains(e.target);
+    const isInsideDataMenu = dataMenu && dataMenu.contains(e.target);
+    
+    //Check if click is inside a shadcn portal
+    const isInsidePortal = 
+      e.target.closest('[data-radix-popper-content-wrapper]') ||
+      e.target.closest('[data-radix-portal]') ||
+      e.target.closest('[role="dialog"]') ||
+      e.target.closest('[role="menu"]') ||
+      e.target.closest('[role="listbox"]');
 
-    if (!isInsideImage && !isInsideMenu && !isInsideData && !isInsideSummary) {
+    // Only close if click is truly outside everything
+    if (!isInsideImage && !isInsideMenu && !isInsideData && 
+        !isInsideSummary && !isInsideDataMenu && !isInsidePortal) {
       setSelectedImage(null);
     }
   };
-  
 
   const timer = setTimeout(() => {
     window.addEventListener("click", handleOutsideClick);
   }, 0);
 
-  // This cleanup runs when selectedImage changes or component unmounts
   return () => {
     window.removeEventListener("click", handleOutsideClick);
     clearTimeout(timer);
   };
-}, [selectedImage]); // Re-run when selectedImage changes
+}, [selectedImage]);
 
 const handleImageClick = (item) => {
   setSelectedImage(item);
