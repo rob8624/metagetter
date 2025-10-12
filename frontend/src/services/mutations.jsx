@@ -29,7 +29,7 @@ export function useDataTask(task) {
           responseType: "blob",
         }
       );
-      if (task === "metadata") {
+      if (task === "textFile") {
         const blob = new Blob([response.data], { type: "text/plain" });
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement("a");
@@ -41,7 +41,7 @@ export function useDataTask(task) {
         window.URL.revokeObjectURL(url);
       }
 
-      return response.data;
+      return response;
     },
 
     onError: (error) => {

@@ -3,13 +3,15 @@ import json
 import os
 import time
 import random
+import requests
+import io
 
 #django responses
 from django.shortcuts import render
-from django.http import HttpResponse
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse, FileResponse
 from django.views.generic import View
-from django.http import JsonResponse
+
+
 
 #django models
 from django.contrib.auth.models import User
@@ -43,6 +45,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets
+from rest_framework.decorators import action
 
 #serializers
 from .serializers import UserImagesSerializer, ImageListSerializer
@@ -50,7 +53,7 @@ from .serializers import UserImagesSerializer, ImageListSerializer
 #exitool
 import exiftool
 #Exiftool helpers
-from core.pyexiftool_helpers import get_all_metadata
+from core.pyexiftool_helpers import get_all_metadata, get_all_metadata_text
 
 #memcahce
 from pymemcache.client.base import Client
@@ -230,4 +233,25 @@ class UserImagesViewSet(viewsets.ModelViewSet):
         profile.save()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    @action(detail=True)
+    def metadata(self, request, pk=None):
+        obj = self.get_object() 
+        url = obj.image.file.url
+        image_response = requests.get(url)
+        image_bytes = image_response.content
+        data = get_all_metadata_text(image_bytes)
+        file = io.BytesIO(data.encode("utf-8"))
+        file.name = "metadata.txt"
+
+        return FileResponse(
+            file,
+            as_attachment=True,
+            filename="metadata.txt",
+            content_type="text/plain"
+        )
+       
+        #task = request.query_params.get('task', 'no task')
+        
+
         
