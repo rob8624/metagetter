@@ -1,23 +1,102 @@
 import json
 from exiftool import ExifToolHelper
 import tempfile
+import os
+
+# exiftool expects a file like object so having to create temporary file from url path
+# before passing it to exiftool helper. Also, having to retreive the temp file
+# and renaming it so it writes the correct filename into FileName exifdata (FILE).
+
 
 def get_all_metadata(image_path):
     with ExifToolHelper() as et:
         result = et.execute("-all", image_path, "-g", "-j", "-P", "-s", "-fast")
-        json_str = ''.join(result)   # join list of strings
+        json_str = "".join(result)  # join list of strings
         metadata = json.loads(json_str)
         return metadata
 
 
-def get_all_metadata_text(image_bytes):
-    with tempfile.NamedTemporaryFile(suffix=".jpg") as temp_file:
+def get_all_metadata_text(image_bytes, obj):
+    # Temp file creation
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".jpg") as temp_file:
         temp_file.write(image_bytes)
-        temp_file.flush()  # Ensure all data is written
+        temp_file.flush()
 
+    # Rename file
+    temp_dir = os.path.dirname(temp_file.name)
+    new_path = os.path.join(temp_dir, obj.upload_name)
+    os.rename(temp_file.name, new_path)
+
+    try:
         with ExifToolHelper() as et:
-            result = et.execute("-all", temp_file.name)
-            return result
+            result = et.execute("-all", new_path)
+    finally:
+        os.remove(new_path)  # Clean up renamed file
+
+    return result
+
+
+# class to handle the extraction of metadata which wraps Exiftool.
+# Init can be passed a URL as image_path by setting url to true.
+# alos need object to handle generating text output
+# args are exiftool commands as strings
+class MetaDataHandler:
+
+    def __init__(self, image_path: str | bytes, obj: object = None, *args):
+        self.image_path = image_path
+        self.obj = obj
+        self.args = args
+
+    # method to create and rename temp file to pas to exiftool
+    @classmethod
+    def create_temp_file(cls, image_path, obj):
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".jpg") as temp_file:
+            if isinstance(image_path, bytes):
+                temp_file.write(image_path)
+            elif isinstance(image_path, str):
+                with open(image_path, "rb") as f:
+                    temp_file.write(f.read())
+            else:
+                raise TypeError("image_path must be bytes or a file path string")
+            temp_file.flush()
+
+        temp_dir = os.path.dirname(temp_file.name)
+        new_path = os.path.join(temp_dir, obj.upload_name)
+        os.rename(temp_file.name, new_path)
+        return new_path
+    
+    
             
+
+    def get_metadata(self):
+        with ExifToolHelper() as et:
+            image = self.create_temp_file(self.image_path, self.obj)
+            result = et.execute(image, *self.args, "-fast")
+            # check if exiftool result is JSON (for Frontend usage)
+            if "-j" in self.args:
+                json_str = "".join(result)
+                metadata = json.loads(json_str)
+                os.remove(image)
+                return metadata
+            else:
+                os.remove(image)
+                return result
+    
+    
+    def process_metadata(self, data):
+
+        if not isinstance(data, list):
+            raise TypeError(f"Data musct be a list not {type(data).__name__}")
         
+        if not data or not isinstance(data[0], dict):
+            raise ValueError("Data must be a non-empty list containing a dict")
         
+        for k, v in data[0].items():
+            if type(v) is list:
+                data[0][k] = ",".join(str(x) for x in v)
+        # Changes the FileName in metadata to match uploaded file name
+        if "File:FileName" in data[0]:
+            data[0]["File:FileName"] = self.obj.upload_name
+        else:
+            print("error setting FileName in metadata")
+        return data 

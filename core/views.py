@@ -53,10 +53,12 @@ from .serializers import UserImagesSerializer, ImageListSerializer
 #exitool
 import exiftool
 #Exiftool helpers
-from core.pyexiftool_helpers import get_all_metadata, get_all_metadata_text
+from core.pyexiftool_helpers import get_all_metadata, get_all_metadata_text, MetaDataHandler
 
 #memcahce
 from pymemcache.client.base import Client
+
+
 
 
 
@@ -134,7 +136,8 @@ class CustomJWTCreateView(TokenObtainPairView):
 
 
 
-
+#View to process uploaded file. It calls the ProcessView and returns a custom response.
+#
    
 
 
@@ -158,10 +161,13 @@ class FilePondProcessView(ProcessView):
                     metadata_obj = None
                     try:
                         temp_file_path = temp_upload.file.path
-                        metadata_dict = get_all_metadata(temp_file_path)
-                        for k, v in metadata_dict[0].items():
-                            if type(v) is list:
-                               metadata_dict[0][k] = ",".join(str(x) for x in v)
+                        file_name = temp_upload.upload_name
+                        
+                        #metadata_dict = get_all_metadata(temp_file_path)
+                        handler = MetaDataHandler(temp_file_path, temp_upload, "-j")
+                        data = handler.get_metadata()
+                        metadata_dict = handler.process_metadata(data)
+                       
                         metadata_obj = ImageMetadata.objects.create(data=metadata_dict)
                     except Exception as e:
                         print(f"Error extracting metadata: {e}")
@@ -238,10 +244,15 @@ class UserImagesViewSet(viewsets.ModelViewSet):
     def metadata(self, request, pk=None):
         obj = self.get_object() 
         url = obj.image.file.url
+        
         image_response = requests.get(url)
         image_bytes = image_response.content
-        data = get_all_metadata_text(image_bytes)
-        file = io.BytesIO(data.encode("utf-8"))
+        #data = get_all_metadata_text(image_bytes, obj)
+        handler = MetaDataHandler(image_bytes, obj, "-all")
+        metadata_result = handler.get_metadata()
+        
+
+        file = io.BytesIO(metadata_result.encode("utf-8"))
         file.name = "metadata.txt"
 
         return FileResponse(

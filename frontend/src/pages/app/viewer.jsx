@@ -25,6 +25,7 @@ import "react-image-gallery/styles/css/image-gallery.css";
 // Fetch function for your images
 const fetchData = async () => {
   const token = localStorage.getItem('a_t');
+ 
   if (!token) {
     console.log('No token found'); 
     throw new Error('No token found');
@@ -45,7 +46,8 @@ export default function Viewer () {
   
   const { data, isFetching } = useQuery({
   queryKey: ['images'], 
-  queryFn: fetchData
+  queryFn: fetchData, 
+  refetchOnWindowFocus: false,
 });
 
 console.log('data (viewer.jsx)', data)
