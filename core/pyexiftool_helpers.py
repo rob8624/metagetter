@@ -48,8 +48,8 @@ class MetaDataHandler:
         self.args = args
 
     # method to create and rename temp file to pas to exiftool
-    @classmethod
-    def create_temp_file(cls, image_path, obj):
+    
+    def _create_temp_file(self, image_path, obj):
         with tempfile.NamedTemporaryFile(delete=False, suffix=".jpg") as temp_file:
             if isinstance(image_path, bytes):
                 temp_file.write(image_path)
@@ -66,11 +66,9 @@ class MetaDataHandler:
         return new_path
     
     
-            
-
     def get_metadata(self):
         with ExifToolHelper() as et:
-            image = self.create_temp_file(self.image_path, self.obj)
+            image = self._create_temp_file(self.image_path, self.obj)
             result = et.execute(image, *self.args, "-fast")
             # check if exiftool result is JSON (for Frontend usage)
             if "-j" in self.args:
