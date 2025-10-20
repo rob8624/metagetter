@@ -86,7 +86,8 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
           
         <div className="w-screen sm:w-full order-2 sm:order-1" ref={el => refs.current.dataSection = el}>
           
-          <DetailPanel selectedImage={selectedImage} data={data}/>
+          <DetailPanel selectedImage={selectedImage} data={data} 
+          setSelectedImage={setSelectedImage}/>
         </div>
         
       </div>

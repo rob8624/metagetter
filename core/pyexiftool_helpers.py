@@ -2,6 +2,7 @@ import json
 from exiftool import ExifToolHelper
 import tempfile
 import os
+from collections import defaultdict
 
 # exiftool expects a file like object so having to create temporary file from url path
 # before passing it to exiftool helper. Also, having to retreive the temp file
@@ -98,3 +99,16 @@ class MetaDataHandler:
         else:
             print("error setting FileName in metadata")
         return data 
+
+
+    @staticmethod
+    def group_metadata(metadata):
+        sorted_metadata = defaultdict(dict)
+        for key, value in metadata[0].items():
+            try:
+                data_type, item = key.split(":")
+                sorted_metadata[data_type][item] = value
+            except ValueError:
+                f"Skipping {key}"
+        
+        return sorted_metadata

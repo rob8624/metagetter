@@ -25,7 +25,8 @@ export function DataTools({ refs, selectedImage }) {
           <MenubarMenu ref={el => refs.current.dataMenu = el}>
             <MenubarTrigger>Download</MenubarTrigger>
             <MenubarContent>
-              <TaskDialog selectedImage={selectedImage} taskName={".txt file"} task={'textFile'} />
+              <TaskDialog selectedImage={selectedImage} taskName={".txt"} task={'textFile'}/>
+              <TaskDialog selectedImage={selectedImage} taskName={"JSON"} task={'JSON'}/>
               <MenubarItem>CSV</MenubarItem>
             </MenubarContent>
           </MenubarMenu>

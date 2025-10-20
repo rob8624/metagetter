@@ -19,8 +19,6 @@ export function useDeleteImage() {
 }
 
 export function useDataTask(task) {
-  
-
   return useMutation({
     mutationFn: async (image) => {
       const response = await axiosInstance.get(
@@ -29,7 +27,16 @@ export function useDataTask(task) {
           responseType: "blob",
         }
       );
-      if (task === "textFile") {
+      
+      // Just return the response data, don't trigger download here
+      return { response, image };
+    },
+
+    onSuccess: (data) => {
+      const { response, image } = data;
+      
+      // Trigger download after mutation is fully complete
+      if (task === "textFile" || task === "JSON") {
         const blob = new Blob([response.data], { type: "text/plain" });
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement("a");
@@ -40,8 +47,6 @@ export function useDataTask(task) {
         link.remove();
         window.URL.revokeObjectURL(url);
       }
-
-      return response;
     },
 
     onError: (error) => {

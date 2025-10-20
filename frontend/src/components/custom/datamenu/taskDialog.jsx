@@ -19,10 +19,22 @@ import {
 
 
 
+
 export function TaskDialog({selectedImage, task, taskName}) {
     const metadataTask = useDataTask(task);
     const [isOpen, setIsOpen] = useState(false);
-    
+
+    function getTaskDescription(taskname) {
+          const task = taskname.toLowerCase()
+
+          const taskDescription = {
+            'textfile':"Human readable file",
+            'json' : "For devs and data analysists"
+          }
+
+          return taskDescription[task]
+    }
+
     return (
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
@@ -30,7 +42,11 @@ export function TaskDialog({selectedImage, task, taskName}) {
             e.preventDefault();
             setIsOpen(true);
           }}>
-            {taskName}
+            <div>
+              <div className="font-bold">{taskName}</div>
+              <div className="text-xs">{getTaskDescription(task)}</div>
+            </div>
+
           </MenubarItem>
         </DialogTrigger>
         <DialogContent>
@@ -38,12 +54,14 @@ export function TaskDialog({selectedImage, task, taskName}) {
             <DialogTitle>To {`get data as ${taskName}`} from {selectedImage?.upload_name}</DialogTitle>
             <DialogDescription>
               <button 
-                onClick={() => metadataTask.mutate(selectedImage)}
+                onClick={(e) =>{
+                e.preventDefault();    
+                metadataTask.mutate(selectedImage)}}
                 disabled={metadataTask.isLoading}
               >
                 {metadataTask.isLoading ? 'Downloading...' : 'Download'}
               </button>
-              
+
               {metadataTask.isLoading && <div>Loading...</div>}
               {metadataTask.isError && (
                 <div className="text-red-500 mt-2">

@@ -5,6 +5,7 @@ import time
 import random
 import requests
 import io
+from collections import defaultdict
 
 #django responses
 from django.shortcuts import render
@@ -59,7 +60,7 @@ from core.pyexiftool_helpers import get_all_metadata, get_all_metadata_text, Met
 from pymemcache.client.base import Client
 
 #project helpers
-from core.helper_functions import create_message
+from core.helper_functions import create_message, handle_task
 
 
 
@@ -247,14 +248,25 @@ class UserImagesViewSet(viewsets.ModelViewSet):
     def metadata(self, request, pk=None):
         obj = self.get_object() 
         url = obj.image.file.url
-        image_response = requests.get(url)
-        image_bytes = image_response.content
-        #data = get_all_metadata_text(image_bytes, obj)
-        handler = MetaDataHandler(image_bytes, obj, "-all")
-        metadata_result = handler.get_metadata()
-        content = create_message(obj, metadata_result)
+        task = request.query_params.get('task', 'no task')
+        print(task)
+        metadata = obj.metadata.data
+        sorted_metadata = MetaDataHandler.group_metadata(metadata)
+        content_body = handle_task(sorted_metadata, task)
+        content = create_message(obj, content_body)
         file = io.BytesIO(content.encode("utf-8"))
         file.name = "metadata.txt"
+        
+        
+        
+        # image_response = requests.get(url)
+        # image_bytes = image_response.content
+        # #data = get_all_metadata_text(image_bytes, obj)
+        # handler = MetaDataHandler(image_bytes, obj, "-all")
+        # metadata_result = handler.get_metadata()
+        # content = create_message(obj, metadata_result)
+        # file = io.BytesIO(content.encode("utf-8"))
+        # file.name = "metadata.txt"
 
         return FileResponse(
             file,

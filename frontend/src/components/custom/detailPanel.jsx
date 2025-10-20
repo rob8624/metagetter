@@ -24,7 +24,7 @@ export const getSelectedData = (data, selectedImage) => {
 
 
 
-export default function DetailPanel({ data, selectedImage }) {
+export default function DetailPanel({ data, selectedImage, setSelectedImage }) {
 
     if (!getSelectedData(data, selectedImage)) {
         return <div className="text-lg font-semibold">Select and image to view metadata</div>;
@@ -35,6 +35,7 @@ export default function DetailPanel({ data, selectedImage }) {
   {
     Object.entries(getSelectedData(data, selectedImage)?.grouped_metadata).map(([key, value]) => (
          <>
+    <div onClick={() => setSelectedImage(null)}>Close</div>
     <div>Extracted <span className="font-bold">{key}</span> data</div>
       <Table  key={key} className="my-4 mr-10">
         <TableHeader>

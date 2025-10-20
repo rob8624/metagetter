@@ -36,53 +36,13 @@ export default function ImageGrid({ data }) {
   
   
 
-useEffect(() => {
-  if (!selectedImage) return;
-
-  const handleOutsideClick = (e) => {
-    console.log('outside click');
-    
-    // Get the current refs
-    const { image, menu, dataSection, summary, dataMenu } = refs.current;
-    
-    // Check if click is inside any of your refs
-    const isInsideImage = image && image.contains(e.target);
-    const isInsideMenu = menu && menu.contains(e.target);
-    const isInsideData = dataSection && dataSection.contains(e.target);
-    const isInsideSummary = summary && summary.contains(e.target);
-    const isInsideDataMenu = dataMenu && dataMenu.contains(e.target);
-    
-    //Check if click is inside a shadcn portal
-    const isInsidePortal = 
-      e.target.closest('[data-radix-popper-content-wrapper]') ||
-      e.target.closest('[data-radix-portal]') ||
-      e.target.closest('[role="dialog"]') ||
-      e.target.closest('[role="menu"]') ||
-      e.target.closest('[role="listbox"]');
-
-    // Only close if click is truly outside everything
-    if (!isInsideImage && !isInsideMenu && !isInsideData && 
-        !isInsideSummary && !isInsideDataMenu && !isInsidePortal) {
-      setSelectedImage(null);
-    }
-  };
-
-  const timer = setTimeout(() => {
-    window.addEventListener("click", handleOutsideClick);
-  }, 0);
-
-  return () => {
-    window.removeEventListener("click", handleOutsideClick);
-    clearTimeout(timer);
-  };
-}, [selectedImage]);
 
 const handleImageClick = (item) => {
   setSelectedImage(item);
   console.log(selectedImage, 'selectedimage') // This will trigger useEffect cleanup + setup
 };
   
-
+   
 
   //checking if data if not return empty message
   if (!data || data.length === 0) {
