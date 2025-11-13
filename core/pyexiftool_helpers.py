@@ -107,11 +107,13 @@ class MetaDataHandler:
     def write_metadata(self, image: str | bytes, obj: object, metadata: dict):
     # Create a temporary file for the image
         temp_file = self._create_temp_file(image, obj)
+        print(f"Temporary image file created at: {temp_file.name}")  # Log file path
         
         # Create a temporary JSON file to store metadata
         with tempfile.NamedTemporaryFile(delete=False, mode='w', suffix='.json') as json_file:
             json.dump(metadata, json_file)
             json_file_path = json_file.name  # Path to the temporary JSON file
+        print(f"Temporary JSON file created at: {json_file_path}")  # Log file path
         print(json_file_path)
         print(metadata)
         # Run ExifTool with the metadata JSON file
