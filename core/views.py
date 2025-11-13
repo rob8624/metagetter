@@ -305,9 +305,6 @@ class UserImagesViewSet(viewsets.ModelViewSet):
             edited_metadata = metadata[0]
             metadata_handler = MetaDataHandler(image_bytes, image_object)
             temp_file_path = metadata_handler.write_metadata(image_bytes, image_object, edited_metadata)
-            print(f"Temp file exists: {os.path.exists(temp_file_path)}")
-            print(f"Temp file size: {os.path.getsize(temp_file_path)} bytes")
-            print(f"Original bytes size: {len(image_bytes)} bytes")
             if not os.path.exists(temp_file_path):
                 return HttpResponse("Error: Temporary file was not created.", status=500)
             try:
@@ -330,10 +327,7 @@ class UserImagesViewSet(viewsets.ModelViewSet):
                 return HttpResponse("Error: Could not send the file.", status=500)
         else:
             print('error opening image url')
-
-        
-        
-        return HttpResponse('ok')
+        return HttpResponse('error opening image url')
 
         
 

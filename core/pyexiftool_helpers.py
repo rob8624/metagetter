@@ -63,7 +63,6 @@ class MetaDataHandler:
 
         temp_dir = os.path.dirname(temp_file.name)
         new_path = os.path.join(temp_dir, obj.upload_name)
-        print(temp_dir, new_path)
         os.rename(temp_file.name, new_path)
         if new_path: 
             print('successfully created temp file')

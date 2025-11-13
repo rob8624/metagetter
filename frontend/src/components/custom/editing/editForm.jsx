@@ -1,7 +1,5 @@
 import { useEffect } from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { nullable, z } from "zod"
 import { Button } from "../../ui/button"
 import { useEditMetadata } from "../../../services/mutations"
 
