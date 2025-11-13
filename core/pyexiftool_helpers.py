@@ -116,7 +116,7 @@ class MetaDataHandler:
         # Run ExifTool with the metadata JSON file
         with ExifToolHelper() as e:
             result = e.execute(temp_file, f"-json={json_file_path}")
-            
+            print(result, "exiftool result")
             
         return temp_file
        
