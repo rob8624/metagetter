@@ -13,14 +13,14 @@ import {
 
 
 
-export function DataTools({ refs, selectedImage }) {
+export function DataTools({ refs, selectedImage, isEditing, setIsEditing }) {
   return (
     <>
       <div className="flex flex-col col-span-full m-2">
         <div className="text-sm">Data menu</div>
         <Menubar>
           <MenubarMenu>
-            <MenubarTrigger>Edit</MenubarTrigger>
+            <MenubarTrigger onClick={() => setIsEditing(!isEditing)}>{isEditing? 'Cancel' : 'Edit'}</MenubarTrigger>
           </MenubarMenu>
           <MenubarMenu ref={el => refs.current.dataMenu = el}>
             <MenubarTrigger>Download</MenubarTrigger>

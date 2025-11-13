@@ -104,7 +104,7 @@ const renderMessage = () => {
 
 //checking if user came from upload button in hero
 const location = useLocation();
-console.log(location.state);
+
 
 
   return (

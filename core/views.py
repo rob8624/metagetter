@@ -197,6 +197,8 @@ class FilePondProcessView(ProcessView):
                     
                     user_profile.count_total_images()
 
+                    temp_upload.delete()
+
                 except TemporaryUpload.DoesNotExist:
                     print("Temp upload does not exist for upload_id:", upload_id)
                 except Exception as e:
@@ -276,6 +278,63 @@ class UserImagesViewSet(viewsets.ModelViewSet):
         )
        
         #task = request.query_params.get('task', 'no task')
+
+
+    @action(detail=True, methods=['patch'])
+    def editmetadata(self, request, pk=None):
+        image_object = self.get_object()
+        url = image_object.image.file.url
+        response = requests.get(url)
+        if response.status_code == 200:
+            #write edited data to metadata JSON in metadata model
+            metadata = image_object.metadata.data 
+            try:
+                metadata[0]['XMP:Description'] = request.data['Description']
+                print('new data successfully written to original metadata')
+            except Exception as e:
+                print(f'error writing new data to original metadata, error {e}')
+            #save data to model
+            try:
+                image_object.metadata.data = metadata
+                image_object.metadata.save()
+            except Exception as e:
+                print(f'error saving updated data to metadata model{e}')
+            
+            #get file as bytes an pass to helper
+            image_bytes = response.content
+            edited_metadata = metadata[0]
+            metadata_handler = MetaDataHandler(image_bytes, image_object)
+            temp_file_path = metadata_handler.write_metadata(image_bytes, image_object, edited_metadata)
+            print(f"Temp file exists: {os.path.exists(temp_file_path)}")
+            print(f"Temp file size: {os.path.getsize(temp_file_path)} bytes")
+            print(f"Original bytes size: {len(image_bytes)} bytes")
+            if not os.path.exists(temp_file_path):
+                return HttpResponse("Error: Temporary file was not created.", status=500)
+            try:
+                temp_file = open(temp_file_path, 'rb')
+                
+                try:
+                    return FileResponse(
+                        temp_file,
+                        as_attachment=True,                  
+                        filename=image_object.upload_name,   
+                        content_type='image/jpeg'            
+                    )
+                finally:
+                    if os.path.exists(temp_file_path):
+                        os.remove(temp_file_path)
+                        print(f"Successfully deleted {temp_file_path} after sending to client")
+
+            except Exception as e:
+                print(f"Error sending file: {e}")
+                return HttpResponse("Error: Could not send the file.", status=500)
+        else:
+            print('error opening image url')
+
+        
+        
+        return HttpResponse('ok')
+
         
 
         

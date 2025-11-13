@@ -7,14 +7,16 @@ import { ThemeContext } from "../../context/darkModeContext";
 import { MdDarkMode, MdOutlineDarkMode } from "react-icons/md";
 import { Link } from "react-router-dom";
 
+
 const Header = () => {
   const { darkMode, handleDarkModeToggle } = useContext(ThemeContext);
 
   const matches = useMediaQuery("only screen and (min-width: 600px)");
+  
 
   return (
     <>
-      <div className="flex flex-row sm:justify-center dark:bg-black">
+      <div className="flex flex-row sm:justify-center dark:bg-black sticky top-0 z-50 bg-white">
         <div className="flex w-screen sm:flex-col items-center justify-between sm:gap-5">
           <Link to="/" className="">
             <img

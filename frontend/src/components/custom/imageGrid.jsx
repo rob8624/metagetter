@@ -1,10 +1,10 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, } from "react";
 
 //components 
 import GridView from "./gridView";
-import SlideshowView from "./slideShowView";
 
-import { Button } from "../ui/button";
+
+
 
 
 
@@ -16,15 +16,15 @@ import { Button } from "../ui/button";
 
 
 
-export default function ImageGrid({ data }) {
+export default function ImageGrid({ data, selectedImage, setSelectedImage }) {
   //state
-  const [gridView, setGridView] = useState(true);
-  const [selectedImage, setSelectedImage] = useState(null);
+  
+  
   const [images] = useState(data);
   const [imageToDelete, setImageToDelete] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
-  
+  const [isEditing, setIsEditing] = useState(false)  
 
 
 
@@ -39,7 +39,8 @@ export default function ImageGrid({ data }) {
 
 const handleImageClick = (item) => {
   setSelectedImage(item);
-  console.log(selectedImage, 'selectedimage') // This will trigger useEffect cleanup + setup
+  
+  console.log(selectedImage, 'selectedimage data') // This will trigger useEffect cleanup + setup
 };
   
    
@@ -68,18 +69,9 @@ const handleImageClick = (item) => {
   return (
     <>
     
-      <div className="mb-4 flex gap-2">
-        <Button
-          onClick={() => setGridView(!gridView)}
-          className="px-4 py-2 text-white rounded hover:bg-white
-           hover:text-black
-            hover:border-black hover:border mt-5"
-        >
-          {gridView ? 'Comparision view' : 'Grid View'}
-        </Button>
-      </div>
      
-      { gridView ? (
+     
+      
         <GridView 
           data={images}
           selectedImage={selectedImage}
@@ -93,15 +85,12 @@ const handleImageClick = (item) => {
           setImageToDelete={setImageToDelete}
           showPanel={showPanel}   
           setShowPanel={setShowPanel}
+          isEditing={isEditing}
+          setIsEditing={setIsEditing}
         />
-      ) : (
-        <SlideshowView 
-          data={images}
-          onImageClick={handleImageClick}
-          
-          getMetadata={getMetadata}
-        />
-      )} 
+    
+        
+      
      
     </>
   );

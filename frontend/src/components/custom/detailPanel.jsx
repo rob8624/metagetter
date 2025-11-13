@@ -32,11 +32,16 @@ export default function DetailPanel({ data, selectedImage, setSelectedImage }) {
 
     return (
      <> 
+     
   {
     Object.entries(getSelectedData(data, selectedImage)?.grouped_metadata).map(([key, value]) => (
          <>
-    <div onClick={() => setSelectedImage(null)}>Close</div>
-    <div>Extracted <span className="font-bold">{key}</span> data</div>
+    
+    
+    <div>
+    
+      <div onClick={() => setSelectedImage(null)}>Close</div>
+      Extracted <span className="font-bold">{key}</span> data</div>
       <Table  key={key} className="my-4 mr-10">
         <TableHeader>
           <TableRow>
@@ -54,9 +59,13 @@ export default function DetailPanel({ data, selectedImage, setSelectedImage }) {
           ))}
         </TableBody>
       </Table>
+      
       </>
+      
     ))
-  }
+    }
+    
+    
 
 
 

@@ -18,6 +18,12 @@ export function useDeleteImage() {
   });
 }
 
+
+
+
+
+
+
 export function useDataTask(task) {
   return useMutation({
     mutationFn: async (image) => {
@@ -51,6 +57,42 @@ export function useDataTask(task) {
 
     onError: (error) => {
       console.log(`Error performing ${task} on image:`, error);
+    }
+  });
+}
+
+
+//mutation to send API image and update metadata from edit form
+
+export function useEditMetadata(selectedImage) {
+  return useMutation({
+    mutationFn: async (formData) => {
+      const response = await axiosInstance.patch(
+        `/api/images/${selectedImage.id}/editmetadata/`, 
+        formData,
+        {
+          responseType: 'blob'
+        }
+      );
+      return response.data;
+    },
+    onSuccess: (blob) => {
+      // Create download link
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = selectedImage.upload_name || 'edited-image.jpg';
+      document.body.appendChild(a);
+      a.click();
+      
+      // Cleanup
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+      
+      console.log('Image downloaded successfully');
+    },
+    onError: (error) => {
+      console.error('Error editing metadata:', error);
     }
   });
 }

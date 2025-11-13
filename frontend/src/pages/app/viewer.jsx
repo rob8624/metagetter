@@ -1,6 +1,6 @@
 
 import { useQuery } from '@tanstack/react-query'
-
+import { useState } from 'react';
 //services
 import axiosRaw from "../../services/axiosRaw";
 
@@ -8,13 +8,14 @@ import axiosRaw from "../../services/axiosRaw";
 
 
 //font and spinners
-import { FaCompressArrowsAlt } from "react-icons/fa";
+
 import { ClipLoader } from "react-spinners";
 
 //comonents
-import PageGridTitle from "../../components/custom/PageGridTitle";
+
 import { Separator } from "../../components/ui/separator";
 import ImageGrid from '../../components/custom/imageGrid';
+import TopBar from '../../components/custom/topbar';
 
 
 import "react-image-gallery/styles/css/image-gallery.css";
@@ -42,7 +43,7 @@ const fetchData = async () => {
 
 
 export default function Viewer () {
-
+  const [selectedImage, setSelectedImage] = useState(null);
   
   const { data, isFetching } = useQuery({
   queryKey: ['images'], 
@@ -53,26 +54,26 @@ export default function Viewer () {
 console.log('data (viewer.jsx)', data)
 
  return (
-        
-        <div className="flex flex-col justify-center items-center">
-        
-        <PageGridTitle className="pt-5"
-                  title={"Viewer"}
-                  descripition={"Here you can view and edit your data"}
-                  subDescription={"Select an image to view options"}
-                  icon={<FaCompressArrowsAlt />}
-                  color={"grey"}
-                />
+          
+          <>
+          <TopBar selectedImage={selectedImage} setSelectedImage={setSelectedImage} />
+            
 
-        <Separator/>
-        {isFetching ? 
-        <div className='flex flex-col justify-center items-center mt-40'>
-        
-        <ClipLoader loading={isFetching}/> 
-        <div className='font-serif font-semibold text-xs text-green-900'>Processing images</div>
-        </div>
-        : 
-        <ImageGrid data={data}/>} 
-       </div>
+            <Separator/>
+            {isFetching ? 
+            <div className='flex flex-col justify-center items-center mt-40'>
+            
+            <ClipLoader loading={isFetching}/> 
+            <button type="button" class="bg-indigo-500 ..." disabled>
+  <svg class="mr-3 size-5 animate-spin ..." viewBox="0 0 24 24">
+   
+  </svg>
+  Processing…
+</button>
+            </div>
+            : 
+            <ImageGrid data={data} selectedImage={selectedImage} setSelectedImage={setSelectedImage}/>} 
+         </>
+       
     )
 }

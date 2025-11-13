@@ -63,7 +63,12 @@ class MetaDataHandler:
 
         temp_dir = os.path.dirname(temp_file.name)
         new_path = os.path.join(temp_dir, obj.upload_name)
+        print(temp_dir, new_path)
         os.rename(temp_file.name, new_path)
+        if new_path: 
+            print('successfully created temp file')
+        else:
+            print('error creating temporary file')
         return new_path
     
     
@@ -99,6 +104,24 @@ class MetaDataHandler:
         else:
             print("error setting FileName in metadata")
         return data 
+    
+    def write_metadata(self, image: str | bytes, obj: object, metadata: dict):
+    # Create a temporary file for the image
+        temp_file = self._create_temp_file(image, obj)
+        
+        # Create a temporary JSON file to store metadata
+        with tempfile.NamedTemporaryFile(delete=False, mode='w', suffix='.json') as json_file:
+            json.dump(metadata, json_file)
+            json_file_path = json_file.name  # Path to the temporary JSON file
+
+        # Run ExifTool with the metadata JSON file
+        with ExifToolHelper() as e:
+            result = e.execute(temp_file, f"-json={json_file_path}")
+            
+            
+        return temp_file
+       
+
 
 
     @staticmethod

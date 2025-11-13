@@ -34,11 +34,13 @@ function App() {
     <UserDataProvider >
       <ThemeContextProvider >
         <MenuDataProvider>
-          <header>
-           <Header/>  
-          </header>
-          <div id="main-background" className="w-screen flex-grow bg-white dark:bg-black">
-            <main id="main-wrapper" className="flex justify-center items-center sm:w-5/6 mx-auto bg-transparent h-auto">
+        
+             <Header/>
+          
+          <div id="main-background" className="overflow-auto w-screen min-h-0 flex-grow bg-white
+           dark:bg-black  
+           sm:w-5/6 mx-auto bg-transparent  rounded-lg relative">
+          
             {/* <AppContent /> */}
             <Routes>
                 {/* Home route with the dropzone */}
@@ -58,9 +60,10 @@ function App() {
                     <Route path="/viewer" element={<Viewer/>} />
                   </Route>
               </Routes>
-            </main>
+            
             <Toaster />
-          </div>
+            </div>
+          
           <footer>
             <Footer />
           </footer>
