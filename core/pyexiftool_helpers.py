@@ -112,7 +112,8 @@ class MetaDataHandler:
         with tempfile.NamedTemporaryFile(delete=False, mode='w', suffix='.json') as json_file:
             json.dump(metadata, json_file)
             json_file_path = json_file.name  # Path to the temporary JSON file
-
+        print(json_file_path)
+        print(metadata)
         # Run ExifTool with the metadata JSON file
         with ExifToolHelper() as e:
             result = e.execute(temp_file, f"-json={json_file_path}")
