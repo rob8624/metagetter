@@ -43,7 +43,7 @@ def get_all_metadata_text(image_bytes, obj):
 # args are exiftool commands as strings
 class MetaDataHandler:
 
-    def __init__(self, image_path: str | bytes, obj: object = None, *args):
+    def __init__(self, image_path, obj: object = None, *args):
         self.image_path = image_path
         self.obj = obj
         self.args = args
@@ -104,7 +104,7 @@ class MetaDataHandler:
             print("error setting FileName in metadata")
         return data 
     
-    def write_metadata(self, image: str | bytes, obj: object, metadata: dict):
+    def write_metadata(self, image, obj, metadata):
     # Create a temporary file for the image
         temp_file = self._create_temp_file(image, obj)
         print(f"Temporary image file created at: {temp_file}")  # Log file path
@@ -118,11 +118,14 @@ class MetaDataHandler:
         print(metadata)
         # Run ExifTool with the metadata JSON file
         with ExifToolHelper() as e:
-            result = e.execute(temp_file, f"-json={json_file_path}")
-            print(result, "exiftool result")
+            try:
+                result = e.execute(temp_file, f"-json={json_file_path}")
+                print(f"ExifTool execution result: {result}")
+            except Exception as ex:
+                print(f"Error executing ExifTool: {ex}")
+                    
+            return temp_file
             
-        return temp_file
-       
 
 
 
