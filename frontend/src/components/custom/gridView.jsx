@@ -28,7 +28,8 @@ const GridView = ({
   showPanel,
   setShowPanel,
   isEditing,
-  setIsEditing
+  setIsEditing,
+  sectionRefs
 }) => {
 
 const [openDropdownId, setOpenDropdownId] = useState(null);
@@ -40,7 +41,8 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
 
   return (
     <>
-    <div className="mx-auto flex flex-col min-h-0  justify-center items-center sm:justify-start sm:items-start max-w-screen-sm sm:flex-row w-full sm:max-w-6xl gap-4"
+    <div className="mx-auto flex flex-col min-h-0  justify-center items-center sm:justify-start 
+    sm:items-start max-w-screen-sm sm:flex-row w-full sm:max-w-6xl gap-4 dark:text-white dark:bg-black"
     ref={el => refs.current.summary = el}>
       {/* Images Grid - Left Side */}
       
@@ -51,7 +53,7 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
       
         
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 rounded-lg backdrop-blur-xl sm:p-10   bg-white
-        ">
+        dark:text-white dark:bg-black">
         
           {data.map((item) => (
             
@@ -84,7 +86,7 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
        
        
         
-          <div className="m-2 bg-gray-50 sticky border rounded-md p-4 h-fit order-1 sm:order-2 block sm:hidden">
+          <div className="m-2 bg-gray-50 sticky border rounded-md p-4 h-fit order-1 sm:order-2 block sm:hidden dark:text-white dark:bg-black">
             <MetadataPanel 
               selectedImage={selectedImage}
               setSelectedImage={setSelectedImage} 
@@ -97,9 +99,13 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
         
         <div className="w-screen sm:w-full order-2 sm:order-1 border-2 border-black p-2 rounded-lg" 
         ref={el => refs.current.dataSection = el}>
-          {isEditing ? <EditForm data={data} selectedImage={selectedImage}/> :
+          {isEditing ? <EditForm 
+          data={data} 
+          selectedImage={selectedImage} 
+          isEditing={isEditing} setIsEditing={setIsEditing}/> :
+
           <DetailPanel selectedImage={selectedImage} data={data} 
-          setSelectedImage={setSelectedImage}/> 
+          setSelectedImage={setSelectedImage} sectionRefs={sectionRefs}/> 
         } 
           
         </div>
@@ -110,7 +116,7 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
       {/* Metadata Panel - Right Side */}
       
       
-      <div className="w-80 bg-gray-50 border rounded-md p-4 h-fit sticky top-10 order-1 sm:order-2 hidden sm:block">
+      <div className="w-80 bg-gray-50 border rounded-md p-4 h-fit sticky top-10 order-1 sm:order-2 hidden sm:block dark:text-white dark:bg-black">
         <MetadataPanel 
           selectedImage={selectedImage} 
           getMetadata={getMetadata} 

@@ -107,6 +107,7 @@ export default function Upload() {
   return (
     <>
     { isVerified ?
+    <div className="flex justify-center"> 
       <div className="flex flex-col w-full md:w-1/2 mt-14">
         <PageGridTitle
           title={"UPLOAD"}
@@ -116,10 +117,10 @@ export default function Upload() {
           color={"grey"}
         />
         <div className="flex flex-col justify-center items-center">
-            { processedStarted ? <div className="text-2xl">Processing data</div> : <div className="text-2xl">Ready to upload</div>}
+            { processedStarted ? <div className="text-2xl">Processing data</div> : <div className="text-2xl dark:text-white text-black">Ready to upload</div>}
           {success && checked ? <div>Completed - Redirecting in <span className="text-blue-950 text-6xl">{count}</span> seconds...</div> : null}
           {success ? null :
-            <label>
+            <label className="dark:text-white text-black">
             <input type="checkbox" checked={checked}
               onChange={() => setChecked((prev) => !prev)}/>
             Goto image viewer after upload?
@@ -200,6 +201,7 @@ export default function Upload() {
             }}
           />
         )}
+      </div>
       </div>
 :       <div>Please Sign in</div> }
     </>

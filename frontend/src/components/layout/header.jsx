@@ -5,13 +5,26 @@ import DesktopMenu from "../custom/desktopMenu";
 import MobileMenu from "../custom/mobileMenu";
 import { ThemeContext } from "../../context/darkModeContext";
 import { MdDarkMode, MdOutlineDarkMode } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 
 const Header = () => {
   const { darkMode, handleDarkModeToggle } = useContext(ThemeContext);
 
+  const location = useLocation();
+  const navigate = useNavigate();
   const matches = useMediaQuery("only screen and (min-width: 600px)");
+
+
+  const handleLogoClick = (e) => {
+    if (useLocation.pathname === 'viewer' || location.pathname.includes('/viewer')) {
+      e.preventDefault();
+      const confirmed = window.confirm('Navigating away will lose all unsaved data. Continue?');
+      if (confirmed) {
+        navigate('/');
+      }
+    }
+  }
   
 
   return (
@@ -23,13 +36,14 @@ const Header = () => {
               className="h-14 sm:h-32 m-2 rounded-md opacity-90 bg-black"
               src="/HeaderLogo.png"
               alt="Logo"
-            />
+              onClick={handleLogoClick}/>
           </Link>
           <button onClick={handleDarkModeToggle}>
             {darkMode ? (
-              <MdOutlineDarkMode size={"2em"} />
+              <MdOutlineDarkMode size={"2em"} className="bg-white rounded-2xl" />
             ) : (
               <MdDarkMode size={"2em"} />
+              
             )}
           </button>
           <div>{matches ? <DesktopMenu /> : <MobileMenu />}</div>

@@ -18,7 +18,7 @@ const MetadataPanel = ({ selectedImage, data, showPanel, setShowPanel, }) => {
     if (!data) return null;
 
     return (
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex gap-2 flex-wrap dark:text-white dark:bg-black">
         {Object.entries(data).map(([key, value]) => (
           <div 
             key={key} 
@@ -51,25 +51,25 @@ const MetadataPanel = ({ selectedImage, data, showPanel, setShowPanel, }) => {
     { 
       key: 'data_types', 
       title: 'Data Types', 
-      styles: { color: 'bg-orange-400', padding: 'p-3' },
+      styles: { color: "bg-black text-white dark:text-white dark:bg-black", padding: "p-3" },
       useChart: true
     },
     { 
       key: 'camera_details', 
       title: 'Camera Details', 
-      styles: { color: 'bg-yellow-300', padding: 'p-3' },
+      styles: { color: "bg-black text-white dark:text-white dark:bg-black", padding: "p-3" },
       useChart: false
     },
     {
       key: 'image_details', 
       title: 'Images Details', 
-      styles: { color: 'bg-yellow-300', padding: 'p-3' },
+      styles: { color: "bg-black text-white dark:text-white dark:bg-black", padding: "p-3" },
       useChart: false
     },
     {
       key: 'creator_details', 
       title: 'Creator', 
-      styles: { color: 'bg-yellow-300', padding: 'p-3' },
+      styles: { color: "bg-black text-white dark:text-white dark:bg-black", padding: "p-3" },
       useChart: false
     }
   ];

@@ -115,16 +115,24 @@ class MetaDataHandler:
             json_file_path = json_file.name  # Path to the temporary JSON file
         print(f"Temporary JSON file created at: {json_file_path}")  # Log file path
         print(json_file_path)
-        print(metadata)
+        print('metadta from class', metadata)
         # Run ExifTool with the metadata JSON file
         with ExifToolHelper() as e:
             try:
                 result = e.execute(temp_file, f"-json={json_file_path}")
+                
                 print(f"ExifTool execution result: {result}")
             except Exception as ex:
                 print(f"Error executing ExifTool: {ex}")
                     
             return temp_file
+        
+    def delete_all_data(self):
+        temp_file = self._create_temp_file(self.image_path, self.obj)
+        with ExifToolHelper() as e:
+            result = e.execute(temp_file, "-all=")
+        return temp_file
+            
             
 
 

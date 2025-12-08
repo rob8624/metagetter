@@ -27,7 +27,12 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh; /* Prevent shrinking */
-  max-height: 100vh; 
+  max-height: 100vh;
+  
+}
+
+#root.dark {
+  background-color: black; 
 }
 
 #topbarmenu > *:not(button)::after { 

@@ -1,6 +1,7 @@
 
 
 import { TaskDialog } from "./taskDialog.jsx";
+import { Button } from "../../ui/button.jsx"
 
 import {
   Menubar,
@@ -8,7 +9,13 @@ import {
   MenubarItem,
   MenubarMenu,
   MenubarTrigger,
+  MenubarSub,
+  MenubarSubContent,
+  MenubarSubTrigger
 } from "../../ui/menubar.jsx";
+
+
+
 
 
 
@@ -20,14 +27,29 @@ export function DataTools({ refs, selectedImage, isEditing, setIsEditing }) {
         <div className="text-sm">Data menu</div>
         <Menubar>
           <MenubarMenu>
-            <MenubarTrigger onClick={() => setIsEditing(!isEditing)}>{isEditing? 'Cancel' : 'Edit'}</MenubarTrigger>
+            <MenubarTrigger onClick={() => setIsEditing(!isEditing)}>{isEditing? 
+              <Button variant="destructive">Cancel</Button> : 
+            <Button>Edit Data</Button>}</MenubarTrigger>
           </MenubarMenu>
           <MenubarMenu ref={el => refs.current.dataMenu = el}>
             <MenubarTrigger>Download</MenubarTrigger>
             <MenubarContent>
-              <TaskDialog selectedImage={selectedImage} taskName={".txt"} task={'textFile'}/>
-              <TaskDialog selectedImage={selectedImage} taskName={"JSON"} task={'JSON'}/>
-              <MenubarItem>CSV</MenubarItem>
+              <MenubarSub >
+                <MenubarSubTrigger>Download Data</MenubarSubTrigger>
+                <MenubarSubContent>
+                  <TaskDialog selectedImage={selectedImage} taskName={".txt"} task={'textFile'}/>
+                  <TaskDialog selectedImage={selectedImage} taskName={"JSON"} task={'JSON'}/>
+                  <MenubarItem>CSV</MenubarItem>
+                </MenubarSubContent>
+              </MenubarSub>
+              <MenubarSub >
+                 <MenubarSubTrigger>Delete Data</MenubarSubTrigger>
+            <MenubarSubContent>
+              
+                 <TaskDialog selectedImage={selectedImage} taskName={"DeleteAllData"} task={'deletedata'}/>
+              
+            </MenubarSubContent>
+              </MenubarSub>
             </MenubarContent>
           </MenubarMenu>
         </Menubar>

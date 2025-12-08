@@ -61,6 +61,7 @@ from pymemcache.client.base import Client
 
 #project helpers
 from core.helper_functions import create_message, handle_task
+from core.task_helpers import TaskAction
 
 
 
@@ -252,13 +253,17 @@ class UserImagesViewSet(viewsets.ModelViewSet):
         url = obj.image.file.url
         task = request.query_params.get('task', 'no task')
         print(task)
-        metadata = obj.metadata.data
-        sorted_metadata = MetaDataHandler.group_metadata(metadata)
-        content_body = handle_task(sorted_metadata, task)
-        content = create_message(obj, content_body)
-        file = io.BytesIO(content.encode("utf-8"))
-        file.name = "metadata.txt"
+        # handle_task = TaskAction(task)
+        # handle_task
+        # metadata = obj.metadata.data
+        # sorted_metadata = MetaDataHandler.group_metadata(metadata)
+        # content_body = handle_task(sorted_metadata, task)
+        # content = create_message(obj, content_body)
+        # file = io.BytesIO(content.encode("utf-8"))
+        # file.name = "metadata.txt"
         
+        result = TaskAction(task, obj).handle_task()
+
         
         
         # image_response = requests.get(url)
@@ -271,10 +276,10 @@ class UserImagesViewSet(viewsets.ModelViewSet):
         # file.name = "metadata.txt"
 
         return FileResponse(
-            file,
+            result["file"],
             as_attachment=True,
-            filename="metadata.txt",
-            content_type="text/plain"
+            filename=result["file_name"],
+            content_type=result["content_type"]
         )
        
         #task = request.query_params.get('task', 'no task')
@@ -285,31 +290,108 @@ class UserImagesViewSet(viewsets.ModelViewSet):
         image_object = self.get_object()
         url = image_object.image.file.url
         response = requests.get(url)
+        
         if response.status_code == 200:
-            #write edited data to metadata JSON in metadata model
+            # Get the current metadata
             metadata = image_object.metadata.data 
+            print("Original metadata:", metadata[0])   
+            print("Request data from frontend:", request.data)
+            
             try:
-                metadata[0]['XMP:Description'] = request.data['Description']
-                print('new data successfully written to original metadata')
+                # Update only the fields that were edited
+                # Map frontend field names to exiftool tag names
+                field_mapping = {
+                    'Description': {
+                        'IPTC': 'IPTC:Caption-Abstract',
+                        'XMP': 'XMP:Description'
+                    },
+                    'Headline': {
+                        'IPTC': 'IPTC:Headline',
+                        'XMP': 'XMP:Headline'
+                    },
+                    'Keywords': {
+                        'IPTC': 'IPTC:Keywords',
+                        'XMP': 'XMP:Subject'
+                    },
+                    'Credit': {
+                        'IPTC': 'IPTC:Credit',
+                        'XMP': 'XMP:Credit'
+                    },
+                    'Category': {
+                        'IPTC': 'IPTC:Category',
+                        'XMP': 'XMP:Category'
+                    },
+                    'Copyright': {
+                        'IPTC': 'IPTC:CopyrightNotice',
+                        'XMP': 'XMP:Rights'},
+                    'DateCreated': {
+                        'IPTC': 'IPTC:DateCreated',
+                        'XMP': ['XMP:DateCreated', 'XMP:MetadataDate',
+                                'XMP:CreateDate']},
+
+                }
+                
+                # Update metadata with new values
+                for key, value in request.data.items():
+                    if key in field_mapping:
+                        # Write to both IPTC and XMP
+                        iptc_key = field_mapping[key]['IPTC']
+                        xmp_key = field_mapping[key]['XMP']
+                        
+                        # Handle Keywords formatting
+                        if key == 'Keywords':
+                            # Ensure it's a semicolon-separated string for IPTC
+                            if isinstance(value, list):
+                                keywords_str = ";".join(value)
+                            else:
+                                keywords_str = str(value)
+                            metadata[0][iptc_key] = keywords_str
+                            metadata[0][xmp_key] = keywords_str
+                        elif isinstance(xmp_key, list):
+                            for tag in xmp_key:
+                                metadata[0][tag] = value
+                            metadata[0][iptc_key] = value
+                            
+                        else:
+                            # For other fields, just set the value
+                           
+                            metadata[0][iptc_key] = value
+                            metadata[0][xmp_key] = value
+                            
+                        #print to console for debug. Has to check for date list
+                        if isinstance(xmp_key, list):
+                            xmp_values = {tag: metadata[0].get(tag) for tag in xmp_key}
+                        else:
+                            xmp_values = metadata[0].get(xmp_key)
+
+                        print(f"Updated {key}: IPTC={metadata[0].get(iptc_key)}, XMP={xmp_values}")
+            
             except Exception as e:
-                print(f'error writing new data to original metadata, error {e}')
-            #save data to model
+                print(f'Error updating metadata dictionary: {e}')
+                return HttpResponse(f"Error updating metadata: {e}", status=400)
+            
+            # Save updated metadata to model
             try:
                 image_object.metadata.data = metadata
                 image_object.metadata.save()
+                print("Metadata saved to model successfully")
             except Exception as e:
-                print(f'error saving updated data to metadata model{e}')
+                print(f'Error saving updated data to metadata model: {e}')
+                return HttpResponse(f"Error saving metadata: {e}", status=400)
             
-            #get file as bytes an pass to helper
-            image_bytes = response.content
-            edited_metadata = metadata[0]
-            metadata_handler = MetaDataHandler(image_bytes, image_object)
-            temp_file_path = metadata_handler.write_metadata(image_bytes, image_object, edited_metadata)
-            if not os.path.exists(temp_file_path):
-                return HttpResponse("Error: Temporary file was not created.", status=500)
+            # Write metadata to image file
             try:
-                temp_file = open(temp_file_path, 'rb')
+                image_bytes = response.content
+                edited_metadata = metadata[0]
                 
+                metadata_handler = MetaDataHandler(image_bytes, image_object)
+                temp_file_path = metadata_handler.write_metadata(image_bytes, image_object, edited_metadata)
+                
+                if not os.path.exists(temp_file_path):
+                    return HttpResponse("Error: Temporary file was not created.", status=500)
+                
+                # Send file to client
+                temp_file = open(temp_file_path, 'rb')
                 try:
                     return FileResponse(
                         temp_file,
@@ -320,15 +402,13 @@ class UserImagesViewSet(viewsets.ModelViewSet):
                 finally:
                     if os.path.exists(temp_file_path):
                         os.remove(temp_file_path)
-                        print(f"Successfully deleted {temp_file_path} after sending to client")
-
+                        print(f"Successfully deleted {temp_file_path}")
+            
             except Exception as e:
-                print(f"Error sending file: {e}")
-                return HttpResponse("Error: Could not send the file.", status=500)
+                print(f"Error processing image: {e}")
+                return HttpResponse(f"Error processing image: {e}", status=500)
         else:
-            print('error opening image url')
-        return HttpResponse('error opening image url')
+            return HttpResponse('Error opening image URL', status=400)
+            
 
-        
-
-        
+            

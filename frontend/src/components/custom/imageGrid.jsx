@@ -16,7 +16,7 @@ import GridView from "./gridView";
 
 
 
-export default function ImageGrid({ data, selectedImage, setSelectedImage }) {
+export default function ImageGrid({ data, selectedImage, setSelectedImage, sectionRefs, isEditing, setIsEditing }) {
   //state
   
   
@@ -24,7 +24,7 @@ export default function ImageGrid({ data, selectedImage, setSelectedImage }) {
   const [imageToDelete, setImageToDelete] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
-  const [isEditing, setIsEditing] = useState(false)  
+  
 
 
 
@@ -87,6 +87,7 @@ const handleImageClick = (item) => {
           setShowPanel={setShowPanel}
           isEditing={isEditing}
           setIsEditing={setIsEditing}
+          sectionRefs={sectionRefs}
         />
     
         

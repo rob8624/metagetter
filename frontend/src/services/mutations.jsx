@@ -42,17 +42,23 @@ export function useDataTask(task) {
       const { response, image } = data;
       
       // Trigger download after mutation is fully complete
-      if (task === "textFile" || task === "JSON") {
+      if (task === "textFile" || task === "JSON" || task === "deletedata" ) {
         const blob = new Blob([response.data], { type: "text/plain" });
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", `image_${image.id}_${task}.txt`);
+        if (task === "deletedata"){
+          link.setAttribute("download", `image_${image.id}_${task}.jpg`)
+        } else 
+          {
+            link.setAttribute("download", `image_${image.id}_${task}.txt`)
+          };
         document.body.appendChild(link);
         link.click();
         link.remove();
         window.URL.revokeObjectURL(url);
-      }
+        
+      } 
     },
 
     onError: (error) => {
@@ -65,6 +71,7 @@ export function useDataTask(task) {
 //mutation to send API image and update metadata from edit form
 
 export function useEditMetadata(selectedImage) {
+ 
   return useMutation({
     mutationFn: async (formData) => {
       const response = await axiosInstance.patch(
@@ -77,18 +84,15 @@ export function useEditMetadata(selectedImage) {
       return response.data;
     },
     onSuccess: (blob) => {
-      // Create download link
+      
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
       a.download = selectedImage.upload_name || 'edited-image.jpg';
       document.body.appendChild(a);
       a.click();
-      
-      // Cleanup
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
-      
       console.log('Image downloaded successfully');
     },
     onError: (error) => {
@@ -96,3 +100,14 @@ export function useEditMetadata(selectedImage) {
     }
   });
 }
+
+
+
+export function useEditSuccess(selectedImage, setIsEditing) {
+  const queryClient = useQueryClient();
+  return () => {
+    setIsEditing(false);
+    queryClient.invalidateQueries(["images"], selectedImage.id);
+  };
+}
+ 

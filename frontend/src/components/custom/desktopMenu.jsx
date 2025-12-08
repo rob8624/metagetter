@@ -11,7 +11,7 @@ import {
   
   navigationMenuTriggerStyle,
 } from "../ui/navigation-menu";
-import { Button } from "../ui/button"
+
 
 import ProfileSheet from "./profileSlider";
 
@@ -79,7 +79,7 @@ let navigate = useNavigate();
           {item.aboutContent && item.aboutContent.map((item, index) => (   
             <React.Fragment key={index}>
           <NavigationMenuTrigger>
-            <Button variant="outline" className="bg-green-200">{item.Label}</Button>
+            <div className="text-black dark:text-white">{item.Label}</div>
             </NavigationMenuTrigger>
           <NavigationMenuContent>
             
@@ -108,7 +108,7 @@ let navigate = useNavigate();
           <React.Fragment key={index}>
         <NavigationMenuItem >
           <NavigationMenuTrigger className="">
-            <Button variant="outline" className="bg-green-200">{item.Label}</Button>
+            <div className="text-black dark:text-white">{item.Label}</div>
             </NavigationMenuTrigger>
           <NavigationMenuContent>
             <div className="p-5 w-[300px]">
@@ -127,7 +127,7 @@ let navigate = useNavigate();
           onClick={() => navigate('/signin', { replace: true})}
           
           className={navigationMenuTriggerStyle()}>
-          <Button className="bg-green-900">{item.Label}</Button>
+          <div className="text-black dark:text-white">{item.Label}</div>
         </button>
       </NavigationMenuItem>
     

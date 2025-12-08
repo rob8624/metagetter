@@ -1,8 +1,10 @@
 
+import { useContext } from 'react';
 import { BarChart, CartesianGrid, XAxis,  YAxis, Bar,} from 'recharts';
 import { ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent, ChartContainer  } from "../../../components/ui/chart"
-
+import { ThemeContext } from '../../../context/darkModeContext';
 export function DataTypeChart({ data }) {
+  const { darkMode } = useContext(ThemeContext)
   const isValidData = data && typeof data === 'object' && !Array.isArray(data);
 
   if (!isValidData) {
@@ -49,6 +51,7 @@ export function DataTypeChart({ data }) {
       tickMargin={2}
       axisLine={true}
       tickFormatter={(val) => String(val).slice(0, 3)}
+      
     />
     <YAxis
           tickLine={true}
@@ -56,11 +59,12 @@ export function DataTypeChart({ data }) {
           tickMargin={0}
           tickFormatter={(value) => `${value}`} // You can customize this format
           width={19}
+          
         />
     <ChartTooltip content={<ChartTooltipContent />} />
     <ChartLegend content={<ChartLegendContent />} />
     
-    <Bar dataKey="value" fill="var(--color-name)" radius={4} />
+    <Bar dataKey="value" fill={darkMode ? "#FFFFFF" : "#000000" } radius={4} />
   </BarChart>
   
   </ChartContainer>
