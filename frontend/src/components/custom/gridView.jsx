@@ -29,7 +29,8 @@ const GridView = ({
   setShowPanel,
   isEditing,
   setIsEditing,
-  sectionRefs
+  sectionRefs,
+  imagesRef
 }) => {
 
 const [openDropdownId, setOpenDropdownId] = useState(null);
@@ -52,8 +53,8 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
         
       
         
-        <div className="grid grid-cols-3  md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-4 rounded-lg backdrop-blur-xl sm:p-10   bg-white
-        dark:text-white dark:bg-black">
+        <div ref={imagesRef} className="grid grid-cols-3  md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-4 rounded-lg backdrop-blur-xl sm:p-10   bg-white
+        dark:text-white dark:bg-black scroll-mt-32">
         
           {data.map((item) => (
             

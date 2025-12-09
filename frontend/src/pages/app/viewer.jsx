@@ -37,6 +37,7 @@ export default function Viewer() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [isEditing, setIsEditing] = useState(false)  
   const sectionRefs = useRef({});
+  const imagesRef = useRef(null);
 
   const { data, isFetching } = useQuery({
     queryKey: ["images"],
@@ -54,6 +55,7 @@ export default function Viewer() {
         data={data}
         sectionRefs={sectionRefs}
         isEditing={isEditing}
+        imagesRef={imagesRef}
       />
 
       <Separator />
@@ -73,6 +75,7 @@ export default function Viewer() {
           sectionRefs={sectionRefs}
           isEditing={isEditing}
           setIsEditing={setIsEditing}
+          imagesRef={imagesRef}
         />
       )}
     </>

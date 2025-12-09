@@ -9,9 +9,11 @@ export default function TopBar({
   setSelectedImage,
   data,
   sectionRefs,
-  isEditing
+  isEditing,
+  imagesRef
 }) {
   const filenameRef = useRef(null);
+  
 
   useEffect(() => {
     if (selectedImage && filenameRef.current) {
@@ -36,6 +38,13 @@ export default function TopBar({
       block: "start",
     });
   };
+
+  const scrollToTop = () => {
+    imagesRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    })
+  }
 
   return (
     <div
@@ -72,7 +81,10 @@ export default function TopBar({
     ) : (
       <>
         {/* Buttons shown when NOT editing */}
-        <div className="text-xs sm:text-sm font-bold">Scroll to:</div>
+        <div className="text-xs sm:text-sm font-bold ">Scroll to:</div>
+        
+        <button onClick={() => scrollToTop()} className="bg-black text-white dark:bg-white
+         dark:text-black p-2 rounded-sm">TOP</button>
         
         {sectionKeys.map((key) => (
           <Button key={key} onClick={() => scrollToSection(key)} variant="outline" size="sm"
