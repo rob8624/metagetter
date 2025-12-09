@@ -15,8 +15,8 @@ body {
   display: flex;
   flex-direction: column; 
   overflow:hidden;
-  min-height: 100vh; /* Prevent shrinking */
-  max-height: 100vh; 
+  min-height: 100dvh; /* Prevent shrinking */
+  max-height: 100dvh; 
   /*Below code stops page becoming unresponive after shad dialog is closed */
   @apply bg-background text-foreground;
   pointer-events: auto !important; 

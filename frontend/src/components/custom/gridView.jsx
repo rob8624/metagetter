@@ -52,7 +52,7 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
         
       
         
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 rounded-lg backdrop-blur-xl sm:p-10   bg-white
+        <div className="grid grid-cols-3  md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-4 rounded-lg backdrop-blur-xl sm:p-10   bg-white
         dark:text-white dark:bg-black">
         
           {data.map((item) => (
