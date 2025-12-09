@@ -49,8 +49,8 @@ export default function TopBar({
         subDescription={"Select an image to view options"}
         color={"grey"}
       />
-      <div id="topbarmenu-wrapper" className="inline-block ml-2">
-        <div id="topbarmenu" className="flex gap-2 items-center">
+      <div id="topbarmenu-wrapper" className="inline-block ml-2 ">
+        <div id="topbarmenu" className="flex flex-wrap gap-2 items-center">
          {selectedImage ? (
   <>
     <Button
@@ -60,8 +60,8 @@ export default function TopBar({
     >
       Reset
     </Button>
-    <div>Filename</div>
-    <div ref={filenameRef} className="move-from-left">
+    <div className="text-xs sm:text-sm font-bold">Filename</div>
+    <div ref={filenameRef} className="move-from-left text-xs sm:text-sm">
       {selectedImage?.upload_name}
     </div>
    
@@ -72,12 +72,16 @@ export default function TopBar({
     ) : (
       <>
         {/* Buttons shown when NOT editing */}
-        <div>Scroll to:</div>
+        <div className="text-xs sm:text-sm font-bold">Scroll to:</div>
+        
         {sectionKeys.map((key) => (
-          <Button key={key} onClick={() => scrollToSection(key)} variant="outline">
+          <Button key={key} onClick={() => scrollToSection(key)} variant="outline" size="sm"
+          className="m-1 sm:m-2">
             {key}
           </Button>
+          
         ))}
+        
       </>
     )}
   </>

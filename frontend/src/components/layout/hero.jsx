@@ -49,9 +49,9 @@ export default function Hero() {
            dark:hover:bg-white dark:hover:text-black">FInd out more</Button>
         </div>
       </div>
-    <div className="flex flex-col items-center justify-center h-40"> 
+    
         <CallToAction/>
-    </div> 
+    
     </div>
   );
 }

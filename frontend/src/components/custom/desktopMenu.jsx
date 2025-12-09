@@ -144,7 +144,7 @@ let navigate = useNavigate();
     <NavigationMenu className={navMenuClassName}>
       <NavigationMenuList >
        <NavigationMenuItem>
-          <NavigationMenuTrigger>User Menu</NavigationMenuTrigger>
+          <NavigationMenuTrigger className="text-black dark:text-white">User Menu</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul>
               <li className="pb-1 text-xs">

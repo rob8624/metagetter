@@ -114,7 +114,7 @@ const location = useLocation();
       { loggedInUser ? <div> You are aleady signed in</div> :
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardTitle className="text-2xl mx-auto">Login</CardTitle>
           <CardDescription>
             { renderMessage() } 
             Enter your username below to login to your account
