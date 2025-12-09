@@ -206,7 +206,7 @@ if (!selectedImage || !image) {
     }
     else return (
       <>
-      <div className="flex gap-2">
+      <div className="flex gap-2 pb-12 sm:pb-0">
         <button
           type="submit"
           disabled={!isDirty}

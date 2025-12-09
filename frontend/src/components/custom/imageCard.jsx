@@ -72,7 +72,7 @@ const ImageCard = ({
           ref={el => refs.current.image = el}
           src={item.image_thumbnail_url}
           alt={item.id}
-          className="min-w-20 sm:min-w-40 sm:min-h-32 object-cover"
+          className="min-w-20 sm:min-w-20 sm:min-h-32 object-cover"
         />
         <div className="text-xs w-20 overflow-hidden sm:overflow-visible">{item.upload_name}</div>
       </div>
