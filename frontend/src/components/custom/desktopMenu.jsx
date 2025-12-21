@@ -72,7 +72,7 @@ let navigate = useNavigate();
   return (
     <>
     <div className="flex">
-    <NavigationMenu className={navMenuClassName}>
+    <NavigationMenu className={`${navMenuClassName} bg-transparent [&_button]:px-4 [&_button]:py-2 [&_button]:bg-white/10 [&_button]:backdrop-blur-sm [&_button]:rounded-lg [&_button]:border [&_button]:border-white/20 [&_button]:hover:bg-white/20`}>
     {menuData.map((item, index) => (
       <NavigationMenuList key={index}>
         <NavigationMenuItem>

@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClientProvider, QueryClient, } from '@tanstack/react-query';
+import { ThemeContextProvider } from './context/darkModeContext'
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -13,7 +14,9 @@ root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <App />
+        <ThemeContextProvider >
+      <App />
+        </ThemeContextProvider>
       </BrowserRouter>
     </QueryClientProvider>
   </React.StrictMode>

@@ -43,7 +43,7 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
   return (
     <>
     <div className="mx-auto flex flex-col min-h-0  justify-center items-center sm:justify-start 
-    sm:items-start max-w-screen-sm sm:flex-row w-full sm:max-w-6xl gap-4 dark:text-white dark:bg-black"
+    sm:items-start max-w-screen-sm sm:flex-row w-full sm:max-w-6xl gap-4 dark:text-white dark:bg-black "
     ref={el => refs.current.summary = el}>
       {/* Images Grid - Left Side */}
       

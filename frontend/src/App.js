@@ -1,6 +1,11 @@
 
 import './App.css';
+import { useEffect, useContext } from 'react';
+
+//Router
 import { Routes, Route } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+
 
 //Pages
 import SignIn from './pages/auth/signin';
@@ -21,30 +26,52 @@ import { PrivateRoutes } from './pages/auth/privateRoutes';
 //Context 
 import { MenuDataProvider } from './context/menuData';
 import { UserDataProvider } from './context/userContext';
-import { ThemeContextProvider } from './context/darkModeContext'
+import { ThemeContext } from './context/darkModeContext'
+
 
 
 
 
 function App() {
 
+  const { setDarkMode } = useContext(ThemeContext)
 
- return (
+ 
+
+ 
+ const { pathname } = useLocation()
+ const isHomePage = pathname === '/'
+
+ useEffect(() => {
+  if (pathname === '/') {
+  setDarkMode(false)
+ }
+ }, [pathname, setDarkMode])
+ 
+
+
+ 
+ 
+return (
     <>
+    <div id="site-wrapper" className='flex flex-col max-h-dvh min-h-dvh w-screen items-center dark:bg-black bg-cover '
+    style={isHomePage ? { 
+        backgroundImage: `url(${process.env.PUBLIC_URL}/images/cosmos-7709242_640.jpg)` 
+      } : {}}>
     <UserDataProvider >
-      <ThemeContextProvider >
+     
         <MenuDataProvider>
         
              <Header/>
           
-          <div id="main-background" className="overflow-auto w-screen min-h-0 flex-grow bg-white
+          <div id="main-background" className="overflow-auto w-screen min-h-0 flex-grow bg-transparent
            dark:bg-black  
-           sm:w-5/6 mx-auto bg-transparent  rounded-lg relative">
+           sm:w-5/6 rounded-lg relative no-scrollbar ">
           
             {/* <AppContent /> */}
             <Routes>
                 {/* Home route with the dropzone */}
-                <Route path="/" element={<Hero/>} />
+                <Route path="/" element={<Hero/>} />\
                 
                 {/* Sign in route */}
                 <Route path="/signin" element={<SignIn/>} />
@@ -67,10 +94,11 @@ function App() {
           <footer>
             <Footer />
           </footer>
+          
         </MenuDataProvider>
-      </ThemeContextProvider>
+      
     </UserDataProvider>
-
+  </div>
     </>
   )
 

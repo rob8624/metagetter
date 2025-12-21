@@ -2,6 +2,7 @@ from core.helper_functions import create_message, handle_task
 from core.pyexiftool_helpers import  MetaDataHandler
 import io
 import requests
+import json
 
 
 
@@ -24,6 +25,16 @@ class TaskAction:
         file_name = "metadata.txt"
         file_details = {'file':file, 'file_name':file_name, 'content_type':"text/plain"}
         return file_details
+    
+    def json_file(self):
+        metadata = self._handle_metadata()
+        json_string = json.dumps(metadata, indent=2)
+        file = io.BytesIO(json_string.encode("utf-8"))
+        file_name = "metadata.json"
+        
+        file_details = {'file':file, 'file_name':file_name, 'content_type':"application/json"}
+        return file_details
+
     
     def delete_data(self):
         image_url = self.obj.image.file.url
@@ -60,7 +71,8 @@ class TaskAction:
     def handle_task(self): 
         actions = {
             "textfile" : self.text_file,
-            "deletedata" : self.delete_data
+            "deletedata" : self.delete_data,
+            "json" : self.json_file
         }
 
         if self.task in actions:

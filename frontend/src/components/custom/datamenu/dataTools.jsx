@@ -38,7 +38,7 @@ export function DataTools({ refs, selectedImage, isEditing, setIsEditing }) {
                 <MenubarSubTrigger>Download Data</MenubarSubTrigger>
                 <MenubarSubContent>
                   <TaskDialog selectedImage={selectedImage} taskName={".txt"} task={'textFile'}/>
-                  <TaskDialog selectedImage={selectedImage} taskName={"JSON"} task={'JSON'}/>
+                  <TaskDialog selectedImage={selectedImage} taskName={"JSON"} task={'json'}/>
                   <MenubarItem>CSV</MenubarItem>
                 </MenubarSubContent>
               </MenubarSub>

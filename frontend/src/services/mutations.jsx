@@ -23,7 +23,6 @@ export function useDeleteImage() {
 
 
 
-
 export function useDataTask(task) {
   return useMutation({
     mutationFn: async (image) => {
@@ -34,7 +33,6 @@ export function useDataTask(task) {
         }
       );
       
-      // Just return the response data, don't trigger download here
       return { response, image };
     },
 
@@ -42,22 +40,25 @@ export function useDataTask(task) {
       const { response, image } = data;
       
       // Trigger download after mutation is fully complete
-      if (task === "textFile" || task === "JSON" || task === "deletedata" ) {
-        const blob = new Blob([response.data], { type: "text/plain" });
+      if (task === "textFile" || task === "json" || task === "deletedata") {
+        const blob = new Blob([response.data], { type: response.data.type });
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        if (task === "deletedata"){
-          link.setAttribute("download", `image_${image.id}_${task}.jpg`)
-        } else 
-          {
-            link.setAttribute("download", `image_${image.id}_${task}.txt`)
-          };
+        
+        // Fix: Properly assign download attribute in all cases
+        if (task === "deletedata") {
+          link.download = `image_${image.id}_${task}.jpg`;
+        } else if (task === 'textFile') {  // ← Fixed: capital F
+          link.download = `image_${image.id}_${task}.txt`;
+        } else if (task === 'json') {
+          link.download = `image_${image.id}_${task}.json`;
+        }
+        
         document.body.appendChild(link);
         link.click();
         link.remove();
         window.URL.revokeObjectURL(url);
-        
       } 
     },
 
@@ -66,7 +67,6 @@ export function useDataTask(task) {
     }
   });
 }
-
 
 //mutation to send API image and update metadata from edit form
 

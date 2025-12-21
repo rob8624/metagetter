@@ -62,10 +62,10 @@ export default function Viewer() {
       {isFetching ? (
         <div className="flex flex-col justify-center items-center mt-40">
           <ClipLoader loading={isFetching} />
-          <button type="button" class="bg-indigo-500 ..." disabled>
+         
             <svg class="mr-3 size-5 animate-spin ..." viewBox="0 0 24 24"></svg>
             Processing…
-          </button>
+          
         </div>
       ) : (
         <ImageGrid

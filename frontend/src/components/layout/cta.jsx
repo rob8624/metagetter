@@ -3,11 +3,12 @@
 
 
  function CallToActionCard({title, description}) {
-        return(<div className="flex flex-col flex-1 sm:min-w-32
-        text-center border rounded-lg border-black dark:border-white shadow-xl">
-            <div className="font-bold text-6xl p-10 dark:text-white">
-                {title}
-                <p className="text-sm font-normal dark:text-white">{description}</p>
+        return(<div className="flex flex-col flex-1 flex-shrink-0
+        text-center border rounded-lg border-black dark:border-white shadow-xl backdrop-blur-md">
+            <div className="font-bold text-5xl lg:text-4xl p-10  dark:text-white">
+                <div className="mb-5">{title}</div>
+                <p className="text-sm  font-raleway font-normal dark:text-white text-black bg-white
+                opacity-50 rounded-md p-2">{description}</p>
             </div>
             
 

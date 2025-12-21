@@ -29,7 +29,7 @@ export function ThemeContextProvider({ children }) {
     };
 
     return (
-        <ThemeContext.Provider value={{ darkMode, handleDarkModeToggle }}>
+        <ThemeContext.Provider value={{ darkMode, handleDarkModeToggle, setDarkMode }}>
             {children}
         </ThemeContext.Provider>
     );
