@@ -159,7 +159,7 @@ export default function Upload() {
                   "X-CSRFToken": csrfToken,
                   'Authorization': `Bearer ${accessToken}`
                 },
-                maxParallelUploads:1,
+                maxParallelUploads:5,
                 withCredentials: false,
                 ondata: (formData) => {
                   
