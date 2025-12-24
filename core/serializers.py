@@ -94,7 +94,7 @@ class ImageListSerializer(serializers.ModelSerializer):
 class ImageMetadataSerializer(serializers.ModelSerializer):
     class Meta:
         model = ImageMetadata
-        fields = ['id', 'data', 'created_at', 'updated_at']
+        fields = ['id', 'data', 'created_at', 'updated_at', 'edited']
 
 
 class UserImagesSerializer(serializers.ModelSerializer):

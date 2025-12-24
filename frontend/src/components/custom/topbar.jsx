@@ -49,7 +49,7 @@ export default function TopBar({
   return (
     <div
       id="topbar"
-      className="mb-2 sticky top-0 z-10 bg-white border-b-2 border-black text-black dark:text-white dark:bg-black"
+      className={`mb-2 sticky top-0 z-10 bg-white border-b-2 ${selectedImage ? "border-t-2": null} border-black text-black dark:text-white dark:bg-black`}
     >
       <PageGridTitle
         className="pt-5 text-black dark:text-white"
@@ -97,7 +97,7 @@ export default function TopBar({
       </>
     )}
   </>
-) : null}
+) : <span className="text-xs">Select an image to view data and access data menu where you can edit and download metadata</span>}
         </div>
       </div>
     </div>

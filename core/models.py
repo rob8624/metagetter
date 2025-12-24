@@ -63,7 +63,10 @@ class UserImages(models.Model):
     
     def delete(self, *args, **kwargs):
         if self.image and self.image.file:
+            print(self.image.file)
             self.image.file.delete(save=False)
+
+        self.image.file.delete()
             
         super().delete(*args, **kwargs)
 

@@ -24,6 +24,8 @@ import {Dialog,
   } from "../ui/dialog";
 
 
+  import { FaCheck } from "react-icons/fa";
+
 
 const ImageCard = ({ 
   item, 
@@ -58,27 +60,40 @@ const ImageCard = ({
 
 
   return (
-   
-    <div className={`flex flex-col items-center justify-center ${className}` }>
-      <div
-        className={`cursor-pointer border-2 rounded-md overflow-hidden transition-all duration-200 ${
-          isSelected 
-            ? 'border-blue-500 ring-2 ring-blue-200' 
-            : 'border-gray-200 hover:border-gray-400'
-        }`}
-        onClick={() => onImageClick(item)}
-      >
-        <img
-          ref={el => refs.current.image = el}
-          src={item.image_thumbnail_url}
-          alt={item.id}
-          className="min-w-20 sm:min-w-20 sm:min-h-32 object-cover"
-        />
-        <div className="text-xs w-20 overflow-hidden sm:overflow-visible">{item.upload_name}</div>
-      </div>
+   <div className={`flex flex-col ${className}`}>
+  <div
+    className={`cursor-pointer shadow-xl border-2 rounded-md overflow-hidden transition-all duration-200 w-full ${
+      isSelected 
+        ? 'border-blue-500 ring-2 ring-blue-200' 
+        : 'border-gray-200 hover:border-gray-400'
+    }`}
+    onClick={() => onImageClick(item)}
+  >
+    {/* Fixed aspect ratio container */}
+    <div className="aspect-video w-full relative">
+      <img
+        ref={el => refs.current.image = el}
+        src={item.image_thumbnail_url}
+        alt={item.id}
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      
+      {/* Edited badge */}
+      {item.metadata.edited && (
+        <div className="absolute top-1 left-1 text-xs bg-white px-1 rounded flex items-center gap-1">
+          <FaCheck className="text-red-500" />
+          <span>edited</span>
+        </div>
+      )}
+    </div>
+    
+    {/* Text below image */}
+    <div className="text-xs font-raleway p-2 overflow-hidden text-ellipsis whitespace-nowrap">
+      {item.upload_name}
+    </div>
+  </div>
 
-
-      {/* image menu */}
+   {/* image menu */}
        <DropdownMenu modal={false}
           open={openDropdownId === item.id}
           onOpenChange={(isOpen) => {
@@ -137,11 +152,7 @@ const ImageCard = ({
           </DialogHeader>
         </DialogContent>
       </Dialog>
-
-      
-      
-      
-    </div>
+      </div>
     
   );
   

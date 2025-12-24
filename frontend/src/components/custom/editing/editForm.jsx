@@ -52,6 +52,17 @@ useEffect(() => {
       Copyright: metaData.Rights || "",
       DateCreated: metaData.DateCreated || "",
     });
+  } else {
+    // Reset to empty when no metaData
+    form.reset({
+      Description: "",
+      Headline: "",
+      Category: "",
+      Keywords: "",
+      Credit: "",
+      Copyright: "",
+      DateCreated: "",
+    });
   }
 }, [selectedImage, metaData, form]);
 
@@ -119,9 +130,10 @@ if (!selectedImage || !image) {
 
   const FormSection = ({fieldConfig, className}) => {
 
-    const fixedDate = metaData.DateCreated
+    const fixedDate = metaData?.DateCreated ?
+    metaData.DateCreated 
     .replace(/^(\d{4}):(\d{2}):(\d{2})/, "$1-$2-$3")
-    .replace(" ", "T");
+    .replace(" ", "T") : null ;
 
     const formType = (field) => {
         switch (fieldConfig.type) {
@@ -145,7 +157,7 @@ if (!selectedImage || !image) {
 
          case 'datepicker' :  return (
           <Calendar28 props={{...field}} placeholder={fieldConfig.placeholder} 
-          imageDate={fixedDate} 
+          imageDate={ fixedDate  }
         />);
 
 

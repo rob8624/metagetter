@@ -373,6 +373,7 @@ class UserImagesViewSet(viewsets.ModelViewSet):
             # Save updated metadata to model
             try:
                 image_object.metadata.data = metadata
+                image_object.metadata.edited = True
                 image_object.metadata.save()
                 print("Metadata saved to model successfully")
             except Exception as e:

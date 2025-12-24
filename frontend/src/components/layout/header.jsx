@@ -48,7 +48,8 @@ const Header = () => {
   
   return (
     <>
-      <div className="flex flex-row sm:justify-center dark:bg-black sticky top-0 z-50 bg-transparent">
+      <div className={`flex flex-row sm:justify-center dark:bg-black sticky top-0 z-50 bg-transparent mb-2  
+        ${location.pathname === '/' || location.pathname === '/signin' ? '' : ' shadow-sm bg-gradient-to-b from-slate-300 to-transparent'}`}>
         <div className="flex w-screen sm:flex-col items-center justify-between sm:gap-5">
           <Link to="/" className="">
             <img
@@ -58,7 +59,7 @@ const Header = () => {
               onClick={handleLogoClick}/>
           </Link>
          <DarkModeButton/>
-          <div>{matches ? <DesktopMenu /> : <MobileMenu />}</div>
+          <div className="pb-2">{matches ? <DesktopMenu /> : <MobileMenu />}</div>
         </div>
       </div>
     </>
