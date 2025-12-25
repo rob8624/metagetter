@@ -60,9 +60,10 @@ const ImageCard = ({
 
 
   return (
-   <div className={`flex flex-col ${className}`}>
+   <div className={`flex flex-col hover:scale-100 ${className}`}>
   <div
-    className={`cursor-pointer shadow-xl border-2 rounded-md overflow-hidden transition-all duration-200 w-full ${
+    className={`cursor-pointer shadow-xl border-2 rounded-md overflow-hidden transition-all duration-200 w-full
+      hover:scale-110 ${
       isSelected 
         ? 'border-blue-500 ring-2 ring-blue-200' 
         : 'border-gray-200 hover:border-gray-400'
@@ -82,7 +83,7 @@ const ImageCard = ({
       {item.metadata.edited && (
         <div className="absolute top-1 left-1 text-xs bg-white px-1 rounded flex items-center gap-1">
           <FaCheck className="text-red-500" />
-          <span>edited</span>
+          <span className="dark:text-black">edited</span>
         </div>
       )}
     </div>
@@ -111,7 +112,7 @@ const ImageCard = ({
         setImageToDelete(item);
         
         setConfirmDelete(true);
-        console.log(item.id)
+        console.log('from image card', item.id)
         }}>
   Delete image
 </DropdownMenuItem>

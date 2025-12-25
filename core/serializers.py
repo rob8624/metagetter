@@ -254,11 +254,6 @@ class UserImagesSerializer(serializers.ModelSerializer):
 
              
 
-         """ for key, value in grouped_data.items():
-             summary['data_types'][key] = len(grouped_data[key])
-             summary['camera_details'] = {key: grouped_data['EXIF'][key] for key in camera_keys if key in grouped_data['EXIF']}
-             summary['image_details'] = {key: grouped_data['XMP'][key] for key in image_keys if key in grouped_data['XMP']}
-             """
 
            
              
@@ -270,9 +265,7 @@ class UserImagesSerializer(serializers.ModelSerializer):
     
     
          
-         
-        #  print('grouped_daata', grouped_data)
-        #  print('summer data', summary)
+       
          return summary
      
             
@@ -322,27 +315,3 @@ class UserImagesSerializer(serializers.ModelSerializer):
 
 
 
-# class UserSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ('id', 'username', 'email')
-        
-
-
-# class RegisterSerializer(serializers.ModelSerializer):
-#     password = serializers.CharField(write_only=True, required=True)
-#     password2 = serializers.CharField(write_only=True, required=True)
-    
-#     class Meta:
-#         model = User
-#         fields = ('username', 'password', 'password2', 'email')
-        
-#     def validate(self, attrs):
-#         if attrs['password'] != attrs['password2']:
-#             raise serializers.ValidationError({"password": "Password fields didn't match."})
-#         return attrs
-        
-#     def create(self, validated_data):
-#         validated_data.pop('password2')
-#         user = User.objects.create_user(**validated_data)
-#         return user

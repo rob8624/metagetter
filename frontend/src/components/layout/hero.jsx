@@ -10,7 +10,7 @@ import { UseLoggedIn } from "../../context/userContext";
 
 
 
-export default function Hero() {
+export default function Hero({ setShowFindOutMore }) {
  
   const { loggedIn } = UseLoggedIn();
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ export default function Hero() {
         <div className="flex gap-4 w-64 justify-center pt-10 self-center">
           <Button variant="outline" className="flex-grow bg-black text-white dark:bg-orange-300 
            dark:hover:bg-white dark:hover:text-black" onClick={handleclick}>Upload</Button>
-          <Button variant="outline" className="flex-grow  dark:bg-orange-300 bg-black text-white
+          <Button onClick={() => setShowFindOutMore(prev => !prev)} variant="outline" className="flex-grow  dark:bg-orange-300 bg-black text-white
            dark:hover:bg-white dark:hover:text-black">FInd out more</Button>
         </div>
       </div>

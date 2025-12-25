@@ -1,6 +1,6 @@
 
 import './App.css';
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useState } from 'react';
 
 //Router
 import { Routes, Route } from 'react-router-dom';
@@ -21,6 +21,7 @@ import Hero from './components/layout/hero'
 import Dashboard from './pages/app/dashboard';
 import { Toaster } from "./components/ui/sonner"
 import { PrivateRoutes } from './pages/auth/privateRoutes';
+import FindOutMore from './components/custom/findOutMore';
 
 
 //Context 
@@ -33,7 +34,7 @@ import { ThemeContext } from './context/darkModeContext'
 
 
 function App() {
-
+  const [showFindOutMore, setShowFindOutMore] = useState(false)
   const { setDarkMode } = useContext(ThemeContext)
 
  
@@ -71,7 +72,9 @@ return (
             {/* <AppContent /> */}
             <Routes>
                 {/* Home route with the dropzone */}
-                <Route path="/" element={<Hero/>} />\
+                <Route path="/" element={showFindOutMore ? 
+                <FindOutMore setShowFindOutMore={setShowFindOutMore}/> : 
+                <Hero setShowFindOutMore={setShowFindOutMore} />} />\
                 
                 {/* Sign in route */}
                 <Route path="/signin" element={<SignIn/>} />
