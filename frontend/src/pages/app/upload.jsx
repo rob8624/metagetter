@@ -15,6 +15,7 @@ import PageGridTitle from "../../components/custom/PageGridTitle";
 // Import React FilePond
 import { FilePond, registerPlugin } from "react-filepond";
 
+
 // Import FilePond styles
 import "filepond/dist/filepond.min.css";
 
@@ -23,10 +24,11 @@ import "filepond/dist/filepond.min.css";
 // `npm i filepond-plugin-image-preview filepond-plugin-image-exif-orientation --save`
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import FilePondPluginImageTransform from 'filepond-plugin-image-transform';
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 
 // Register the plugins
-registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, FilePondPluginImageTransform);
 
 // Our app
 export default function Upload() {
@@ -132,6 +134,8 @@ export default function Upload() {
           <div>loading</div>
         ) : (
           <FilePond
+            allowImageTransform={true}
+            imageTransformOutputStripImageHead={false}
             files={files}
             onupdatefiles={(fileItems) => {
               setFiles(fileItems);

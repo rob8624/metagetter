@@ -62,7 +62,7 @@ const ImageCard = ({
   return (
    <div className={`flex flex-col hover:scale-100 ${className}`}>
   <div
-    className={`cursor-pointer shadow-xl border-2 rounded-md overflow-hidden transition-all duration-200 w-full
+    className={`cursor-pointer shadow-xl border-2 rounded-md overflow-hidden transition-all duration-200 
       hover:scale-110 ${
       isSelected 
         ? 'border-blue-500 ring-2 ring-blue-200' 
@@ -71,12 +71,14 @@ const ImageCard = ({
     onClick={() => onImageClick(item)}
   >
     {/* Fixed aspect ratio container */}
-    <div className="aspect-video w-full relative">
+    <div className="w-full relative">
       <img
         ref={el => refs.current.image = el}
         src={item.image_thumbnail_url}
         alt={item.id}
-        className="absolute inset-0 w-full h-full object-cover"
+        className="w-full h-auto rounded-md p-2 object-contain"
+        
+        
       />
       
       {/* Edited badge */}

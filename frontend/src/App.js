@@ -29,6 +29,9 @@ import { MenuDataProvider } from './context/menuData';
 import { UserDataProvider } from './context/userContext';
 import { ThemeContext } from './context/darkModeContext'
 
+//Settings
+import { BACKGROUND_IMAGE_URL } from './siteSettings';
+
 
 
 
@@ -57,7 +60,7 @@ return (
     <>
     <div id="site-wrapper" className='flex flex-col max-h-dvh min-h-dvh w-screen items-center dark:bg-black bg-cover '
     style={isHomePage ? { 
-        backgroundImage: `url(${process.env.PUBLIC_URL}/images/cosmos-7709242_640.jpg)` 
+        backgroundImage: `url(${BACKGROUND_IMAGE_URL})`
       } : {}}>
     <UserDataProvider >
      
