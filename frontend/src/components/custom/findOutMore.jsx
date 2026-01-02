@@ -3,7 +3,7 @@ import { FaXmark } from "react-icons/fa6";
 export default function FindOutMore({ setShowFindOutMore }) {
     return (
         <>
-        <div className="mx-auto w-3/4 lg:w-2/4 bg-white rounded-2xl shadow-lg p-4 relative max-h-full overflow-y-scroll">
+        <div className="mx-auto w-3/4 lg:w-2/4 bg-white rounded-2xl shadow-lg p-4 relative max-h-full overscroll-auto ">
             <header className="bg-slate-200 rounded-lg w-fit">
                 <h2 className="text-sm font-raleway p-1 mb-1">
                     <span className="inline">About, </span>

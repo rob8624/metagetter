@@ -29,7 +29,7 @@ import Logout from "./logout";
 
 
 
-
+//ABOUT AND USAGE MENUS COMMENTED OUT FOR THE MOMENT 
 export default function DesktopMenu() {
 
 
@@ -75,7 +75,7 @@ let navigate = useNavigate();
     <NavigationMenu className={`${navMenuClassName} bg-transparent [&_button]:px-4 [&_button]:py-2 [&_button]:bg-white/10 [&_button]:backdrop-blur-sm [&_button]:rounded-lg [&_button]:border [&_button]:border-white/20 [&_button]:hover:bg-white/20`}>
     {menuData.map((item, index) => (
       <NavigationMenuList key={index}>
-        <NavigationMenuItem>
+        {/* <NavigationMenuItem>
           {item.aboutContent && item.aboutContent.map((item, index) => (   
             <React.Fragment key={index}>
           <NavigationMenuTrigger>
@@ -102,9 +102,9 @@ let navigate = useNavigate();
           </NavigationMenuContent>
           </React.Fragment>
           ))}
-        </NavigationMenuItem>
+        </NavigationMenuItem> */}
       
-        {item.usageContent && item.usageContent.map((item, index) => (
+       {/*  {item.usageContent && item.usageContent.map((item, index) => (
           <React.Fragment key={index}>
         <NavigationMenuItem >
           <NavigationMenuTrigger className="">
@@ -117,7 +117,7 @@ let navigate = useNavigate();
           </NavigationMenuContent>
         </NavigationMenuItem>
         </React.Fragment>
-        ))}
+        ))} */}
         { loggedIn ? null : 
         item.signinContent.map((item, index) => (
           <React.Fragment key={index}>

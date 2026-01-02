@@ -53,15 +53,17 @@ function App() {
  }, [pathname, setDarkMode])
  
 
-
+const bgImageStyles = {
+  backgroundImage: `url(${BACKGROUND_IMAGE_URL})`,
+  backgroundSize: `100% 100%`
+}
  
  
 return (
     <>
-    <div id="site-wrapper" className='flex flex-col max-h-dvh min-h-dvh max-w-screen items-center dark:bg-black bg-contain'
-    style={isHomePage ? { 
-        backgroundImage: `url(${BACKGROUND_IMAGE_URL})`
-      } : {}}>
+    <div id="site-wrapper" className='flex flex-col max-h-dvh min-h-dvh max-w-screen items-center dark:bg-black '
+    style={isHomePage ? 
+        bgImageStyles : {}}>
     <UserDataProvider >
      
         <MenuDataProvider>
