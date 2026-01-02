@@ -1,9 +1,7 @@
 import axios from 'axios';
 
-
-
-
-const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
+const API_URL =
+  process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
@@ -12,78 +10,97 @@ const axiosInstance = axios.create({
   },
 });
 
-// Track if we're currently refreshing the token
+// =========================
+// Refresh state
+// =========================
 let isRefreshing = false;
 let failedQueue = [];
 
-// Request interceptor to add the access token
+// =========================
+// REQUEST INTERCEPTOR
+// =========================
 axiosInstance.interceptors.request.use(
   config => {
-    const token = localStorage.getItem('a_t'); // Access token
+    const token = localStorage.getItem('a_t'); // access token
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`; // Attach the token
+      config.headers = {
+        ...config.headers,
+        Authorization: `Bearer ${token}`,
+      };
     }
     return config;
   },
-  error => {
-    return Promise.reject(error);
-  }
+  error => Promise.reject(error)
 );
 
-
-// Response interceptor to handle 401 (Unauthorized)
+// =========================
+// RESPONSE INTERCEPTOR
+// =========================
 axiosInstance.interceptors.response.use(
-  response => response,  // Success, return the response as is
-  async (error) => {
+  response => response,
+  async error => {
     const originalRequest = error.config;
-    
-    // If we get a 401 (Unauthorized) error and haven't already tried refreshing
-    if (error.response?.status === 401 && !originalRequest._retry) {
+
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      !originalRequest._retry &&
+      !originalRequest.url.includes('/auth/jwt/refresh/')
+    ) {
       originalRequest._retry = true;
-      
-      // If a refresh is in progress, queue the request
+
+      // Queue requests while refresh is happening
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         }).then(token => {
-          originalRequest.headers['Authorization'] = `Bearer ${token}`;
-          return axiosInstance(originalRequest);  // Retry the original request
-        }).catch(err => {
-          return Promise.reject(err);
+          originalRequest.headers = {
+            ...originalRequest.headers,
+            Authorization: `Bearer ${token}`,
+          };
+          return axiosInstance(originalRequest);
         });
       }
 
-      // Start the refresh process
       isRefreshing = true;
 
       try {
-        const refreshToken = localStorage.getItem('r_t'); // Refresh token
-        const response = await axios.post(`${API_URL}/auth/jwt/refresh/`, {
-          refresh: refreshToken,
-        });
+        const refreshToken = localStorage.getItem('r_t');
+        if (!refreshToken) {
+          throw new Error('No refresh token available');
+        }
+
+        const response = await axios.post(
+          `${API_URL}/auth/jwt/refresh/`,
+          { refresh: refreshToken }
+        );
 
         const newAccessToken = response.data.access;
-        localStorage.setItem('a_t', newAccessToken); // Save new access token
-        axiosInstance.defaults.headers['Authorization'] = `Bearer ${newAccessToken}`;  // Update global axios header
-        
-        // Retry failed requests
+
+        localStorage.setItem('a_t', newAccessToken);
+
+        // Retry queued requests
         failedQueue.forEach(prom => prom.resolve(newAccessToken));
-        failedQueue = [];  // Reset the queue
+        failedQueue = [];
 
-        return axiosInstance(originalRequest);  // Retry the original failed request
+        // Retry original request with new token
+        originalRequest.headers = {
+          ...originalRequest.headers,
+          Authorization: `Bearer ${newAccessToken}`,
+        };
+
+        return axiosInstance(originalRequest);
       } catch (err) {
-        
-
         failedQueue.forEach(prom => prom.reject(err));
-        failedQueue = [];  // Reset the queue
-        // Handle error (perhaps redirect to login)
-        console.log("Refresh token failed", err);
-        
-        localStorage.removeItem('loggedin')
+        failedQueue = [];
+
+        localStorage.removeItem('a_t');
+        localStorage.removeItem('r_t');
+        localStorage.removeItem('loggedin');
 
         setTimeout(() => {
-          window.location.href = '/signin?reason=sessionExpired'; 
-        }, 1000)
+          window.location.href = '/signin?reason=sessionExpired';
+        }, 500);
 
         return Promise.reject(err);
       } finally {
@@ -91,11 +108,8 @@ axiosInstance.interceptors.response.use(
       }
     }
 
-    return Promise.reject(error);  // For other errors, just reject the promise
+    return Promise.reject(error);
   }
 );
-
-
-
 
 export default axiosInstance;

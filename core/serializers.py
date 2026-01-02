@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 
 from imagekit import ImageSpec
 from imagekit.processors import ResizeToFill
+from imagekit.processors import ResizeToFit
 from imagekit.cachefiles import ImageCacheFile
 
 
@@ -35,7 +36,7 @@ class CustomUserSerializer(UserSerializer):
 
 
 class ThumbnailSpec(ImageSpec):
-    processors = [ResizeToFill(600, 400 )]
+    processors = [ResizeToFit(600, 600 )]
     format = 'JPEG'
     options = {'quality': 30}
 
@@ -102,6 +103,7 @@ class UserImagesSerializer(serializers.ModelSerializer):
      metadata = ImageMetadataSerializer()
      grouped_metadata = serializers.SerializerMethodField()
      summary_metadata = serializers.SerializerMethodField()
+     location = serializers.SerializerMethodField()
      user = serializers.StringRelatedField(read_only=True)
      image_url = serializers.SerializerMethodField()
      image_thumbnail_url = serializers.SerializerMethodField()
@@ -118,6 +120,7 @@ class UserImagesSerializer(serializers.ModelSerializer):
             'metadata',
             'grouped_metadata',
             'summary_metadata',
+            'location',
             'created_at',
             'upload_id',
             'upload_name'
@@ -209,7 +212,7 @@ class UserImagesSerializer(serializers.ModelSerializer):
                 }
              
          else:
-             summary['camera_details'] = {'message': 'No EXIF data available'}
+             summary['image_details'] = {'message': 'No EXIF data available'}
          
 
          
@@ -268,8 +271,35 @@ class UserImagesSerializer(serializers.ModelSerializer):
        
          return summary
      
+     
+     
+     def get_location(self, obj):
+        grouped = self._process_metadata(obj)
+        exif = grouped.get('EXIF', {})
+        lat = exif.get("GPSLatitude")
+        lat_ref = exif.get("GPSLatitudeRef")
+
+        lng = exif.get("GPSLongitude")
+        lng_ref = exif.get("GPSLongitudeRef")
+
+        if lat and lng:
+            lat = float(lat)
+            lng = float(lng)
+
+            if lat_ref == "S":
+                lat = -lat
+            if lng_ref == "W":
+                lng = -lng
+
+            location_data = {
+                "latitude": lat,
+                "longitude": lng
+            }
+            return location_data
+        else:
+            return {'message': 'No location data available'}       
             
-         
+     
      def get_image_url(self, obj):
         """
         Return the actual URL of the uploaded image file

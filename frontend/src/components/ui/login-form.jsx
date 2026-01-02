@@ -63,6 +63,7 @@ export function LoginForm({
             toast(`All logged in ${data.username}`);
            
             navigate('/dashboard', { replace: true});
+            console.log(success)
             setLoggedIn(true)
           }
     } catch (error) {

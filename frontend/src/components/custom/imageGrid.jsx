@@ -24,6 +24,7 @@ export default function ImageGrid({ data, selectedImage, setSelectedImage, secti
   const [imageToDelete, setImageToDelete] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
+  const [imageZoomed, setImageZoomed] = useState(null)
   
 
 
@@ -39,6 +40,7 @@ export default function ImageGrid({ data, selectedImage, setSelectedImage, secti
 
 const handleImageClick = (item) => {
   setSelectedImage(item);
+  setImageZoomed(null)
   
   console.log(selectedImage, 'selectedimage data') // This will trigger useEffect cleanup + setup
 };
@@ -89,6 +91,8 @@ const handleImageClick = (item) => {
           setIsEditing={setIsEditing}
           sectionRefs={sectionRefs}
           imagesRef={imagesRef}
+          setImageZoomed={setImageZoomed}
+          imageZoomed={imageZoomed}
         />
     
         

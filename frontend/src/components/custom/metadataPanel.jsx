@@ -10,8 +10,46 @@ const MetadataPanel = ({ selectedImage, data, showPanel, setShowPanel, }) => {
   // Get data once at the top level
   const rawData = getSelectedData(data, selectedImage);
   const summaryData = rawData?.summary_metadata;
+  const locationData = rawData?.location;
 
   console.log('summarydata', summaryData);
+  console.log('location date', locationData)
+
+ const LocationDataProcess = ({ data }) => {
+  if (!data) return null;
+  const { latitude, longitude, message } = data;
+ 
+
+ return (
+    <div>
+      {message && (
+        <div className="text-xs">
+          {message} for this image
+        </div>
+      )}
+
+      {latitude && longitude && (
+        <div>
+          <h4 className="text-xs font-bold">Location data found</h4>
+          <a
+            href={`https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 underline"
+          >
+            View on Google Maps
+          </a>
+
+          <div className="text-xs flex gap-2">
+            <span className="font-bold">Lat:</span> {latitude}<br />
+            <span className="font-bold">Lng:</span> {longitude}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 
   //component to handle displaying summary data, color is block color, padding creates size
   const SummaryDataProcess = ({ styles, data }) => {
@@ -89,8 +127,10 @@ const MetadataPanel = ({ selectedImage, data, showPanel, setShowPanel, }) => {
               Close
             </Button>
           )}
-          <div className="clear-both" >
+          <div className="clear-both shadow-xl border-black border-1 rounded-lg" >
+            <LocationDataProcess data={locationData}/>
             <h3 className="text-lg font-semibold mb-4">Metadata Summary</h3>
+            
             <div className="mb-4">
               <img
                 src={selectedImage?.image_thumbnail_url}

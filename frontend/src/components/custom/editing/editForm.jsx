@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { Textarea } from "../../ui/textarea"
 import { Input } from "../../ui/input"
@@ -17,7 +17,7 @@ import {
 
 export function EditForm({data, selectedImage, isEditing, setIsEditing}) {
   
-  //const [saveButton, setSaveButton] = useState(true)
+  const [autoDownload, setAutoDownload] = useState(false)
   const editmetadata = useEditMetadata(selectedImage)
   const editSuccess = useEditSuccess(selectedImage, setIsEditing)
   
@@ -69,9 +69,15 @@ useEffect(() => {
 if (!selectedImage || !image) {
   return <div>No data</div>;
 }
-  function onSubmit(formData) {
-    console.log(formData); // Check what's being submitted
-    editmetadata.mutate(formData)
+  
+//
+function onSubmit(formData) {
+    console.log('from editform', formData, autoDownload); // Check what's being submitted
+    
+    editmetadata.mutate({ 
+    formData, 
+    autoDownload 
+  });
   }
 
   // Field configurations - separate from form values
@@ -202,13 +208,14 @@ if (!selectedImage || !image) {
   
   function formStatusHelper() {
     if (editmetadata.isPending) {
-      return (<div>Downloading...</div>)
+      return (autoDownload ? <div>Downloading...</div> : <div>Saving new data</div>)
     }
     if (editmetadata.isSuccess) {
       return (
         <>
         
-          <div className="inline p-5">Data written and image downloaded</div>
+          <div className="inline p-5">{autoDownload ? 'Data written and image downloaded' :
+            'Data successfully written'}</div>
           <button onClick={() => {editSuccess();}}
           
           className="inline mt-4 px-4 py-2 bg-black dark:bg-white text-white rounded
@@ -229,14 +236,20 @@ if (!selectedImage || !image) {
         >
           Save Changes
         </button>
+        
+        <label> 
+            Auto Download?
+            <input type="checkbox" checked={autoDownload} onChange={(e) => setAutoDownload(e.target.checked)} />
+        </label>
+        
 
-        <button type="button" onClick={() => form.reset()}
+        { !isDirty ? null : <button type="button" onClick={() => form.reset()}
           className={`first-line:mt-4 px-4 py-2 ${
             !isDirty ? `bg-slate-600  cursor-not-allowed` : `bg-black`
           } dark:bg-white text-white rounded
           dark:text-black`}>
           Reset
-        </button>
+        </button>}
         </div>
       </>
     ); 

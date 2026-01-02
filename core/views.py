@@ -87,7 +87,7 @@ class ImageLimitPermission(permissions.BasePermission):
             return False
 
         image_count = UserImages.objects.filter(user=request.user).count()
-        if image_count >= 5:
+        if image_count >= 4:
             raise PermissionDenied(detail="Upload limit of 5 images reached.")
         return True
 
@@ -154,7 +154,7 @@ class FilePondProcessView(ProcessView):
             return HttpResponse("Upload limit reached", status=500)
         else:
             response = super().post(request)
-
+            user = request.user.username    
             if response.status_code == 200:
                 upload_id = response.data
 
@@ -180,7 +180,7 @@ class FilePondProcessView(ProcessView):
                     # Continue with storing the upload
                     stored_image = store_upload(
                         temp_upload.upload_id,
-                        os.path.join(temp_upload.upload_id, temp_upload.upload_name)
+                        os.path.join(user, temp_upload.upload_id, temp_upload.upload_name)
                     )
                     
                     current_user = request.user

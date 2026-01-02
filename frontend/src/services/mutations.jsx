@@ -75,7 +75,7 @@ export function useDataTask(task) {
 export function useEditMetadata(selectedImage) {
  
   return useMutation({
-    mutationFn: async (formData) => {
+    mutationFn: async ({formData, autoDownload}) => {
       const response = await axiosInstance.patch(
         `/api/images/${selectedImage.id}/editmetadata/`, 
         formData,
@@ -83,11 +83,11 @@ export function useEditMetadata(selectedImage) {
           responseType: 'blob'
         }
       );
-      return response.data;
+      return {blob: response.data, autoDownload};
     },
-    onSuccess: (blob) => {
-      
-      const url = window.URL.createObjectURL(blob);
+    onSuccess: ({blob, autoDownload}) => {
+     if (autoDownload) 
+      {const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
       a.download = selectedImage.upload_name || 'edited-image.jpg';
@@ -95,7 +95,7 @@ export function useEditMetadata(selectedImage) {
       a.click();
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
-      console.log('Image downloaded successfully');
+      console.log('Image downloaded successfully')};
     },
     onError: (error) => {
       console.error('Error editing metadata:', error);

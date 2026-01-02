@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState, useRef } from "react";
 //services
-import axiosRaw from "../../services/axiosRaw";
+import axiosInstance from "../../services/api";
 
 //font and spinners
 
@@ -17,20 +17,14 @@ import "react-image-gallery/styles/css/image-gallery.css";
 
 // Fetch function for your images
 const fetchData = async () => {
-  const token = localStorage.getItem("a_t");
-
-  if (!token) {
-    console.log("No token found");
-    throw new Error("No token found");
+  try {
+    const response = await axiosInstance.get("api/images");
+    console.log("Fetched Data:", response.data);
+    return response.data;
+  } catch (err) {
+    console.error("Error fetching images:", err);
+    throw err;
   }
-
-  const response = await axiosRaw.get("api/images", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  console.log("Fetched Data:", response.data);
-  return response.data;
 };
 
 export default function Viewer() {

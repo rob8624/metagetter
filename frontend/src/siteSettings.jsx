@@ -1,1 +1,2 @@
-export const BACKGROUND_IMAGE_URL = 'https://metagetter-bucket.s3.eu-north-1.amazonaws.com/backgrounds/cosmos-7709242_640.jpg'
+export const BACKGROUND_IMAGE_URL = 'https://metagetter-bucket.s3.eu-north-1.amazonaws.com/backgrounds/pexels-no-name-14543-66997.jpg'
+export const HEADER_LOGO = '/HeaderLogo.png'

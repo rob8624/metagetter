@@ -30,7 +30,9 @@ const GridView = ({
   isEditing,
   setIsEditing,
   sectionRefs,
-  imagesRef
+  imagesRef,
+  setImageZoomed,
+  imageZoomed,
 }) => {
 
 const [openDropdownId, setOpenDropdownId] = useState(null);
@@ -53,7 +55,7 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
         
       
         
-        <div ref={imagesRef} className="grid grid-cols-3  md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-4 rounded-lg backdrop-blur-xl sm:p-10   bg-white
+        <div ref={imagesRef} className="grid grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 gap-5 sm:gap-10  rounded-lg backdrop-blur-xl sm:p-10   bg-white
         dark:text-white dark:bg-black scroll-mt-32">
         
           {data.map((item) => (
@@ -77,6 +79,8 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
               setOpenDropdownId={setOpenDropdownId}
               isEditing={isEditing}
               setIsEditing={setIsEditing}
+              imageZoomed={imageZoomed?.id === item.id}
+              setImageZoomed={setImageZoomed}
             />
          
           ))}

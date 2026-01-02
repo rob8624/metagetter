@@ -58,7 +58,7 @@ function App() {
  
 return (
     <>
-    <div id="site-wrapper" className='flex flex-col max-h-dvh min-h-dvh w-screen items-center dark:bg-black bg-cover '
+    <div id="site-wrapper" className='flex flex-col max-h-dvh min-h-dvh max-w-screen items-center dark:bg-black bg-contain'
     style={isHomePage ? { 
         backgroundImage: `url(${BACKGROUND_IMAGE_URL})`
       } : {}}>
@@ -68,7 +68,7 @@ return (
         
              <Header/>
           
-          <div id="main-background" className="overflow-auto w-screen min-h-0 flex-grow bg-transparent
+          <div id="main-background" className="overflow-auto  min-h-0 max-w-screen flex-grow bg-transparent
            dark:bg-black  
            sm:w-5/6 rounded-lg relative no-scrollbar ">
           

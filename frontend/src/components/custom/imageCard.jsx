@@ -2,6 +2,8 @@
 
 import { useDeleteImage } from "../../services/mutations"
 import { FaAngleDown } from "react-icons/fa6";
+import { FaMagnifyingGlassPlus } from "react-icons/fa6";
+import { FaMagnifyingGlassMinus } from "react-icons/fa6";
 
 import { Button } from "../ui/button";
 
@@ -27,10 +29,13 @@ import {Dialog,
   import { FaCheck } from "react-icons/fa";
 
 
+
 const ImageCard = ({ 
   item, 
   isSelected, 
   setSelectedImage,
+  imageZoomed,
+  setImageZoomed,
 
   onImageClick, 
 
@@ -59,27 +64,33 @@ const ImageCard = ({
 
 
 
+
+
   return (
-   <div className={`flex flex-col hover:scale-100 ${className}`}>
-  <div
-    className={`cursor-pointer shadow-xl border-2 rounded-md overflow-hidden transition-all duration-200 
-      hover:scale-110 ${
-      isSelected 
+<>
+   
+
+
+   <div className={`flex flex-col hover:scale-100 w-full items-center${className}`}>
+  <div 
+    className={`${imageZoomed && 'scale-[1.6] translate-y-6 z-50 bg-white'} cursor-pointer shadow-xl border-2 rounded-md  transition-all duration-200  
+    
+       ${
+      isSelected && !imageZoomed 
         ? 'border-blue-500 ring-2 ring-blue-200' 
         : 'border-gray-200 hover:border-gray-400'
     }`}
     onClick={() => onImageClick(item)}
   >
     {/* Fixed aspect ratio container */}
-    <div className="w-full relative">
+    <div className="relative flex justify-center h-full w-full ">
       <img
         ref={el => refs.current.image = el}
         src={item.image_thumbnail_url}
         alt={item.id}
-        className="w-full h-auto rounded-md p-2 object-contain"
-        
-        
+        className=" rounded-lg p-5 z-0 object-fill "
       />
+      
       
       {/* Edited badge */}
       {item.metadata.edited && (
@@ -88,13 +99,22 @@ const ImageCard = ({
           <span className="dark:text-black">edited</span>
         </div>
       )}
+
+      
+      <div className="absolute top-1 right-1" onClick={(e) => {setImageZoomed(prev => prev?.id === item.id ? null : item); e.stopPropagation();}}>
+        {imageZoomed ? <FaMagnifyingGlassMinus/> : <FaMagnifyingGlassPlus /> }
+      </div>
+  
     </div>
     
     {/* Text below image */}
-    <div className="text-xs font-raleway p-2 overflow-hidden text-ellipsis whitespace-nowrap">
+    
+    
+    
+  </div>
+  <div className="text-xs font-raleway p-2 overflow-hidden text-ellipsis whitespace-nowrap w-full">
       {item.upload_name}
     </div>
-  </div>
 
    {/* image menu */}
        <DropdownMenu modal={false}
@@ -156,9 +176,10 @@ const ImageCard = ({
         </DialogContent>
       </Dialog>
       </div>
-    
+    </>
   );
   
-};
+}
+;
 
 export default ImageCard

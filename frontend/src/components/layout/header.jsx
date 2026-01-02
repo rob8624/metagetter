@@ -7,6 +7,8 @@ import { ThemeContext } from "../../context/darkModeContext";
 import { MdDarkMode, MdOutlineDarkMode } from "react-icons/md";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
+import { HEADER_LOGO } from "../../siteSettings";  
+
 
 const Header = () => {
   const { darkMode, handleDarkModeToggle } = useContext(ThemeContext);
@@ -54,7 +56,7 @@ const Header = () => {
           <Link to="/" className="">
             <img
               className="h-14 sm:h-32 m-2 rounded-md opacity-90 bg-black"
-              src="/HeaderLogo.png"
+              src={HEADER_LOGO}
               alt="Logo"
               onClick={handleLogoClick}/>
           </Link>

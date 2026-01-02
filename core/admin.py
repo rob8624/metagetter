@@ -26,7 +26,7 @@ admin.site.register(User, UserAdmin)
 # Create a separate admin for UserImages (this is key!)
 @admin.register(UserImages)
 class UserImagesAdmin(admin.ModelAdmin):
-    list_display = ['user', 'upload_id', 'created_at', 'get_image_name', 'get_metadata_display']
+    list_display = ['user', 'upload_id', 'created_at', 'get_image_name', 'get_metadata_display', 'image_url']
     list_filter = ['user', 'created_at']
     search_fields = ['user__username', 'upload_id']
     readonly_fields = ['upload_id', 'created_at', 'get_metadata_display']
@@ -42,6 +42,9 @@ class UserImagesAdmin(admin.ModelAdmin):
             return json.dumps(obj.metadata.data, indent=2)
         return "No metadata available"
     get_metadata_display.short_description = "Metadata (JSON)"
+
+    def image_url(self, obj):
+        return obj.image.file.url
 
 
 # Register your Image model

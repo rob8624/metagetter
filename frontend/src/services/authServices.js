@@ -26,6 +26,7 @@ class AuthService {
             if (response.data.access && response.data.refresh) {
                 localStorage.setItem('a_t', response.data.access)
                 localStorage.setItem('r_t', response.data.refresh)
+                console.log(response.data)
                 saveToLocalStorage("loggedin", true)
 
                 return true

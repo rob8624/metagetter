@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import {useMediaQuery } from '@react-hook/media-query'
 import { useRef } from "react";
 import PageGridTitle from "./PageGridTitle";
 import { Button } from "../ui/button";
@@ -13,7 +14,7 @@ export default function TopBar({
   imagesRef
 }) {
   const filenameRef = useRef(null);
-  
+  const matches = useMediaQuery('only screen and (min-width: 600px)')
 
   useEffect(() => {
     if (selectedImage && filenameRef.current) {
@@ -51,13 +52,13 @@ export default function TopBar({
       id="topbar"
       className={`mb-2 sticky top-0 z-10 bg-white border-b-2 ${selectedImage ? "border-t-2": null} border-black text-black dark:text-white dark:bg-black`}
     >
-      <PageGridTitle
+      {matches ?  <PageGridTitle
         className="pt-5 text-black dark:text-white"
         title={"Viewer"}
         descripition={"Here you can view and edit your data"}
         subDescription={"Select an image to view options"}
         color={"grey"}
-      />
+      />: null}
       <div id="topbarmenu-wrapper" className="inline-block ml-2 ">
         <div id="topbarmenu" className="flex flex-wrap gap-2 items-center">
          {selectedImage ? (

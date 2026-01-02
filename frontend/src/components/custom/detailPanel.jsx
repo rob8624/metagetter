@@ -55,7 +55,7 @@ export default function DetailPanel({ data, selectedImage, sectionRefs}) {
     <div ref={el => sectionRefs.current[key] = el} className="scroll-mt-32">
     
       
-      Extracted <span className="font-bold">{key}</span>data</div>
+      <span className="font-bold bg-gray-200 p-1 rounded-lg">Extracted {key}</span></div>
       <Table  key={key} className="my-4 mr-10">
         <TableHeader>
           <TableRow>
