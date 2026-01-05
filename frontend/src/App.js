@@ -1,6 +1,7 @@
 
 import './App.css';
 import { useEffect, useContext, useState } from 'react';
+import { preload } from 'react-dom';
 
 //Router
 import { Routes, Route } from 'react-router-dom';
@@ -33,7 +34,7 @@ import { ThemeContext } from './context/darkModeContext'
 import { BACKGROUND_IMAGE_URL } from './siteSettings';
 
 
-
+preload(`${BACKGROUND_IMAGE_URL}`, { as: 'image' });
 
 
 function App() {
@@ -46,6 +47,9 @@ function App() {
  const { pathname } = useLocation()
  const isHomePage = pathname === '/'
 
+
+
+
  useEffect(() => {
   if (pathname === '/') {
   setDarkMode(false)
@@ -55,7 +59,8 @@ function App() {
 
 const bgImageStyles = {
   backgroundImage: `url(${BACKGROUND_IMAGE_URL})`,
-  backgroundSize: `100% 100%`
+  backgroundSize: `100% 100%`,
+  opacity: '0.9'
 }
  
  

@@ -9,6 +9,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
+    DialogClose
     
   } from "../../components/ui/dialog"
   
@@ -71,8 +72,9 @@ import {
             <DialogTitle>Password reset</DialogTitle>
             <DialogDescription>
                 <div className="flex flex-col gap-2">
+                  <span>Enter your registered email below reset password.</span>
                   <form onSubmit={handleReset} >
-                    <span>Enter your registered email below reset password.</span>
+                    
                     <Input type="email" name="email"
                       placeholder="Enter your email" 
                       value={email} 
@@ -87,6 +89,9 @@ import {
                         onChange={handleChange}/>,
             </DialogDescription>
             </DialogHeader>
+            <DialogClose>
+              <Button>Cancel</Button>
+            </DialogClose>
         </DialogContent>
         </Dialog>
        

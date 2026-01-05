@@ -27,7 +27,7 @@ export default function ProfileSheet({ isOpen, setIsOpen }) {
   useEffect(() => {
  
     if ((isOpen && !userData && !loading) || updating) {
-      console.log(updating + 'updating value', )
+      
       const fetchData = async () => {
         setLoading(true);
         try {

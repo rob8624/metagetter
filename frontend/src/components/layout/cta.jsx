@@ -24,12 +24,12 @@ export default function CallToAction() {
        
         {   card:"Upload Card",
             title:"Upload.",
-            description: "Once registered, Metagetter users can upload a maximum of 5 images at a time"
+            description: "Once registered, Metagetter users can upload a maximum of four images at a time"
         },
         {   card:"View Card",
             title:"View.",
             description: <>
-                View <strong>all</strong>image metadata, organised by data type. 
+                View <strong> all </strong>image metadata, organised by data type. 
                 Metagetter uses the power of <strong>Exiftool</strong> to find fields not viewable via Photoshop
                 or Photo Mechanic
             </>
@@ -37,7 +37,7 @@ export default function CallToAction() {
          {   card:"Process Card",
             title:"Process.",
             description: <><strong>Edit</strong> metadata, <strong>download</strong> as TXT or JSON file or simply
-            <strong>delete</strong>all image data."</>
+            <strong> delete </strong>all image data."</>
         },
 
     ]

@@ -24,6 +24,8 @@ import { Link } from "react-router-dom"
 import { useLocation } from "react-router-dom";
 import { useSearchParams } from 'react-router-dom';
 
+//icons
+import { FaArrowRightToBracket } from "react-icons/fa6";
 
 
 const formSchema = z.object({
@@ -97,7 +99,7 @@ const renderMessage = () => {
   } else {
     return (
       <div className="text-2xl font-bold text-stone-950 text-center dark:text-white">
-        OK! Sign in or sign up.
+        Sign in or sign up.
       </div>
     );
   }
@@ -110,12 +112,16 @@ const location = useLocation();
 
   return (
     
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className={cn("flex flex-col gap-6 rounded-2xl ", className)} {...props}>
 
       { loggedInUser ? <div> You are aleady signed in</div> :
-      <Card>
+      <Card className="font-raleway">
         <CardHeader>
-          <CardTitle className="text-2xl mx-auto">Login</CardTitle>
+          <CardTitle className="flex text-2xl items-center gap-3 mx-auto" >
+            <div>Login</div>
+            <div><FaArrowRightToBracket/></div>
+          </CardTitle>
+          <hr></hr>
           <CardDescription>
             { renderMessage() } 
             Enter your username below to login to your account
@@ -125,7 +131,7 @@ const location = useLocation();
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
-                <Label htmlFor="username">Username</Label>
+                <Label className="font-bold" htmlFor="username">Username</Label>
                 <Input 
                   id="username" 
                   type="text" 
@@ -140,13 +146,10 @@ const location = useLocation();
                 )}
               </div>
               
-              <div className=" flex flex-col">
-                  <div className="text-sm">Forgot username?</div>
-                  <div className="text-xs">Reset password and it will be sent</div>
-              </div>
+             
               <div className="grid gap-2">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="password">Password</Label>
+                  <Label className="font-bold" htmlFor="password">Password</Label>
                   
                 </div>
                 <Input 
@@ -161,6 +164,10 @@ const location = useLocation();
                   </p>
                 )}
               </div>
+               <div className=" flex flex-col p-2 border-black border-2 rounded-lg">
+                  <div className="text-sm">Forgot username?</div>
+                  <div className="text-xs">Reset password and it will be sent</div>
+              </div>
               <Button type="submit" className="w-full">
                 Login
               </Button>
@@ -172,7 +179,7 @@ const location = useLocation();
               </Link>
             </div>
           </form>
-          <div className="w-full flex justify-center pt-5">
+          <div className="w-full flex justify-center pt-5 font-bold">
           <ResetPassword />
           </div>
         </CardContent> 

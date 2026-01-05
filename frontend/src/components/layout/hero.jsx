@@ -36,17 +36,17 @@ export default function Hero({ setShowFindOutMore }) {
             MetaGetter
           </h1>
         </div>
-        <span className="font-thin text-2xl sm:text-4xl pt-2 text-black  dark:text-white">
+        <span className="font-raleway font-bold text-2xl sm:text-4xl pt-2 text-black  dark:text-white">
           Enpowering your Metadata
         </span>
-        <p className="font-thin text-base pt-2 dark:text-white">
+        <p className="font-raleway  text-base pt-2 dark:text-white">
           Create, edit & enable, content data.
         </p>
         <div className="flex gap-4 w-64 justify-center pt-10 self-center">
           <Button variant="outline" className="flex-grow bg-black text-white dark:bg-orange-300 
            dark:hover:bg-white dark:hover:text-black" onClick={handleclick}>Upload</Button>
           <Button onClick={() => setShowFindOutMore(prev => !prev)} variant="outline" className="flex-grow  dark:bg-orange-300 bg-black text-white
-           dark:hover:bg-white dark:hover:text-black">FInd out more</Button>
+           dark:hover:bg-white dark:hover:text-black">Find out more</Button>
         </div>
       </div>
     
