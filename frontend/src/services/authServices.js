@@ -26,15 +26,17 @@ class AuthService {
             if (response.data.access && response.data.refresh) {
                 localStorage.setItem('a_t', response.data.access)
                 localStorage.setItem('r_t', response.data.refresh)
-                console.log(response.data)
+                localStorage.setItem('current_user', JSON.stringify(response.data.userdata))
+                console.log('responsedata', response.data)
                 saveToLocalStorage("loggedin", true)
 
                 return true
             }
         
         } catch(error) {
+            console.log(error.response)
             if (error.response && error.response.status === 401) {
-                toast('Invalid username or password');
+                toast(error);
             } else if (error.response) {
                 
                 toast('Server Error', error.response.status);
@@ -61,9 +63,7 @@ class AuthService {
                     "Content-Type": "application/json", 
                 }
             });
-            localStorage.removeItem('a_t');
-            localStorage.removeItem('r_t');
-            localStorage.removeItem('loggedin');
+            localStorage.clear()
             toast('You have been logged out');
         } catch (error) {
             console.error('token error:', error.response || error.message);

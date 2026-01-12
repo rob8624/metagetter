@@ -29,9 +29,25 @@ export default function Logout() {
   const [confirm] = useState(false) 
   const [isOpen, setIsOpen] = useState(false)
   const [isLoggingOut, setIsLoggingOut] = useState(false) 
+  const [currentUser, setCurrentUser] = useState('')
   const { setLoggedIn } = UseLoggedIn();
   const navigate = useNavigate()
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+     try {
+        const userData = localStorage.getItem('current_user')
+        const currentUser = JSON.parse(userData)
+        if (currentUser) {
+          setCurrentUser(currentUser.username)
+        } else {
+          setCurrentUser('User')
+        }
+      }
+     catch (error) {
+      console.log(error)
+     }
+  }, [])
 
  
 
@@ -65,6 +81,8 @@ export default function Logout() {
   }
 
 
+
+
    const ConfirmDialog = () => {
          
       
@@ -75,13 +93,13 @@ export default function Logout() {
   <DialogContent showCloseButton={false}>
     <DialogHeader>
       {isLoggingOut ? null : <div className="flex gap-2">
-        <DialogTitle className="font-raleway">Logout from Metagetter?</DialogTitle>
+        <DialogTitle className="font-raleway">Logout from Metagetter {currentUser}?</DialogTitle>
         <FaArrowRightFromBracket />
         </div>  }
       <DialogDescription>
         <div className={`flex ${isLoggingOut? 'flex-col justify-center items-center' : 'flex-row'} gap-3`}>
           {isLoggingOut ? <>
-          <div className="font-raleway text-lg">Thanks for using the service, now logging you out</div>
+          <div className="font-raleway text-lg">Thanks for using the service, {currentUser}, now logging you out</div>
           <ClipLoader loading={isLoggingOut} />
           <DialogClose asChild>
             <Button variant="outline" onClick={handleCancel}>Cancel</Button>

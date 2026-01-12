@@ -70,7 +70,7 @@ export function LoginForm({
           }
     } catch (error) {
         // Set error message to display to user
-        console.log('nope');
+        console.log(error);
     }
 };
 

@@ -2,8 +2,11 @@ import axiosInstance from "./api.js"
 
 
 
-
 class UserServices {
+  
+  
+  
+  
   static async getProfile() {
     
 

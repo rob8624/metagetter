@@ -1,4 +1,6 @@
 from collections import defaultdict
+from datetime import datetime
+from django.core.validators import EmailValidator
 import re
 
 from djoser.serializers import UserCreateSerializer, UserSerializer
@@ -340,6 +342,147 @@ class UserImagesSerializer(serializers.ModelSerializer):
     
 
 
+#MEtadata Edit serializer
+
+class MetadataEditSerializer(serializers.Serializer):
+    """
+    Validates metadata fields for single image editing
+    """
+    Description = serializers.CharField(
+        required=False,
+        allow_blank=True,
+        max_length=2000,
+        help_text="Image description/caption"
+    )
+    
+    Headline = serializers.CharField(
+        required=False,
+        allow_blank=True,
+        max_length=256,
+        help_text="Image headline"
+    )
+    
+    Category = serializers.CharField(
+        required=False,
+        allow_blank=True,
+        max_length=100,
+        help_text="Image category"
+    )
+    
+    Keywords = serializers.CharField(
+        required=False,
+        allow_blank=True,
+        max_length=500,
+        help_text="Semicolon-separated keywords"
+    )
+    
+    Credit = serializers.CharField(
+        required=False,
+        allow_blank=True,
+        max_length=256,
+        help_text="Photo credit/byline"
+    )
+    
+    Copyright = serializers.CharField(
+        required=False,
+        allow_blank=True,
+        max_length=256,
+        help_text="Copyright notice"
+    )
+    
+    
+   
+    
+    CreatorWorkEmail = serializers.EmailField(
+        required=False,
+        allow_blank=True,
+        validators=[EmailValidator()],
+        help_text="Creator's email address",
+        error_messages={
+            "invalid": "e.g., user@example.com"
+        }
+    )
+    
+    CreatorWorkURL = serializers.CharField(
+    required=False,
+    allow_blank=True,
+    max_length=500,
+    help_text="Creator's website URL"
+)
+    
+    def validate_Keywords(self, value):
+        """
+        Validate keywords format and count
+        """
+        if not value:
+            return value
+            
+        # Split by semicolon and check each keyword
+        keywords = [k.strip() for k in value.split(';') if k.strip()]
+        
+        if len(keywords) > 50:
+            raise serializers.ValidationError(
+                "Too many keywords. Maximum 50 keywords allowed."
+            )
+        
+        for keyword in keywords:
+            if len(keyword) > 64:
+                raise serializers.ValidationError(
+                    f"Keyword '{keyword}' is too long. Max 64 characters per keyword."
+                )
+        
+        # Return cleaned keywords
+        return ';'.join(keywords)
+    
+    def validate_Description(self, value):
+        """
+        Validate description doesn't contain malicious content
+        """
+        if not value:
+            return value
+            
+        # Check for suspicious patterns (basic XSS prevention)
+        dangerous_patterns = ['<script', 'javascript:', 'onerror=', 'onclick=']
+        value_lower = value.lower()
+        
+        for pattern in dangerous_patterns:
+            if pattern in value_lower:
+                raise serializers.ValidationError(
+                    "Description contains potentially unsafe content."
+                )
+        
+        return value.strip()
+    
+    
+    
+    def validate_CreatorWorkURL(self, value):
+        if not value:
+            return value
+
+        # Check scheme
+        if not value.startswith(('http://', 'https://')):
+            raise serializers.ValidationError("URL must start with http:// or https://")
+
+        # Optional: further validate URL structure
+        from urllib.parse import urlparse
+        parsed = urlparse(value)
+        if not parsed.netloc:
+            raise serializers.ValidationError("URL is invalid. Make sure it is a proper http or https URL.")
+
+        return value
+    
+    
+    def validate(self, data):
+        """
+        Object-level validation (validates entire payload)
+        """
+        # Ensure at least one field is being updated
+        if not any(data.values()):
+            raise serializers.ValidationError(
+                "At least one field must be provided for update."
+            )
+        
+        return data
 
 
 

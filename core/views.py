@@ -49,7 +49,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 
 #serializers
-from .serializers import UserImagesSerializer, ImageListSerializer
+from .serializers import UserImagesSerializer, ImageListSerializer, MetadataEditSerializer
 
 #exitool
 import exiftool
@@ -125,13 +125,16 @@ class CustomJWTCreateView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
         if response.status_code == 200:
-            
-            # Extract username (not email since you login with username)
             login_field = request.data.get('username')
             try:
                 user = User.objects.get(username=login_field)  
                 user.last_login = timezone.now()
                 user.save(update_fields=['last_login'])
+                response.data['userdata'] = {}
+                response.data['userdata']['username'] = user.username
+                response.data['userdata']['joined_date'] = str(user.profile.joined_date)  
+                response.data['userdata']['images_uploaded'] = user.profile.images_uploaded 
+                response.data['userdata']['active'] = user.profile.active
             except User.DoesNotExist:
                 print(f'User not found with username: {login_field}')
             except Exception as e:
@@ -142,10 +145,6 @@ class CustomJWTCreateView(TokenObtainPairView):
 
 
 #View to process uploaded file. It calls the ProcessView and returns a custom response.
-#
-   
-
-
 class FilePondProcessView(ProcessView):
     permission_classes = [IsAuthenticated, ImageLimitPermission]
 
@@ -253,28 +252,7 @@ class UserImagesViewSet(viewsets.ModelViewSet):
         url = obj.image.file.url
         task = request.query_params.get('task', 'no task')
         print(task)
-        # handle_task = TaskAction(task)
-        # handle_task
-        # metadata = obj.metadata.data
-        # sorted_metadata = MetaDataHandler.group_metadata(metadata)
-        # content_body = handle_task(sorted_metadata, task)
-        # content = create_message(obj, content_body)
-        # file = io.BytesIO(content.encode("utf-8"))
-        # file.name = "metadata.txt"
-        
         result = TaskAction(task, obj).handle_task()
-
-        
-        
-        # image_response = requests.get(url)
-        # image_bytes = image_response.content
-        # #data = get_all_metadata_text(image_bytes, obj)
-        # handler = MetaDataHandler(image_bytes, obj, "-all")
-        # metadata_result = handler.get_metadata()
-        # content = create_message(obj, metadata_result)
-        # file = io.BytesIO(content.encode("utf-8"))
-        # file.name = "metadata.txt"
-
         return FileResponse(
             result["file"],
             as_attachment=True,
@@ -282,12 +260,25 @@ class UserImagesViewSet(viewsets.ModelViewSet):
             content_type=result["content_type"]
         )
        
-        #task = request.query_params.get('task', 'no task')
+        
 
 
     @action(detail=True, methods=['patch'])
     def editmetadata(self, request, pk=None):
         image_object = self.get_object()
+
+        serializer = MetadataEditSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(
+                {
+                    'error': 'Validation failed',
+                    'details': serializer.errors
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        validated_data = serializer.validated_data
+        print("Validated data:", validated_data)
+
         url = image_object.image.file.url
         response = requests.get(url)
         
@@ -302,6 +293,7 @@ class UserImagesViewSet(viewsets.ModelViewSet):
                 # Map frontend field names to exiftool tag names
                 field_mapping = {
                     'Description': {
+                        'EXIF': 'EXIF:ImageDescription',
                         'IPTC': 'IPTC:Caption-Abstract',
                         'XMP': 'XMP:Description'
                     },
@@ -314,6 +306,7 @@ class UserImagesViewSet(viewsets.ModelViewSet):
                         'XMP': 'XMP:Subject'
                     },
                     'Credit': {
+                        'EXIF': 'EXIF:Artist',
                         'IPTC': 'IPTC:Credit',
                         'XMP': 'XMP:Credit'
                     },
@@ -321,9 +314,17 @@ class UserImagesViewSet(viewsets.ModelViewSet):
                         'IPTC': 'IPTC:Category',
                         'XMP': 'XMP:Category'
                     },
+
+                     'CreatorWorkEmail': {
+                        'XMP': 'XMP:CreatorWorkEmail'},
+
+                    'CreatorWorkURL': {
+                        'XMP': ['XMP:CreatorWorkURL', 'XMP:WebStatement']},
+                    
                     'Copyright': {
                         'IPTC': 'IPTC:CopyrightNotice',
                         'XMP': 'XMP:Rights'},
+
                     'DateCreated': {
                         'IPTC': 'IPTC:DateCreated',
                         'XMP': ['XMP:DateCreated', 'XMP:MetadataDate',
@@ -335,8 +336,12 @@ class UserImagesViewSet(viewsets.ModelViewSet):
                 for key, value in request.data.items():
                     if key in field_mapping:
                         # Write to both IPTC and XMP
-                        iptc_key = field_mapping[key]['IPTC']
-                        xmp_key = field_mapping[key]['XMP']
+                        try:
+                            iptc_key = field_mapping[key].get('IPTC')
+                            xmp_key = field_mapping[key].get('XMP')
+                            exif_key = field_mapping[key].get('EXIF')
+                        except KeyError as e:
+                            print(e, 'thisis the error')
                         
                         # Handle Keywords formatting
                         if key == 'Keywords':
@@ -354,9 +359,13 @@ class UserImagesViewSet(viewsets.ModelViewSet):
                             
                         else:
                             # For other fields, just set the value
-                           
-                            metadata[0][iptc_key] = value
-                            metadata[0][xmp_key] = value
+                            if iptc_key:
+                                metadata[0][iptc_key] = value
+                            if xmp_key:
+
+                                metadata[0][xmp_key] = value
+                            if exif_key:
+                                metadata[0][exif_key] = value
                             
                         #print to console for debug. Has to check for date list
                         if isinstance(xmp_key, list):
