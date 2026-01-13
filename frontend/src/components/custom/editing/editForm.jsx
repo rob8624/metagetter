@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Textarea } from "../../ui/textarea";
 import { Input } from "../../ui/input";
 import { useEditMetadata, useEditSuccess } from "../../../services/mutations";
-import { Calendar28 } from "./datePicker";
+import { DatePicker } from "./dateTimePicker";
 
 import {
   Form,
@@ -167,9 +167,9 @@ export function EditForm({ data, selectedImage, isEditing, setIsEditing }) {
     },
     DateCreated: {
       name: "DateCreated",
-      label: "Date Created",
-      placeholder: "Creation Date",
-      description: "Date given to image",
+      label: "Date & Time",
+      placeholder: "Modify date and time",
+      description: "Modify date and time",
       type: "datepicker",
     },
     CreatorWorkEmail: {
@@ -259,6 +259,26 @@ export function EditForm({ data, selectedImage, isEditing, setIsEditing }) {
       );
   }
 
+  
+ /**
+ * Checks if any of the specified fields in a React Hook Form have validation errors.
+ *
+ * @param {import("react-hook-form").UseFormReturn} form - The React Hook Form instance returned by `useForm()`.
+ * @param {string[]} fieldNames - An array of field names to check for errors.
+ * @returns {boolean} `true` if at least one field has an error, `false` otherwise.
+ *
+ * @example
+ * const errorExists = hasErrors(form, ["CreatorWorkEmail", "CreatorWorkURL"]);
+ * if (errorExists) {
+ *   console.log("One or more fields have errors");
+ * }
+ */
+function hasErrors(form, fieldNames) {
+  return fieldNames.some((name) => !!form.formState.errors[name]);
+}
+  
+  
+  
   return (
     <>
       <div className="flex justify-center">
@@ -283,8 +303,11 @@ export function EditForm({ data, selectedImage, isEditing, setIsEditing }) {
             </div>
           </div>
           <details className="text-center">
-            <summary className="bg-gray-50 pb-5">Additional data</summary>
-          <div class="flex flex-wrap gap-2">
+            <summary className=
+            {`bg-gray-50 pb-5 ${hasErrors(form, ["Category", "Credit", "Keywords", "Copyright", "DateCreated"]) ? 
+            "font-bold text-red-600" : ""}`}>Additional data
+            </summary>
+          <div class="flex flex-wrap justify-center gap-2">
             
               
               <div class="min-w-[200px] flex-grow">
@@ -321,7 +344,8 @@ export function EditForm({ data, selectedImage, isEditing, setIsEditing }) {
           <hr></hr>
            
             <details className="text-center">
-               <summary className="pb-5">Image creator fields</summary>
+               <summary className={`bg-gray-50 pb-5 ${hasErrors(form, ["CreatorWorkEmail", "CreatorWorkURL"]) ? 
+            "font-bold text-red-600" : ""}`}>Image creator fields</summary>
               <div className="flex gap-2">
               <FormSection fieldConfig={fields.CreatorWorkEmail}  form={form}
             editmetadata={editmetadata}
@@ -382,7 +406,7 @@ const FormSection = ({ fieldConfig, className, form, editmetadata, metaData }) =
 
         case "datepicker":
           return (
-            <Calendar28
+            <DatePicker
               props={{ ...field }}
               disabled={disabled}
               placeholder={fieldConfig.placeholder}
