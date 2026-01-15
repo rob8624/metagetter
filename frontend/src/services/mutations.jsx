@@ -90,7 +90,7 @@ export function useEditMetadata(selectedImage) {
       {const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = selectedImage.upload_name || 'edited-image.jpg';
+      a.download = `${selectedImage.upload_name}_edited.jpg` || 'edited-image.jpg';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);

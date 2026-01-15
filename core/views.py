@@ -304,9 +304,6 @@ class UserImagesViewSet(viewsets.ModelViewSet):
         if response.status_code == 200:
             # Get the current metadata
             metadata = image_object.metadata.data 
-            print("Original metadata:", metadata[0])   
-            print("Request data from frontend:", request.data)
-            
             try:
                 # Update only the fields that were edited
                 # Map frontend field names to exiftool tag names
@@ -360,7 +357,7 @@ class UserImagesViewSet(viewsets.ModelViewSet):
                             xmp_key = field_mapping[key].get('XMP')
                             exif_key = field_mapping[key].get('EXIF')
                         except KeyError as e:
-                            print(e, 'thisis the error')
+                            print(e, 'from mapping in writing view')
                         
                         # Handle Keywords formatting
                         if key == 'Keywords':
@@ -425,7 +422,7 @@ class UserImagesViewSet(viewsets.ModelViewSet):
                     return FileResponse(
                         temp_file,
                         as_attachment=True,                  
-                        filename=image_object.upload_name,   
+                        filename=image_object.upload_name + "_edited_metadata",   
                         content_type='image/jpeg'            
                     )
                 finally:
