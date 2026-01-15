@@ -275,6 +275,8 @@ class SafeFormatter(logging.Formatter):
             record.user_id = "-"
         if not hasattr(record, "ip"):
             record.ip = "-"
+        if not hasattr(record, "image_name"):
+            record.image_name = "-"
         return super().format(record)
 
 
@@ -286,7 +288,7 @@ LOGGING = {
     "formatters": {
         "verbose": {
             "()": SafeFormatter,  # Use our safe formatter
-            "format": "[{asctime} UTC] {levelname} {name}: {message} | user={user_id} ip={ip}",
+            "format": "[{asctime} UTC] {levelname} {name}: {message} | user={user_id} ip={ip}, image_name={image_name}",
             "style": "{",
         },
     },

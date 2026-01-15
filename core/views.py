@@ -63,6 +63,7 @@ from pymemcache.client.base import Client
 #project helpers
 from core.helper_functions import create_message, handle_task
 from core.task_helpers import TaskAction
+from core.utils import get_client_ip
 
 
 
@@ -76,6 +77,7 @@ from core.task_helpers import TaskAction
 
 # Create your views here.
 logger = logging.getLogger(__name__)
+
 
 User = get_user_model()
 
@@ -100,7 +102,7 @@ class UserProfileCachedView(APIView):
     def get(self, request):
         
         user = request.user
-       
+        
         fresh_data = {
             'id': user.id,
             'username': user.username,
@@ -138,7 +140,8 @@ class CustomJWTCreateView(TokenObtainPairView):
                 response.data['userdata']['images_uploaded'] = user.profile.images_uploaded 
                 response.data['userdata']['active'] = user.profile.active
 
-                logger.info("user logged in", extra={'user_id':user.username, "ip": request.META.get("REMOTE_ADDR")})
+                ip_address = get_client_ip(request)
+                logger.info("user logged in", extra={'user_id':user.username, "ip": ip_address})
                 
 
             except User.DoesNotExist:
@@ -205,8 +208,9 @@ class FilePondProcessView(ProcessView):
             # Delete temp file
             temp_upload.delete()
 
-            # Successful upload log
-            logger.info("User uploaded image", extra={'user_id': user.username, "ip": ip_address})
+            # LOGS
+            ip_address = get_client_ip(request)
+            logger.info("User uploaded image", extra={'user_id': user.username, "ip": ip_address, 'image_name': temp_upload.upload_name})
 
         except TemporaryUpload.DoesNotExist:
             logger.error(f"Temp upload not found for upload_id: {upload_id}", extra={'user_id': user.username, "ip": ip_address})
@@ -254,7 +258,11 @@ class UserImagesViewSet(viewsets.ModelViewSet):
         profile = request.user.profile
         profile.count_total_images()
         profile.save()
-        logger.info("User deleted image", extra={'user_id': request.user.username, "ip": request.META.get("REMOTE_ADDR")})
+
+        #logging
+        ip_address = get_client_ip(request)
+        logger.info("User deleted image", extra={'user_id': request.user.username, "ip": 
+                                                 ip_address, 'image_name': instance.upload_name})
         return Response(status=status.HTTP_204_NO_CONTENT)
     
     @action(detail=True)
