@@ -6,6 +6,7 @@ import random
 import requests
 import io
 from collections import defaultdict
+import logging
 
 #django responses
 from django.shortcuts import render
@@ -74,6 +75,7 @@ from core.task_helpers import TaskAction
 
 
 # Create your views here.
+logger = logging.getLogger(__name__)
 
 User = get_user_model()
 
@@ -135,6 +137,10 @@ class CustomJWTCreateView(TokenObtainPairView):
                 response.data['userdata']['joined_date'] = str(user.profile.joined_date)  
                 response.data['userdata']['images_uploaded'] = user.profile.images_uploaded 
                 response.data['userdata']['active'] = user.profile.active
+
+                logger.info("user logged in", extra={'user_id':user.username, "ip": request.META.get("REMOTE_ADDR")})
+                
+
             except User.DoesNotExist:
                 print(f'User not found with username: {login_field}')
             except Exception as e:
@@ -198,6 +204,8 @@ class FilePondProcessView(ProcessView):
                     user_profile.count_total_images()
 
                     temp_upload.delete()
+
+                    logger.info("user uploaded image", extra={'user_id':user.username, "ip": request.META.get("REMOTE_ADDR")})
 
                 except TemporaryUpload.DoesNotExist:
                     print("Temp upload does not exist for upload_id:", upload_id)
