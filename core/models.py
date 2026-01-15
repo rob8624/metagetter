@@ -43,6 +43,13 @@ class ImageMetadata(models.Model):
 class UserImages(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="images" )
     image = models.OneToOneField(StoredUpload, on_delete=models.SET_NULL, null=True)
+
+    @property
+    def source_file(self):
+        if self.image:
+            return self.image.file
+        return None
+    
     image_thumbnail = ImageSpecField(source='source_file',
                                       processors=[ResizeToFit(100, 100)],
                                       format='JPEG',

@@ -155,62 +155,64 @@ class FilePondProcessView(ProcessView):
     permission_classes = [IsAuthenticated, ImageLimitPermission]
 
     def post(self, request):
-        if request.user.profile.images_uploaded >= 5:
+        user = request.user
+        ip_address = request.META.get("REMOTE_ADDR", "-")
+
+        if user.profile.images_uploaded >= 5:
+            logger.warning("Upload attempt over limit", extra={'user_id': user.username, "ip": ip_address})
             return HttpResponse("Upload limit reached", status=500)
-        else:
+
+        try:
             response = super().post(request)
-            user = request.user.username    
-            if response.status_code == 200:
-                upload_id = response.data
+            if response.status_code != 200:
+                logger.warning("FilePond post returned non-200", extra={'user_id': user.username, "ip": ip_address})
+                return response
 
-                try:
-                    # Get temp_upload FIRST
-                    temp_upload = TemporaryUpload.objects.get(upload_id=upload_id)
-                    
-                    # NOW you can use it for metadata extraction
-                    metadata_obj = None
-                    try:
-                        temp_file_path = temp_upload.file.path
-                        file_name = temp_upload.upload_name
-                        
-                        #metadata_dict = get_all_metadata(temp_file_path)
-                        handler = MetaDataHandler(temp_file_path, temp_upload, "-j")
-                        data = handler.get_metadata()
-                        metadata_dict = handler.process_metadata(data)
-                       
-                        metadata_obj = ImageMetadata.objects.create(data=metadata_dict)
-                    except Exception as e:
-                        print(f"Error extracting metadata: {e}")
+            upload_id = response.data
 
-                    # Continue with storing the upload
-                    stored_image = store_upload(
-                        temp_upload.upload_id,
-                        os.path.join(user, temp_upload.upload_id, temp_upload.upload_name)
-                    )
-                    
-                    current_user = request.user
-                    user_profile = current_user.profile
+            # Get temp_upload first
+            temp_upload = TemporaryUpload.objects.get(upload_id=upload_id)
 
-                    user_image = UserImages.objects.create(
-                        user=current_user,
-                        image=stored_image, 
-                        upload_id=upload_id,
-                        upload_name=temp_upload.upload_name,
-                        metadata=metadata_obj 
-                    )
+            # Process metadata safely
+            metadata_obj = None
+            try:
+                temp_file_path = temp_upload.file.path
+                handler = MetaDataHandler(temp_file_path, temp_upload, "-j")
+                data = handler.get_metadata()
+                metadata_dict = handler.process_metadata(data)
+                metadata_obj = ImageMetadata.objects.create(data=metadata_dict)
+            except Exception as e:
+                logger.error(f"Metadata extraction failed: {e}", extra={'user_id': user.username, "ip": ip_address})
 
-                    
-                    
-                    user_profile.count_total_images()
+            # Store the upload
+            stored_image = store_upload(
+                temp_upload.upload_id,
+                os.path.join(user.username, temp_upload.upload_id, temp_upload.upload_name)
+            )
 
-                    temp_upload.delete()
+            # Create UserImages object
+            user_image = UserImages.objects.create(
+                user=user,
+                image=stored_image,
+                upload_id=upload_id,
+                upload_name=temp_upload.upload_name,
+                metadata=metadata_obj
+            )
 
-                    logger.info("user uploaded image", extra={'user_id':user.username, "ip": request.META.get("REMOTE_ADDR")})
+            # Update profile image count
+            user.profile.count_total_images()
 
-                except TemporaryUpload.DoesNotExist:
-                    print("Temp upload does not exist for upload_id:", upload_id)
-                except Exception as e:
-                    print("Unexpected error during UserImage creation:", e)
+            # Delete temp file
+            temp_upload.delete()
+
+            # Successful upload log
+            logger.info("User uploaded image", extra={'user_id': user.username, "ip": ip_address})
+
+        except TemporaryUpload.DoesNotExist:
+            logger.error(f"Temp upload not found for upload_id: {upload_id}", extra={'user_id': user.username, "ip": ip_address})
+        except Exception as e:
+            # This will catch the 'source_file' and other unexpected errors
+            logger.exception(f"Unexpected error during UserImage creation: {e}", extra={'user_id': user.username, "ip": ip_address})
 
         return response
     
@@ -235,6 +237,7 @@ class CanUploadImagesView(APIView):
 class UserImagesViewSet(viewsets.ModelViewSet):
     serializer_class = UserImagesSerializer
     permission_classes = [IsAuthenticated]
+    
 
     def get_queryset(self):
         return UserImages.objects.filter(user=self.request.user)
@@ -251,7 +254,7 @@ class UserImagesViewSet(viewsets.ModelViewSet):
         profile = request.user.profile
         profile.count_total_images()
         profile.save()
-
+        logger.info("User deleted image", extra={'user_id': request.user.username, "ip": request.META.get("REMOTE_ADDR")})
         return Response(status=status.HTTP_204_NO_CONTENT)
     
     @action(detail=True)
@@ -430,3 +433,4 @@ class UserImagesViewSet(viewsets.ModelViewSet):
             
 
             
+logger.info("Logging system check", extra={"user_id": "system", "ip": "127.0.0.1"})

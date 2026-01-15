@@ -15,6 +15,8 @@ import os
 from dotenv import load_dotenv
 import dj_database_url
 from datetime import timedelta
+import logging
+
 
 load_dotenv()
 
@@ -197,7 +199,7 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-    'REFRESH_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(minutes=160),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
     'ALGORITHM': 'HS256',
@@ -266,23 +268,42 @@ os.makedirs(DJANGO_DRF_FILEPOND_UPLOAD_TMP, exist_ok=True)
 
 
 
+
+class SafeFormatter(logging.Formatter):
+    def format(self, record):
+        if not hasattr(record, "user_id"):
+            record.user_id = "-"
+        if not hasattr(record, "ip"):
+            record.ip = "-"
+        return super().format(record)
+
+
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
+
     "formatters": {
         "verbose": {
-            "format": "[{asctime}] {levelname} {name}: {message} | user={user_id} ip={ip}",
+            "()": SafeFormatter,  # Use our safe formatter
+            "format": "[{asctime} UTC] {levelname} {name}: {message} | user={user_id} ip={ip}",
             "style": "{",
         },
     },
+
     "handlers": {
         "console": {
             "class": "logging.StreamHandler",
             "formatter": "verbose",
         },
     },
+
     "root": {
         "handlers": ["console"],
         "level": "INFO",
     },
 }
+
+# Use UTC timestamps
+import time
+logging.Formatter.converter = time.gmtime
