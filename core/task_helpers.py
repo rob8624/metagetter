@@ -64,6 +64,30 @@ class TaskAction:
             "content-disposition" : "attachment; filename=picture.png"
         }
     
+    def singledownload(self):
+        image_url = self.obj.image.file.url
+        try:
+            response = requests.get(image_url)
+            response.raise_for_status()
+            image_bytes = response.content
+        except Exception as e:
+            raise ValueError(f"Error downloading image: {e}")
+        
+        handler = MetaDataHandler(image_bytes, self.obj)
+        bytes_to_download_temp = handler._create_temp_file(image_bytes, self.obj)
+        
+        with open(bytes_to_download_temp, "rb") as f:
+            bytes_to_download = f.read()
+
+        file_to_download = io.BytesIO(bytes_to_download)
+        
+        return {
+            "file" : file_to_download,
+            "file_name": self.obj.upload_name,
+            "content_type": "image/jpg",
+            "content-disposition" : "attachment; filename=picture.png"
+        }
+    
 
     
     
@@ -72,7 +96,8 @@ class TaskAction:
         actions = {
             "textfile" : self.text_file,
             "deletedata" : self.delete_data,
-            "json" : self.json_file
+            "json" : self.json_file,
+            "singledownload" : self.singledownload
         }
 
         if self.task in actions:

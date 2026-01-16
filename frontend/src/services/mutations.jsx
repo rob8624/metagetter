@@ -42,7 +42,7 @@ export function useDataTask(task) {
       const { response, image } = data;
       
       // Trigger download after mutation is fully complete
-      if (task === "textFile" || task === "json" || task === "deletedata") {
+      if (task === "textFile" || task === "json" || task === "deletedata" || task === "singledownload") {
         const blob = new Blob([response.data], { type: response.data.type });
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement("a");
@@ -51,10 +51,12 @@ export function useDataTask(task) {
         // Fix: Properly assign download attribute in all cases
         if (task === "deletedata") {
           link.download = `image_${image.id}_${task}.jpg`;
-        } else if (task === 'textFile') {  // ← Fixed: capital F
+        } else if (task === 'textFile') {  
           link.download = `image_${image.id}_${task}.txt`;
         } else if (task === 'json') {
           link.download = `image_${image.id}_${task}.json`;
+        } else if (task === 'singledownload') {
+          link.download = `image_${image.id}_${task}.jpg`;
         }
         
         document.body.appendChild(link);

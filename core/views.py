@@ -271,13 +271,24 @@ class UserImagesViewSet(viewsets.ModelViewSet):
         url = obj.image.file.url
         task = request.query_params.get('task', 'no task')
         print(task)
-        result = TaskAction(task, obj).handle_task()
-        return FileResponse(
-            result["file"],
-            as_attachment=True,
-            filename=result["file_name"],
-            content_type=result["content_type"]
-        )
+        if task == 'singledownload':
+             result = TaskAction(task, obj).handle_task()
+             
+             return FileResponse(
+                result["file"],
+                as_attachment=True,
+                filename=result["file_name"],
+                content_type=result["content_type"])
+        
+        else:
+
+            result = TaskAction(task, obj).handle_task()
+            return FileResponse(
+                result["file"],
+                as_attachment=True,
+                filename=result["file_name"],
+                content_type=result["content_type"]
+            )
        
         
 

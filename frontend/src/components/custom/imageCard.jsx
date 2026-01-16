@@ -28,6 +28,8 @@ import {Dialog,
 
   import { FaCheck } from "react-icons/fa";
 
+import { useDataTask } from "../../services/mutations";
+
 
 
 const ImageCard = ({ 
@@ -55,6 +57,7 @@ const ImageCard = ({
   
   
   const { mutate: deleteImage, isPending} = useDeleteImage();
+  const imageTask = useDataTask('singledownload');
   
 
   // function that handles the deleting of an image
@@ -139,7 +142,7 @@ const ImageCard = ({
   Delete image
 </DropdownMenuItem>
           
-          <DropdownMenuItem>Download Image</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => imageTask.mutate(item)}>Download Image</DropdownMenuItem>
           <DropdownMenuItem>Delete data</DropdownMenuItem>
           <DropdownMenuItem>Subscription</DropdownMenuItem>
         </DropdownMenuContent>
