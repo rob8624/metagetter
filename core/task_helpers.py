@@ -3,6 +3,7 @@ from core.pyexiftool_helpers import  MetaDataHandler
 import io
 import requests
 import json
+from exiftool import ExifToolHelper
 
 
 
@@ -35,6 +36,8 @@ class TaskAction:
         file_details = {'file':file, 'file_name':file_name, 'content_type':"application/json"}
         return file_details
 
+  
+        
     
     def delete_data(self):
         image_url = self.obj.image.file.url
@@ -66,6 +69,8 @@ class TaskAction:
     
     def singledownload(self):
         image_url = self.obj.image.file.url
+        metadata = self.obj.metadata.data
+       
         try:
             response = requests.get(image_url)
             response.raise_for_status()
@@ -74,12 +79,10 @@ class TaskAction:
             raise ValueError(f"Error downloading image: {e}")
         
         handler = MetaDataHandler(image_bytes, self.obj)
-        bytes_to_download_temp = handler._create_temp_file(image_bytes, self.obj)
-        
+        bytes_to_download_temp =  handler.write_metadata(image_bytes, self.obj, metadata)
+       
         with open(bytes_to_download_temp, "rb") as f:
-            bytes_to_download = f.read()
-
-        file_to_download = io.BytesIO(bytes_to_download)
+            file_to_download = io.BytesIO(f.read())
         
         return {
             "file" : file_to_download,
@@ -97,7 +100,8 @@ class TaskAction:
             "textfile" : self.text_file,
             "deletedata" : self.delete_data,
             "json" : self.json_file,
-            "singledownload" : self.singledownload
+            "singledownload" : self.singledownload,
+            
         }
 
         if self.task in actions:

@@ -59,8 +59,9 @@ function App() {
 
 const bgImageStyles = {
   backgroundImage: `url(${BACKGROUND_IMAGE_URL})`,
-  backgroundSize: `100% 100%`,
-  opacity: '0.9'
+  // backgroundSize: `100% 100%`,  re-apply this for images to stop distortion of scale
+  opacity: '0.9',
+  backgroundRepeat: 'repeat'
 }
  
  

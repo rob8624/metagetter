@@ -52,7 +52,7 @@ const Header = () => {
     <>
       <div className={`flex flex-row sm:justify-center dark:bg-black sticky top-0 z-50 bg-transparent mb-2  
         ${location.pathname === '/' || location.pathname === '/signin' ? '' : ' shadow-sm bg-gradient-to-b from-slate-300 to-transparent'}`}>
-        <div className="flex w-screen sm:flex-col items-center justify-between sm:gap-5">
+        <div className="flex w-screen sm:flex-col items-center justify-between gap-2">
           <Link to="/" className="">
             <img
               className="h-14 sm:h-32 m-2 rounded-md opacity-90 bg-black"

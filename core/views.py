@@ -307,7 +307,7 @@ class UserImagesViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
         validated_data = serializer.validated_data
-        print("Validated data:", validated_data)
+        
 
         url = image_object.image.file.url
         response = requests.get(url)
@@ -439,7 +439,7 @@ class UserImagesViewSet(viewsets.ModelViewSet):
                 finally:
                     if os.path.exists(temp_file_path):
                         os.remove(temp_file_path)
-                        print(f"Successfully deleted {temp_file_path}")
+                        print(f"Successfully deleted {temp_file_path} from edit view")
             
             except Exception as e:
                 print(f"Error processing image: {e}")

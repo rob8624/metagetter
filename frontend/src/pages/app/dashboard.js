@@ -40,10 +40,10 @@ export default function Dashboard({ children }) {
 
 
    const DashboardCard = ({title, description, showButton, 
-    buttonName, footer, buttonColor, backgroundColor, icon, link, enabled}) => {
+    buttonName, footer, buttonColor, backgroundColor, icon, link, enabled, className}) => {
     return (
         <>
-        <Card className={`${backgroundColor} dark:bg-black`}>
+        <Card className={`${backgroundColor} ${className} shadow-lg border-2 border-black dark:border-white dark:bg-black hover:scale-105 transition-all duration-300 ease-in`}>
       <CardHeader>
         <CardTitle className="flex justify-center">{title}</CardTitle>
         <CardDescription className="flex justify-center">{description}</CardDescription>
@@ -65,7 +65,7 @@ export default function Dashboard({ children }) {
           )}
         </div>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="flex justify-center">
         <p>{footer}</p>
       </CardFooter>
     </Card>
@@ -78,6 +78,7 @@ export default function Dashboard({ children }) {
 
 
     return(
+      <>
       <div className="flex justify-center">
         <div className="grid grid-cols-1 sm:grid-cols-2 mt-20 gap-4">
             <div>
@@ -88,7 +89,7 @@ export default function Dashboard({ children }) {
                 showButton={true}
                 buttonName={'Upload'}
                 buttonColor={'bg-green-500'}
-                backgroundColor={'bg-yellow-200'}
+                backgroundColor={'bg-white'}
                 icon={<FaArrowUp className="pr-2 text-2xl"/>}
                 link={'/upload'}
                 enabled={canUpload}/>
@@ -100,14 +101,30 @@ export default function Dashboard({ children }) {
                 showButton={true}
                 buttonName={'View data'}
                 buttonColor={'bg-green-500'}
-                backgroundColor={'bg-blue-200'}
+                backgroundColor={'bg-white'}
                 icon={<FaCompressArrowsAlt className="pr-2 text-2xl"/>}
                 link={'/viewer/'}
                 enabled={true}
                 />
             </div>
+             
+           <DashboardCard title={'FAQ and Further Information'} 
+                description={'Coming soon! Find out more about how to use Metagetter'}
+                footer={'Soon, we will also be giving more information about future features'}
+                showButton={true}
+                buttonName={'Find out more'}
+                buttonColor={'bg-green-500'}
+                backgroundColor={'bg-white'}
+                icon={<FaCompressArrowsAlt className="pr-2 text-2xl"/>}
+                link={'/viewer/'}
+                enabled={true}
+                className={'sm:col-span-2'}
+                />
+       
         </div>
-        </div>
+      </div>
+      
+      </>
     )
 
 }

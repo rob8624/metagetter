@@ -37,9 +37,10 @@ const MENUSTRUCTURE =
             { 'menuName' : "Delete Image Data",
               'menuDescription' : "THIS WILL DELETE ALL DATA FROM IMAGE",
                'modalMessage' : "This delete all your data in the image",
-              'buttonMessage' : "and DELETE ALL DATA"}
-            }
+              'buttonMessage' : "and DELETE ALL DATA"},
+
           
+          }
 
         
  

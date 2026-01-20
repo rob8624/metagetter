@@ -116,7 +116,7 @@ class MetaDataHandler:
         print(f"Temporary JSON file created at: {json_file_path}")  # Log file path
         print(json_file_path)
         print('metadta from class', metadata)
-        print('Image description from class', metadata['EXIF:ImageDescription'])
+       
         # Run ExifTool with the metadata JSON file
         with ExifToolHelper() as e:
             try:

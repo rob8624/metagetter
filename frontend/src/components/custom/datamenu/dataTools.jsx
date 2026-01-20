@@ -1,5 +1,5 @@
 
-
+import { useState } from "react";
 import { TaskDialog } from "./taskDialog.jsx";
 import { Button } from "../../ui/button.jsx"
 
@@ -16,23 +16,41 @@ import {
 
 
 
+import { Switch } from "../../ui/switch"
+import { Label } from "../../ui/label"
+
+
 
 
 
 
 export function DataTools({ refs, selectedImage, isEditing, setIsEditing }) {
+   const [showMenu, setShowMenu] = useState(false)
+
   return (
     <>
-      <div className="flex flex-col col-span-full m-2">
-        <div className="text-sm">Data menu</div>
+      <div className="flex flex-col gap-1 col-span-full m-2">
+        <div className="flex gap-2 items-center">
+         <Switch id="data-tools-menu" checked={showMenu} onCheckedChange={(checked) => setShowMenu(checked)} /> 
+      
+                <Label htmlFor="data-tools-menu" className="text-muted-foreground text-sm"
+               >Data Tools Menu</Label>
+          
+        <div/>
+          
+        </div>
+        { showMenu ?
+        <div>
         <Menubar>
           <MenubarMenu>
-            <MenubarTrigger onClick={() => setIsEditing(!isEditing)}>{isEditing? 
+            <MenubarTrigger className="p-2" onClick={() => setIsEditing(!isEditing)}>{isEditing? 
               <Button variant="destructive">Cancel</Button> : 
-            <Button>Edit Data</Button>}</MenubarTrigger>
+            <Button variant="outline">Edit Data</Button>}</MenubarTrigger>
           </MenubarMenu>
           <MenubarMenu ref={el => refs.current.dataMenu = el}>
-            <MenubarTrigger>Download</MenubarTrigger>
+            <MenubarTrigger>
+              <Button variant="outline">Download/Delete</Button>
+              </MenubarTrigger>
             <MenubarContent>
               <MenubarSub >
                 <MenubarSubTrigger>Download Data</MenubarSubTrigger>
@@ -52,7 +70,9 @@ export function DataTools({ refs, selectedImage, isEditing, setIsEditing }) {
               </MenubarSub>
             </MenubarContent>
           </MenubarMenu>
-        </Menubar>
+        </Menubar> 
+        </div> : null}
+        
       </div>
     </>
   );

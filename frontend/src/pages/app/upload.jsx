@@ -7,11 +7,6 @@ import { UserContext } from "../../context/userContext";
 import useVerifyUser from "../../hooks/verifyUser";
 // import VerifyUser from '../../hooks/verifyUser.jsx';
 
-import { FaArrowUp } from "react-icons/fa";
-
-//components
-import PageGridTitle from "../../components/custom/PageGridTitle";
-
 // Import React FilePond
 import { FilePond, registerPlugin } from "react-filepond";
 
@@ -25,10 +20,12 @@ import "filepond/dist/filepond.min.css";
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import FilePondPluginImageTransform from 'filepond-plugin-image-transform';
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 
 // Register the plugins
-registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, FilePondPluginImageTransform);
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, 
+  FilePondPluginImageTransform, FilePondPluginFileValidateSize);
 
 // Our app
 export default function Upload() {
@@ -111,13 +108,7 @@ export default function Upload() {
     { isVerified ?
     <div className="flex justify-center"> 
       <div className="flex flex-col w-full md:w-1/2 mt-14">
-        <PageGridTitle
-          title={"UPLOAD"}
-          descripition={"Welcome to your upload page..."}
-          subDescription={"Here you can upload files using the uploader below"}
-          icon={<FaArrowUp />}
-          color={"grey"}
-        />
+      
         <div className="flex flex-col justify-center items-center">
             { processedStarted ? <div className="text-2xl">Processing data</div> : <div className="text-2xl dark:text-white text-black">Ready to upload</div>}
           {success && checked ? <div>Completed - Redirecting in <span className="text-blue-950 text-6xl">{count}</span> seconds...</div> : null}
@@ -146,7 +137,11 @@ export default function Upload() {
               }
             }}
             allowMultiple={true}
-            maxFiles={5}
+            maxFiles={4}
+            allowFileSizeValidation={true}
+            maxFileSize={'5MB'}
+            labelMaxFileSizeExceeded={'File is too large sorry'}
+            labelMaxFileSize={'Upload size limit {filesize}'}
             name="file"
             labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
             credits={false}
@@ -205,6 +200,17 @@ export default function Upload() {
             }}
           />
         )}
+        <div className="flex justify-center items-center">
+  <div>
+    <h2 className="font-semibold mb-2">Image Upload Requirements</h2>
+
+    <ul className="list-disc list-inside space-y-1">
+      <li>Size: 5MB max</li>
+      <li>Format: JPG or PNG</li>
+      <li>Resolution: at least 1024×1024</li>
+    </ul>
+  </div>
+</div>
       </div>
       </div>
 :       <div>Please Sign in</div> }

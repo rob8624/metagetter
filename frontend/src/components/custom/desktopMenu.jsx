@@ -75,49 +75,7 @@ let navigate = useNavigate();
     <NavigationMenu className={`${navMenuClassName} bg-transparent [&_button]:px-4 [&_button]:py-2 [&_button]:bg-white/10 [&_button]:backdrop-blur-sm [&_button]:rounded-lg [&_button]:border [&_button]:border-white/20 [&_button]:hover:bg-white/20`}>
     {menuData.map((item, index) => (
       <NavigationMenuList key={index}>
-        {/* <NavigationMenuItem>
-          {item.aboutContent && item.aboutContent.map((item, index) => (   
-            <React.Fragment key={index}>
-          <NavigationMenuTrigger>
-            <div className="text-black dark:text-white">{item.Label}</div>
-            </NavigationMenuTrigger>
-          <NavigationMenuContent>
-            
-              <div className="grid grid-cols-[repeat(2,auto)] auto-rows-auto gap-2 w-[300px] p-2">
-                <div className="col-span-2 text-xl">
-                  <h1 className="font-bold" >{item.title}</h1>
-                </div>
-                <span  className="text-sm leading-tight">
-                  {item.firstText}
-                </span>
-                <div  className="text-sm leading-tight">
-                  {item.subText}
-                </div>
-                <hr className="col-span-2"></hr>
-                <h2  className="col-span-2 text-lg font-bold">{item.secondTitle}</h2>
-                <div className="text-sm leading-tight col-span-2">
-                  {item.secondText}
-                </div>
-             </div>
-          </NavigationMenuContent>
-          </React.Fragment>
-          ))}
-        </NavigationMenuItem> */}
-      
-       {/*  {item.usageContent && item.usageContent.map((item, index) => (
-          <React.Fragment key={index}>
-        <NavigationMenuItem >
-          <NavigationMenuTrigger className="">
-            <div className="text-black dark:text-white">{item.Label}</div>
-            </NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <div className="p-5 w-[300px]">
-              <h1>{item.text}</h1>
-            </div>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        </React.Fragment>
-        ))} */}
+        
         { loggedIn ? null : 
         item.signinContent.map((item, index) => (
           <React.Fragment key={index}>
