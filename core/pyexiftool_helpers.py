@@ -140,6 +140,11 @@ class MetaDataHandler:
     
     
     def produce_xmp_file(self, obj, metadata):
+
+        # get image as bytes, create temp files which are safely deleted after with block. 
+        # Having to use temp dir to write files to as temp named file did not work
+        # with exiftool
+        
         file_url = obj.image.file.url
         response = requests.get(file_url)
         image_bytes = response.content

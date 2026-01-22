@@ -6,7 +6,6 @@ import { Button } from "../../ui/button.jsx"
 import {
   Menubar,
   MenubarContent,
-  MenubarItem,
   MenubarMenu,
   MenubarTrigger,
   MenubarSub,
