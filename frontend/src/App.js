@@ -31,7 +31,7 @@ import { UserDataProvider } from './context/userContext';
 import { ThemeContext } from './context/darkModeContext'
 
 //Settings
-import { BACKGROUND_IMAGE_URL } from './siteSettings';
+import { BACKGROUND_IMAGE_URL, VERSION_MESSAGE } from './siteSettings';
 
 
 preload(`${BACKGROUND_IMAGE_URL}`, { as: 'image' });
@@ -70,6 +70,7 @@ return (
     <div id="site-wrapper" className='flex flex-col max-h-dvh min-h-dvh max-w-screen items-center dark:bg-black '
     style={isHomePage ? 
         bgImageStyles : {}}>
+          <div className='fixed top-2 left-2 z-50 text-xs font-raleway opacity-70'>{VERSION_MESSAGE}</div>
     <UserDataProvider >
      
         <MenuDataProvider>

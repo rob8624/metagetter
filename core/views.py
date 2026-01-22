@@ -268,35 +268,27 @@ class UserImagesViewSet(viewsets.ModelViewSet):
     @action(detail=True)
     def metadata(self, request, pk=None):
         obj = self.get_object() 
+        print('image obj from view', obj)
         url = obj.image.file.url
         task = request.query_params.get('task', 'no task')
         print(task)
-        if task == 'singledownload':
-             result = TaskAction(task, obj).handle_task()
-             
-             return FileResponse(
-                result["file"],
-                as_attachment=True,
-                filename=result["file_name"],
-                content_type=result["content_type"])
-        
-        else:
+        result = TaskAction(task, obj).handle_task()
+        return FileResponse(
+        result["file"],
+        as_attachment=True,
+        filename=result["file_name"],
+        content_type=result["content_type"])
 
-            result = TaskAction(task, obj).handle_task()
-            return FileResponse(
-                result["file"],
-                as_attachment=True,
-                filename=result["file_name"],
-                content_type=result["content_type"]
-            )
-       
+    
+
+           
         
 
 
     @action(detail=True, methods=['patch'])
     def editmetadata(self, request, pk=None):
         image_object = self.get_object()
-
+       
         serializer = MetadataEditSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(

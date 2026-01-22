@@ -91,6 +91,27 @@ class TaskAction:
             "content-disposition" : "attachment; filename=picture.png"
         }
     
+    
+    
+    
+    def xmp_file(self):
+        metadata = self.obj.metadata.data[0]
+        handler = MetaDataHandler(self.obj)
+
+        # produce_xmp_file now returns bytes
+        xmp_bytes = handler.produce_xmp_file(self.obj, metadata)
+
+        # wrap in BytesIO for API download
+        file_to_download = io.BytesIO(xmp_bytes)
+
+        return {
+            "file": file_to_download,
+            "file_name": self.obj.upload_name,
+            "content_type": "application/xmp+xml",
+        }
+
+
+
 
     
     
@@ -101,6 +122,7 @@ class TaskAction:
             "deletedata" : self.delete_data,
             "json" : self.json_file,
             "singledownload" : self.singledownload,
+            "xmp": self.xmp_file
             
         }
 

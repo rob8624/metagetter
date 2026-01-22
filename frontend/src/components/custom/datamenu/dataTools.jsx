@@ -57,7 +57,7 @@ export function DataTools({ refs, selectedImage, isEditing, setIsEditing }) {
                 <MenubarSubContent>
                   <TaskDialog selectedImage={selectedImage} taskName={".txt"} task={'textFile'}/>
                   <TaskDialog selectedImage={selectedImage} taskName={"JSON"} task={'json'}/>
-                  <MenubarItem>CSV</MenubarItem>
+                  <TaskDialog selectedImage={selectedImage} taskName={"XMP"} task={'xmp'}/>
                 </MenubarSubContent>
               </MenubarSub>
               <MenubarSub >

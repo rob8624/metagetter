@@ -39,6 +39,12 @@ const MENUSTRUCTURE =
                'modalMessage' : "This delete all your data in the image",
               'buttonMessage' : "and DELETE ALL DATA"},
 
+            "xmp" : 
+            { 'menuName' : "XMP file",
+              'menuDescription' : "A XMP sidecar file",
+               'modalMessage' : "This will produce a usable XMP file",
+              'buttonMessage' : "as XMP file"},
+
           
           }
 

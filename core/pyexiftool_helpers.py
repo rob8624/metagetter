@@ -3,6 +3,7 @@ from exiftool import ExifToolHelper
 import tempfile
 import os
 from collections import defaultdict
+import requests
 
 # exiftool expects a file like object so having to create temporary file from url path
 # before passing it to exiftool helper. Also, having to retreive the temp file
@@ -136,6 +137,43 @@ class MetaDataHandler:
         with ExifToolHelper() as e:
             result = e.execute(temp_file, "-all=")
         return temp_file
+    
+    
+    def produce_xmp_file(self, obj, metadata):
+        file_url = obj.image.file.url
+        response = requests.get(file_url)
+        image_bytes = response.content
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # Save the image
+            temp_image_path = os.path.join(tmpdir, 'temp.jpg')
+            with open(temp_image_path, 'wb') as f:
+                f.write(image_bytes)
+
+            # Path for XMP sidecar
+            temp_xmp_path = os.path.join(tmpdir, 'output.xmp')
+
+            # ExifTool writes the XMP file here
+            with ExifToolHelper() as e:
+                e.execute('-tagsfromfile', temp_image_path, '-xmp', temp_xmp_path)
+
+            # Read XMP bytes
+            with open(temp_xmp_path, 'rb') as f:
+                xmp_bytes = f.read()
+
+        return xmp_bytes
+
+
+
+        
+       
+      
+    
+
+
+        
+
+        
             
             
 

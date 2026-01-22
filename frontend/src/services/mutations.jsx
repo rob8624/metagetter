@@ -42,7 +42,7 @@ export function useDataTask(task) {
       const { response, image } = data;
       
       // Trigger download after mutation is fully complete
-      if (task === "textFile" || task === "json" || task === "deletedata" || task === "singledownload") {
+      if (task === "textFile" || task === "json" || task === "deletedata" || task === "singledownload" || task === "xmp") {
         const blob = new Blob([response.data], { type: response.data.type });
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement("a");
