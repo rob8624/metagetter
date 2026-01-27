@@ -54,8 +54,10 @@ const ImageDownload = ({item}) => {
        
        : 
        <>
+       <div className="flex gap-1">
         <Button onClick={() => imageTask.mutate(item)} disabled={imageTask.isPending || imageTask.isSuccess}>Confirm</Button>
-       <Button onClick={() => setDownloadOpen(false)} disabled={imageTask.isPending || imageTask.isSuccess}>Cancel</Button>
+        <Button onClick={() => setDownloadOpen(false)} disabled={imageTask.isPending || imageTask.isSuccess}>Cancel</Button>
+       </div>
        </>
         }
        <div>{imageTask.isPending ? 'Downloading...' : null}</div>

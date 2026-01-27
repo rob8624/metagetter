@@ -32,8 +32,6 @@ class DuplicateEmailMiddleware:
 class UserProfileData:
     def __init__(self, get_response):
         self.get_response = get_response
-        print('using middleware')
-        # Connect to memcached
         self.memcached_client = Client(('memcached', 11211))
         
     def __call__(self, request):

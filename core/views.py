@@ -92,7 +92,7 @@ class ImageLimitPermission(permissions.BasePermission):
 
         image_count = UserImages.objects.filter(user=request.user).count()
         if image_count >= 4:
-            raise PermissionDenied(detail="Upload limit of 5 images reached.")
+            raise PermissionDenied(detail="Upload limit of 4 images reached.")
         return True
 
 

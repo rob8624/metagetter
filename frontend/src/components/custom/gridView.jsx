@@ -1,28 +1,22 @@
 import { useState } from "react";
 
-
-
-
 import MetadataPanel from "./metadataPanel";
 import { EditForm } from "./editing/editForm";
 import ImageCard from "./imageCard";
 import DetailPanel from "./detailPanel";
 import { DataTools } from "./datamenu/dataTools";
 
-
-
-
 // Grid View Component
-const GridView = ({ 
-  data, 
-  selectedImage, 
+const GridView = ({
+  data,
+  selectedImage,
   setSelectedImage,
-  onImageClick, 
-  onDelete, 
+  onImageClick,
+  onDelete,
   getMetadata,
   confirmDelete,
   setConfirmDelete,
-  refs, 
+  refs,
   imageToDelete,
   setImageToDelete,
   showPanel,
@@ -34,110 +28,103 @@ const GridView = ({
   setImageZoomed,
   imageZoomed,
 }) => {
-
-const [openDropdownId, setOpenDropdownId] = useState(null);
-
-
-  
- 
-  
+  const [openDropdownId, setOpenDropdownId] = useState(null);
 
   return (
     <>
-    <div className="mx-auto flex flex-col min-h-0  justify-center items-center sm:justify-start 
-    sm:items-start max-w-screen-sm sm:flex-row w-full sm:max-w-6xl gap-4 dark:text-white dark:bg-black "
-    ref={el => refs.current.summary = el}>
-      {/* Images Grid - Left Side */}
-      
+      <div
+        className="mx-auto sm:w-9/12 flex flex-col sm:flex-row gap-2
+     dark:text-white dark:bg-black "
+        ref={(el) => (refs.current.summary = el)}
+      >
+        
 
-      <div className="grid grid-cols-1 gap-4">
-        
-        
-      
-        
-        <div ref={imagesRef} className="grid grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 gap-5 sm:gap-10  rounded-lg backdrop-blur-xl sm:p-10   bg-white
-        dark:text-white dark:bg-black scroll-mt-32">
-        
-          {data.map((item) => (
-            
-            
-            <ImageCard
-              key={item.id}
-              item={item}
-              confirmDelete={confirmDelete}
-              setConfirmDelete={setConfirmDelete}
-              isSelected={selectedImage?.id === item.id}
+        <div className="flex-grow">
+          <div
+            ref={imagesRef}
+            className="grid grid-cols-2  gap-5 sm:gap-10  rounded-lg backdrop-blur-xl sm:p-10   bg-white
+          dark:text-white dark:bg-black scroll-mt-32 sticky top-7  "
+          >
+            {data.map((item) => (
+              <ImageCard
+                key={item.id}
+                item={item}
+                confirmDelete={confirmDelete}
+                setConfirmDelete={setConfirmDelete}
+                isSelected={selectedImage?.id === item.id}
+                selectedImage={selectedImage}
+                setSelectedImage={setSelectedImage}
+                onImageClick={onImageClick}
+                onDelete={onDelete}
+                showTools={true}
+                refs={refs}
+                imageToDelete={imageToDelete}
+                setImageToDelete={setImageToDelete}
+                openDropdownId={openDropdownId}
+                setOpenDropdownId={setOpenDropdownId}
+                isEditing={isEditing}
+                setIsEditing={setIsEditing}
+                imageZoomed={imageZoomed?.id === item.id}
+                setImageZoomed={setImageZoomed}
+              />
+            ))}
+
+            {selectedImage ? (
+              <DataTools
+                selectedImage={selectedImage}
+                isEditing={isEditing}
+                setIsEditing={setIsEditing}
+              />
+            ) : null}
+          </div>
+        </div>
+
+        <div className="m-2 bg-gray-50 sticky border rounded-md p-4 h-fit order-1 sm:order-2 block sm:hidden dark:text-white dark:bg-black ">
+          <MetadataPanel
+            selectedImage={selectedImage}
+            setSelectedImage={setSelectedImage}
+            getMetadata={getMetadata}
+            data={data}
+            showPanel={showPanel}
+            setShowPanel={setShowPanel}
+          />{" "}
+        </div>
+
+        <div
+          className="w-screen sm:w-full order-2 sm:order-1 shadow-lg p-2 rounded-lg overflow-scroll min-h-0 h-[50%] no-scrollbar"
+          ref={(el) => (refs.current.dataSection = el)}
+        >
+          {isEditing ? (
+            <EditForm
+              data={data}
               selectedImage={selectedImage}
-              setSelectedImage={setSelectedImage}
-              onImageClick={onImageClick}
-              onDelete={onDelete}
-              showTools={true}
-              refs={refs}
-              imageToDelete={imageToDelete}
-              setImageToDelete={setImageToDelete}
-              openDropdownId={openDropdownId}
-              setOpenDropdownId={setOpenDropdownId}
               isEditing={isEditing}
               setIsEditing={setIsEditing}
-              imageZoomed={imageZoomed?.id === item.id}
-              setImageZoomed={setImageZoomed}
             />
-         
-          ))}
-
-          {selectedImage ? <DataTools selectedImage={selectedImage} isEditing={isEditing} setIsEditing={setIsEditing}/> : null}
-          
-        </div>
-       
-       
-        
-          <div className="m-2 bg-gray-50 sticky border rounded-md p-4 h-fit order-1 sm:order-2 block sm:hidden dark:text-white dark:bg-black">
-            <MetadataPanel 
+          ) : (
+            <DetailPanel
               selectedImage={selectedImage}
-              setSelectedImage={setSelectedImage} 
-              getMetadata={getMetadata} 
               data={data}
-              showPanel={showPanel}
-              setShowPanel={setShowPanel}
-            /> </div>
-        
-        
-        <div className="w-screen sm:w-full order-2 sm:order-1 border-2 border-black p-2 rounded-lg" 
-        ref={el => refs.current.dataSection = el}>
-          {isEditing ? <EditForm 
-          data={data} 
-          selectedImage={selectedImage} 
-          isEditing={isEditing} setIsEditing={setIsEditing}/> :
+              setSelectedImage={setSelectedImage}
+              sectionRefs={sectionRefs}
+            />
+          )}
+        </div>
 
-          <DetailPanel selectedImage={selectedImage} data={data} 
-          setSelectedImage={setSelectedImage} sectionRefs={sectionRefs}/> 
-        } 
-          
+        {/* Metadata Panel - Right Side */}
+
+        <div className="w-80 bg-gray-50 border rounded-md p-4 h-fit sticky top-10 order-1 sm:order-2 hidden sm:block dark:text-white dark:bg-black">
+          <MetadataPanel
+            selectedImage={selectedImage}
+            getMetadata={getMetadata}
+            data={data}
+            showPanel={showPanel}
+            setShowPanel={setShowPanel}
+          />
         </div>
       </div>
-      
-
-
-      {/* Metadata Panel - Right Side */}
-      
-      
-      <div className="w-80 bg-gray-50 border rounded-md p-4 h-fit sticky top-10 order-1 sm:order-2 hidden sm:block dark:text-white dark:bg-black">
-        <MetadataPanel 
-          selectedImage={selectedImage} 
-          getMetadata={getMetadata} 
-          data={data}
-          showPanel={showPanel}
-          setShowPanel={setShowPanel}
-        />
-      </div> 
-     
-          
-    </div>
-    
-    
     </>
   );
 };
 
-
-export default GridView
+export default GridView;

@@ -99,4 +99,14 @@
 
 
 
+  #data-menu-wrapper {
+    visibility: hidden;
+  }
+   
+  #data-menu-wrapper.showMenu {
+    visibility: visible;
+  }
+
+
+
   

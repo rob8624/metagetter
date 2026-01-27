@@ -67,7 +67,7 @@ const bgImageStyles = {
  
 return (
     <>
-    <div id="site-wrapper" className='flex flex-col max-h-dvh min-h-dvh max-w-screen items-center dark:bg-black '
+    <div id="site-wrapper" className='flex flex-col min-h-screen max-h-screen max-w-screen items-center dark:bg-black '
     style={isHomePage ? 
         bgImageStyles : {}}>
           <div className='fixed top-2 left-2 z-50 text-xs font-raleway opacity-70'>{VERSION_MESSAGE}</div>
@@ -77,10 +77,8 @@ return (
         
              <Header/>
           
-          <div id="main-background" className="overflow-auto  min-h-0 max-w-screen flex-grow bg-transparent
-           dark:bg-black  
-           sm:w-5/6 rounded-lg relative no-scrollbar ">
-          
+         
+          <div className='flex-grow overflow-scroll w-4/5'>
             {/* <AppContent /> */}
             <Routes>
                 {/* Home route with the dropzone */}
@@ -104,7 +102,7 @@ return (
               </Routes>
             
             <Toaster />
-            </div>
+          </div>
           
           <footer>
             <Footer />

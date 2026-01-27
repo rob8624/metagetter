@@ -46,6 +46,7 @@ export default function DetailPanel({ data, selectedImage, sectionRefs}) {
     return (
      <> 
      
+     
   {
     
     Object.entries(getSelectedData(data, selectedImage)?.grouped_metadata).map(([key, value], index) => (
@@ -56,7 +57,7 @@ export default function DetailPanel({ data, selectedImage, sectionRefs}) {
     
       
       <span className="font-bold bg-gray-200 p-1 rounded-lg">Extracted {key}</span></div>
-      <Table  key={key} className="my-4 mr-10">
+      <Table  key={key} className="my-4 mr-10 ">
         <TableHeader>
           <TableRow>
             <TableHead className="sm:w-[100px]">Data Field</TableHead>
@@ -74,10 +75,12 @@ export default function DetailPanel({ data, selectedImage, sectionRefs}) {
         </TableBody>
       </Table>
       
+      
       </>
       
     ))
     }
+   
     
     
 

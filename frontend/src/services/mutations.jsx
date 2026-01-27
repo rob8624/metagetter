@@ -4,6 +4,41 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 
 
+
+const taskArray = ["textFile", "json", "deletedata", "singledownload", "xmp"]
+
+      const taskFileExtensionMap = {
+        textFile: ".txt",
+        json: ".json",
+        deletedata: ".jpg",
+        singledownload: "Single Download",
+        xmp: ".xmp"
+      }
+
+
+
+
+const handleBlobDownload = (response, task, image) => {
+   const blob = new Blob([response.data], { type: response.data.type });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        
+        link.download = `image_${image.id}_${task}${taskFileExtensionMap[task]}`;
+
+        // Fix: Properly assign download attribute in all cases
+       
+        
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(url);
+
+}
+
+
+
+
 export function useDeleteImage() {
   const queryClient = useQueryClient();
 
@@ -40,32 +75,8 @@ export function useDataTask(task) {
 
     onSuccess: (data) => {
       const { response, image } = data;
-      
-      // Trigger download after mutation is fully complete
-      if (task === "textFile" || task === "json" || task === "deletedata" || task === "singledownload" || task === "xmp") {
-        const blob = new Blob([response.data], { type: response.data.type });
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        
-        // Fix: Properly assign download attribute in all cases
-        if (task === "deletedata") {
-          link.download = `image_${image.id}_${task}.jpg`;
-        } else if (task === 'textFile') {  
-          link.download = `image_${image.id}_${task}.txt`;
-        } else if (task === 'json') {
-          link.download = `image_${image.id}_${task}.json`;
-        } else if (task === 'singledownload') {
-          link.download = `image_${image.id}_${task}.jpg`;
-        }
-        
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        window.URL.revokeObjectURL(url);
-      } 
-    },
-
+      if (taskArray.includes(task))
+      handleBlobDownload(response, task, image);},
     onError: (error) => {
       console.log(`Error performing ${task} on image:`, error);
     }

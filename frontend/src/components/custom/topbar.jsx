@@ -50,7 +50,7 @@ export default function TopBar({
   return (
     <div
       id="topbar"
-      className={`mb-2 sticky top-0 z-10 bg-white border-b-2 ${selectedImage ? "border-t-2": null} border-black text-black dark:text-white dark:bg-black`}
+      className={`mb-2 sticky top-0 z-10 p-2 shadow-md bg-white border-2 rounded-2xl ${selectedImage ? "border-t-2": null} border-gray-400 text-black dark:text-white dark:bg-black`}
     >
       {matches ?  <PageGridTitle
         className="pt-5 text-black dark:text-white"

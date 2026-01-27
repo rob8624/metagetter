@@ -43,6 +43,7 @@ export default function Viewer() {
 
   return (
     <>
+    <div>
       <TopBar
         selectedImage={selectedImage}
         setSelectedImage={setSelectedImage}
@@ -51,7 +52,7 @@ export default function Viewer() {
         isEditing={isEditing}
         imagesRef={imagesRef}
       />
-
+    <div/>
       <Separator />
       {isFetching ? (
         <div className="flex flex-col justify-center items-center mt-40">
@@ -62,6 +63,7 @@ export default function Viewer() {
           
         </div>
       ) : (
+        <div>
         <ImageGrid
           data={data}
           selectedImage={selectedImage}
@@ -70,8 +72,11 @@ export default function Viewer() {
           isEditing={isEditing}
           setIsEditing={setIsEditing}
           imagesRef={imagesRef}
+        
         />
+        </div>
       )}
+      </div>
     </>
   );
 }
