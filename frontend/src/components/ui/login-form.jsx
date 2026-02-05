@@ -111,12 +111,12 @@ const location = useLocation();
 
 
   return (
-    
-    <div className={cn("flex flex-col gap-6 rounded-2xl ", className)} {...props}>
-
-      { loggedInUser ? <div> You are aleady signed in</div> :
-      <Card className="font-raleway">
-        <CardHeader>
+  
+      
+    <div className={cn("rounded-2xl h-full flex flex-col", className)} {...props}>
+      { loggedInUser ? <div> You are already signed in</div> :
+      <Card className="font-raleway h-full flex flex-col min-h-0 overflow-hidden">
+        <CardHeader className="flex-shrink-0">
           <CardTitle className="flex text-2xl items-center gap-3 mx-auto" >
             <div>Login</div>
             <div><FaArrowRightToBracket/></div>
@@ -127,9 +127,10 @@ const location = useLocation();
             Enter your username below to login to your account
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex-1 overflow-y-auto min-h-0">
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex flex-col gap-6">
+           
+              <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label className="font-bold" htmlFor="username">Username</Label>
                 <Input 
@@ -171,6 +172,7 @@ const location = useLocation();
               <Button type="submit" className="w-full">
                 Login
               </Button>
+            
             </div>
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}
@@ -186,4 +188,16 @@ const location = useLocation();
       </Card> }
     </div>
   );
+    
+    
+    
+  
 }
+
+
+
+
+
+
+
+ 

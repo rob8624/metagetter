@@ -28,74 +28,65 @@ export const getSelectedData = (data, selectedImage) => {
 
 
 
-export default function DetailPanel({ data, selectedImage, sectionRefs}) {
+export default function DetailPanel({ data, selectedImage, sectionRefs }) {
+  const selectedData = getSelectedData(data, selectedImage);
 
-      
-    
-    if (!getSelectedData(data, selectedImage)) {
-        return <div className="text-lg font-semibold">Select and image to view metadata</div>;}
+  if (!selectedData) {
+    return <div className="text-lg font-semibold">Select an image to view metadata</div>;
+  }
 
-    
-    
+  return (
+    // ✅ SINGLE scroll container
+    <div className="h-full overflow-y-auto" id="detail-scroll-container">
+      {Object.entries(selectedData.grouped_metadata).map(([key, value]) => (
+        <div key={key} className="mb-12">
+          
+          {/* ✅ section anchor */}
+          <div
+            ref={(el) => {
+              if (el) sectionRefs.current[key] = el;
+            }}
+            className="scroll-mt-32"
+          >
+            <span className="font-bold bg-gray-200 p-1 rounded-lg">
+              Extracted {key}
+            </span>
+          </div>
+
+          <Table className="my-4 mr-10">
+            <TableHeader>
+              <TableRow>
+                <TableHead className="sm:w-[100px]">Data Field</TableHead>
+                <TableHead>Value</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {Object.entries(value).map(([nestedKey, nestedValue]) => (
+                <TableRow key={nestedKey}>
+                  <TableCell className="font-bold">
+                    {nestedKey}
+                  </TableCell>
+                  <TableCell>
+                    {nestedValue}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+
+        </div>
+      ))}
+    </div>
+  );
+
+
    
+    
+    
 
-    
-  
-    
-    
-    return (
-     <> 
+
+
+
+
      
-     
-  {
-    
-    Object.entries(getSelectedData(data, selectedImage)?.grouped_metadata).map(([key, value], index) => (
-         <>
-    
-    
-    <div ref={el => sectionRefs.current[key] = el} className="scroll-mt-32">
-    
-      
-      <span className="font-bold bg-gray-200 p-1 rounded-lg">Extracted {key}</span></div>
-      <Table  key={key} className="my-4 mr-10 ">
-        <TableHeader>
-          <TableRow>
-            <TableHead className="sm:w-[100px]">Data Field</TableHead>
-            <TableHead>Value</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {/* Render rows for each nested key-value pair */}
-          {Object.entries(value).map(([nestedKey, nestedValue]) => (
-            <TableRow key={nestedKey} className="text-wrap"> 
-              <TableCell className="font-bold text-black dark:text-white">{nestedKey}</TableCell>
-              <TableCell className="font-medium">{nestedValue}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      
-      
-      </>
-      
-    ))
-    }
-   
-    
-    
-
-
-
-
-
-         {/* <div className="flex text-wrap max-w-96 flex-wrap">
-                {Object.entries(getSelectedData(data, selectedImage)?.grouped_metadata).map(([key, value]) => (
-                    <div key={key}>
-                        <strong>{key}:</strong> {Object.entries(value).map(([key, value]) => (<div>{key}, {value}</div>))}
-                    </div>
-                ))}
-                
-        </div> */}
-        </>
-    );
 }

@@ -67,7 +67,7 @@ const bgImageStyles = {
  
 return (
     <>
-    <div id="site-wrapper" className='flex flex-col min-h-screen max-h-screen max-w-screen items-center dark:bg-black '
+    <div id="site-wrapper" className='flex flex-col h-screen w-full items-center overflow-hidden dark:bg-black'
     style={isHomePage ? 
         bgImageStyles : {}}>
           <div className='fixed top-2 left-2 z-50 text-xs font-raleway opacity-70'>{VERSION_MESSAGE}</div>
@@ -78,15 +78,14 @@ return (
              <Header/>
           
          
-          <div className='flex-grow overflow-scroll w-4/5'>
+          <div className='flex-grow grid grid-cols-12 grid-rows-10 w-4/5 m-10 overflow-hidden'>
             {/* <AppContent /> */}
             <Routes>
                 {/* Home route with the dropzone */}
                 <Route path="/" element={showFindOutMore ? 
                 <FindOutMore setShowFindOutMore={setShowFindOutMore}/> : 
                 <Hero setShowFindOutMore={setShowFindOutMore} />} />\
-                
-                {/* Sign in route */}
+                                {/* Sign in route */}
                 <Route path="/signin" element={<SignIn/>} />
                 <Route path="/register" element={<SignupForm/>} />
                 <Route path="/dashboard" element={<Dashboard/>}/>

@@ -43,40 +43,69 @@ export default function Viewer() {
 
   return (
     <>
-    <div>
-      <TopBar
-        selectedImage={selectedImage}
-        setSelectedImage={setSelectedImage}
+    <div className="relative col-span-full row-span-full flex flex-col h-full overflow-hidden ">
+       <TopBar
+         selectedImage={selectedImage}
+         setSelectedImage={setSelectedImage}
         data={data}
-        sectionRefs={sectionRefs}
-        isEditing={isEditing}
-        imagesRef={imagesRef}
+         sectionRefs={sectionRefs}
+       isEditing={isEditing}
+         imagesRef={imagesRef}
       />
-    <div/>
-      <Separator />
-      {isFetching ? (
-        <div className="flex flex-col justify-center items-center mt-40">
-          <ClipLoader loading={isFetching} />
-         
-            <svg class="mr-3 size-5 animate-spin ..." viewBox="0 0 24 24"></svg>
-            Processing…
-          
-        </div>
-      ) : (
+    
+    { isFetching ? (<div className="flex col-span-full row-span-full justify-center items-center">
         <div>
-        <ImageGrid
-          data={data}
+          <ClipLoader loading={isFetching} />
+         </div>
+    </div>) : 
+    <div className="col-span-full bg-green-50 max-h-full">
+      <ImageGrid
+           data={data}
           selectedImage={selectedImage}
           setSelectedImage={setSelectedImage}
-          sectionRefs={sectionRefs}
+           sectionRefs={sectionRefs}
           isEditing={isEditing}
-          setIsEditing={setIsEditing}
-          imagesRef={imagesRef}
+           setIsEditing={setIsEditing}
+         imagesRef={imagesRef}
         
-        />
-        </div>
-      )}
+        /></div>}
       </div>
     </>
   );
 }
+
+
+//  <div>
+//       <TopBar
+//         selectedImage={selectedImage}
+//         setSelectedImage={setSelectedImage}
+//         data={data}
+//         sectionRefs={sectionRefs}
+//         isEditing={isEditing}
+//         imagesRef={imagesRef}
+//       />
+//     <div/>
+//       <Separator />
+//       {isFetching ? (
+//         <div className="flex flex-col justify-center items-center mt-40">
+//           <ClipLoader loading={isFetching} />
+         
+//             <svg class="mr-3 size-5 animate-spin ..." viewBox="0 0 24 24"></svg>
+//             Processing…
+          
+//         </div>
+//       ) : (
+//         <div>
+//         <ImageGrid
+//           data={data}
+//           selectedImage={selectedImage}
+//           setSelectedImage={setSelectedImage}
+//           sectionRefs={sectionRefs}
+//           isEditing={isEditing}
+//           setIsEditing={setIsEditing}
+//           imagesRef={imagesRef}
+        
+//         />
+//         </div>
+//       )}
+//       </div>

@@ -34,12 +34,12 @@ const GridView = ({
     <>
       <div
         className="mx-auto sm:w-9/12 flex flex-col sm:flex-row gap-2
-     dark:text-white dark:bg-black "
+     dark:text-white dark:bg-black max-h-full "
         ref={(el) => (refs.current.summary = el)}
       >
         
 
-        <div className="flex-grow">
+        <div className="flex-grow flex">
           <div
             ref={imagesRef}
             className="grid grid-cols-2  gap-5 sm:gap-10  rounded-lg backdrop-blur-xl sm:p-10   bg-white
@@ -91,7 +91,7 @@ const GridView = ({
         </div>
 
         <div
-          className="w-screen sm:w-full order-2 sm:order-1 shadow-lg p-2 rounded-lg overflow-scroll min-h-0 h-[50%] no-scrollbar"
+          className="w-screen sm:w-full order-2 sm:order-1 shadow-lg p-2 rounded-lg  max-h-[80%]"
           ref={(el) => (refs.current.dataSection = el)}
         >
           {isEditing ? (
@@ -102,6 +102,7 @@ const GridView = ({
               setIsEditing={setIsEditing}
             />
           ) : (
+            
             <DetailPanel
               selectedImage={selectedImage}
               data={data}
@@ -112,16 +113,17 @@ const GridView = ({
         </div>
 
         {/* Metadata Panel - Right Side */}
-
-        <div className="w-80 bg-gray-50 border rounded-md p-4 h-fit sticky top-10 order-1 sm:order-2 hidden sm:block dark:text-white dark:bg-black">
-          <MetadataPanel
-            selectedImage={selectedImage}
-            getMetadata={getMetadata}
-            data={data}
-            showPanel={showPanel}
-            setShowPanel={setShowPanel}
-          />
-        </div>
+       
+          <div className="w-80 bg-gray-50 border rounded-md p-4 h-fit sticky top-10 order-1 sm:order-2 hidden sm:block dark:text-white dark:bg-black ">
+            <MetadataPanel
+              selectedImage={selectedImage}
+              getMetadata={getMetadata}
+              data={data}
+              showPanel={showPanel}
+              setShowPanel={setShowPanel}
+            />
+          </div>
+       
       </div>
     </>
   );

@@ -4,7 +4,7 @@ import { cn } from "../../lib/utils"
 
 const Table = React.forwardRef(({ className, ...props }, ref) => (
   
-  <div className="relative overflow-scroll no-scrollbar ">
+  <div className="relative scrollbars-hidden">
     <table
       ref={ref}
       className={cn("w-full caption-bottom text-sm", className)}

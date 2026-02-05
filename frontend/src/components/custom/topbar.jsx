@@ -3,6 +3,7 @@ import {useMediaQuery } from '@react-hook/media-query'
 import { useRef } from "react";
 import PageGridTitle from "./PageGridTitle";
 import { Button } from "../ui/button";
+import { Container } from "postcss";
 
 
 export default function TopBar({
@@ -37,6 +38,7 @@ export default function TopBar({
     sectionRefs.current[key]?.scrollIntoView({
       behavior: "smooth",
       block: "start",
+      container : "nearest"
     });
   };
 
@@ -50,7 +52,7 @@ export default function TopBar({
   return (
     <div
       id="topbar"
-      className={`mb-2 sticky top-0 z-10 p-2 shadow-md bg-white border-2 rounded-2xl ${selectedImage ? "border-t-2": null} border-gray-400 text-black dark:text-white dark:bg-black`}
+      className={`flex items-center z-10 shadow-md bg-yellow-200 border-2 rounded-2xl ${selectedImage ? "border-t-2": null} border-gray-400 text-black dark:text-white dark:bg-black`}
     >
       {matches ?  <PageGridTitle
         className="pt-5 text-black dark:text-white"
@@ -82,7 +84,7 @@ export default function TopBar({
     ) : (
       <>
         {/* Buttons shown when NOT editing */}
-        <div className="text-xs sm:text-sm font-bold ">Scroll to:</div>
+        <div className="text-xs sm:text-sm font-bold grow-0 ">Scroll to:</div>
         
         <button onClick={() => scrollToTop()} className="bg-black text-white dark:bg-white
          dark:text-black p-2 rounded-sm">TOP</button>

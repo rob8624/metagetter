@@ -43,13 +43,13 @@ export default function Dashboard({ children }) {
     buttonName, footer, buttonColor, backgroundColor, icon, link, enabled, className}) => {
     return (
         <>
-        <Card className={`${backgroundColor} ${className} shadow-lg border-2 border-black dark:border-white dark:bg-black hover:scale-105 transition-all duration-300 ease-in`}>
+        <Card className={`${backgroundColor} ${className} h-full shadow-lg border-2 border-black dark:border-white dark:bg-black sm:hover:scale-105 sm:transition-all sm:duration-300 ease-in`}>
       <CardHeader>
-        <CardTitle className="flex justify-center">{title}</CardTitle>
-        <CardDescription className="flex justify-center">{description}</CardDescription>
+        <CardTitle className="flex justify-center min-h-0">{title}</CardTitle>
+        <CardDescription className="flex justify-center min-h-0">{description}</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-wrap items-center justify-center gap-2 md:flex-row">
+        <div className="flex flex-wrap items-center justify-center gap-2 md:flex-row min-h-0">
           {showButton && (
             enabled ? (
               <Button asChild variant="outline" className={`${buttonColor}`}>
@@ -65,7 +65,7 @@ export default function Dashboard({ children }) {
           )}
         </div>
       </CardContent>
-      <CardFooter className="flex justify-center">
+      <CardFooter className="flex justify-center min-h-0">
         <p>{footer}</p>
       </CardFooter>
     </Card>
@@ -79,8 +79,9 @@ export default function Dashboard({ children }) {
 
     return(
       <>
-      <div className="flex justify-center">
-        <div className="grid grid-cols-1 sm:grid-cols-2 mt-20 gap-4">
+       <div className="col-start-full col-span-full row-span-full 
+      lg:col-start-4 lg:col-span-6 lg:row-start-2 lg:row-span-7 overflow-auto lg:overflow-visible">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
                 <DashboardCard 
                 title={'Upload'} 
@@ -123,6 +124,7 @@ export default function Dashboard({ children }) {
        
         </div>
       </div>
+      
       
       </>
     )

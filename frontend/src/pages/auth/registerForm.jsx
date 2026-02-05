@@ -97,7 +97,7 @@ const onSubmit = async (data) => {
   
   return (
     <>
-    <div className="flex flex-col items-center mb-10 sm:mb-0">
+    <div className="col-span-full sm:col-start-4 sm:col-span-6 row-start-1 row-span-full overflow-auto">
             
         <div className={`flex flex-col gap-10 mt-10 sm:mb-16 p-6 rounded-lg shadow-lg
           ${darkMode ? 'border border-gray-700 bg-black text-white' : 'border border-gray-200 bg-white text-black'}`}>
@@ -214,17 +214,18 @@ const onSubmit = async (data) => {
               </div>
               
               {/* Button outside the grid, full width */}
-              <div className="mt-8">
-                <Button type="submit" className={`w-full ${darkMode ? 'bg-black hover:bg-blue-700 text-white' : ''}`}>
+              <div className="mt-8 flex justify-between">
+                <Button type="submit" className={`w-fit ${darkMode ? 'bg-black hover:bg-blue-700 text-white' : ''}`}>
                   Sign Up
                 </Button>
+                 <Button className="w-20">
+                <Link to="/" className="">BACK</Link>
+            </Button>
               </div>
             </form>
           </Form>
         </div>
-        <Button className="w-20">
-                <Link to="/" className="">BACK</Link>
-            </Button>
+       
       </div>
     </>
   )

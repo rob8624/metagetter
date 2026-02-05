@@ -106,8 +106,9 @@ export default function Upload() {
   return (
     <>
     { isVerified ?
-    <div className="flex justify-center"> 
-      <div className="flex flex-col w-full md:w-1/2 mt-14">
+    <div className="col-start-full col-span-full row-span-full 
+      lg:col-start-5 lg:col-span-4 lg:row-start-2 lg:row-span-7 overflow-auto lg:overflow-visible"> 
+      <div className="flex flex-col ">
       
         <div className="flex flex-col justify-center items-center">
             { processedStarted ? <div className="text-2xl">Processing data</div> : <div className="text-2xl dark:text-white text-black">Ready to upload</div>}

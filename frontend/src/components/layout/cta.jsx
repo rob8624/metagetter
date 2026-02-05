@@ -45,11 +45,11 @@ export default function CallToAction() {
     
     return (
         <>
-        <div className="mx-auto flex flex-col gap-7 lg:flex-row w-3/4 sm:w-3/4 justify-between mt-10">
+        <div className="col-start-5 row-start-4 col-span-6 bg-yellow-300">
         {CardDetails.map((item, index) => {
             return (
                 <>
-               
+               x\zx\zx\zx
                 <CallToActionCard key={index} {...item}/>
                
                 </>
