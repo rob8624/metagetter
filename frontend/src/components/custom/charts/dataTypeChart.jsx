@@ -42,7 +42,8 @@ export function DataTypeChart({ data }) {
 
   return (
     <>
-    <ChartContainer config={chartConfig} className="h-[200px] max-w-64 pb-5">
+    <div>
+    <ChartContainer config={chartConfig} className="">
   <BarChart accessibilityLayer data={chartData}>
     <CartesianGrid vertical={false} />
     <XAxis
@@ -68,7 +69,7 @@ export function DataTypeChart({ data }) {
   </BarChart>
   
   </ChartContainer>
- 
+ </div>
   
   </>
 

@@ -6,6 +6,12 @@
   box-sizing: border-box;
 }
 
+html, #root, body {
+  height: 100dvh;}
+
+
+
+
 body {
   font-family: 'Arial', sans-serif;
   font-size: 16px;
@@ -23,7 +29,7 @@ body {
   }
 
   #root {
-    height: 100dvh;
+    
     overflow-x: hidden;
   }
 
@@ -36,7 +42,7 @@ body {
   background-color: black; 
 }
 
-#topbarmenu > *:not(button)::after { 
+#topbarmenu > *:not(button):not(.no-slash)::after { 
   content: " /"; /* optional spacing */ 
   color: #aaa; /* optional styling */ }
 

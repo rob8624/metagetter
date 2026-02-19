@@ -112,8 +112,9 @@ const ImageCard = ({
 
   return (
     <>
+    
       <div
-        className={`flex flex-col hover:scale-100 w-full items-center${className}`}
+        className={`flex flex-col items-center justify-center min-h-0 hover:scale-100 w-1/3 sm:w-40 lg:w-60 items-center${className}`}
       >
         <div
           className={`${imageZoomed && "scale-[1.6] translate-y-6 z-50 bg-white"} cursor-pointer shadow-xl border-2 rounded-md  transition-all duration-200  
@@ -126,24 +127,24 @@ const ImageCard = ({
           onClick={() => onImageClick(item)}
         >
           {/* Fixed aspect ratio container */}
-          <div className="relative flex justify-center h-full w-full ">
+          <div className="relative flex justify-center sm:h-[100px] lg:h-[150px] w-full ">
             <img
               ref={(el) => (refs.current.image = el)}
               src={item.image_thumbnail_url}
               alt={item.id}
-              className=" rounded-lg p-5 z-0 object-fill "
+              className={` rounded-lg p-2  object-fill ${imageZoomed ? 'z-30' : 'z-0'} `}
             />
 
             {/* Edited badge */}
             {item.metadata.edited && (
-              <div className="absolute top-1 left-1 text-xs bg-white px-1 rounded flex items-center gap-1">
+              <div className="absolute top-0 left-1 text-xs bg-white px-1 rounded flex items-center gap-1">
                 <FaCheck className="text-red-500" />
                 <span className="dark:text-black">edited</span>
               </div>
             )}
 
             <div
-              className="absolute top-1 right-1"
+              className="absolute top-0 right-0"
               onClick={(e) => {
                 setImageZoomed((prev) => (prev?.id === item.id ? null : item));
                 e.stopPropagation();
@@ -231,6 +232,7 @@ const ImageCard = ({
           </DialogContent>
         </Dialog>
       </div>
+    
     </>
   );
   

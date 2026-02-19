@@ -281,9 +281,10 @@ function hasErrors(form, fieldNames) {
   
   return (
     <>
-      <div className="flex justify-center">
+    <div className="w-full flex items-center justify-center">
+      <div className="flex flex-col items-center justify-center w-3/4">
         <div>Some common fields are editable</div>
-      </div>
+      
 
       <Form {...form}>
         <form
@@ -364,6 +365,8 @@ function hasErrors(form, fieldNames) {
           </div>
         </form>
       </Form>
+      </div>
+    </div>
     </>
   );
 }

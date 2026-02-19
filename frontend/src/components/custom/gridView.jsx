@@ -33,17 +33,16 @@ const GridView = ({
   return (
     <>
       <div
-        className="mx-auto sm:w-9/12 flex flex-col sm:flex-row gap-2
-     dark:text-white dark:bg-black max-h-full "
+        className="flex flex-col sm:flex-row gap-2
+       dark:text-white dark:bg-black h-full sm:pb-24"
         ref={(el) => (refs.current.summary = el)}
-      >
+       >
         
 
-        <div className="flex-grow flex">
+        <div className="flex-grow flex flex-col h-full sm:grid sm:grid-cols-5 auto-rows-auto ">
           <div
             ref={imagesRef}
-            className="grid grid-cols-2  gap-5 sm:gap-10  rounded-lg backdrop-blur-xl sm:p-10   bg-white
-          dark:text-white dark:bg-black scroll-mt-32 sticky top-7  "
+            className="flex flex-wrap items-center justify-center col-span-5 gap-5 sm:gap-0"
           >
             {data.map((item) => (
               <ImageCard
@@ -77,9 +76,28 @@ const GridView = ({
               />
             ) : null}
           </div>
+            <div className="col-span-full overflow-auto max-h-80 sm:max-h-none">
+                {isEditing ? (
+                  <EditForm
+                    data={data}
+                    selectedImage={selectedImage}
+                    isEditing={isEditing}
+                    setIsEditing={setIsEditing}
+                  />
+                ) : (
+                  
+                  <DetailPanel
+                    selectedImage={selectedImage}
+                    data={data}
+                    setSelectedImage={setSelectedImage}
+                    sectionRefs={sectionRefs}
+                  />
+                
+                )}
+            </div>
         </div>
 
-        <div className="m-2 bg-gray-50 sticky border rounded-md p-4 h-fit order-1 sm:order-2 block sm:hidden dark:text-white dark:bg-black ">
+        <div className="m-2 bg-gray-50 sticky border rounded-md p-4 order-1 sm:order-2 block sm:hidden dark:text-white dark:bg-black ">
           <MetadataPanel
             selectedImage={selectedImage}
             setSelectedImage={setSelectedImage}
@@ -90,31 +108,12 @@ const GridView = ({
           />{" "}
         </div>
 
-        <div
-          className="w-screen sm:w-full order-2 sm:order-1 shadow-lg p-2 rounded-lg  max-h-[80%]"
-          ref={(el) => (refs.current.dataSection = el)}
-        >
-          {isEditing ? (
-            <EditForm
-              data={data}
-              selectedImage={selectedImage}
-              isEditing={isEditing}
-              setIsEditing={setIsEditing}
-            />
-          ) : (
-            
-            <DetailPanel
-              selectedImage={selectedImage}
-              data={data}
-              setSelectedImage={setSelectedImage}
-              sectionRefs={sectionRefs}
-            />
-          )}
-        </div>
+        
 
         {/* Metadata Panel - Right Side */}
        
-          <div className="w-80 bg-gray-50 border rounded-md p-4 h-fit sticky top-10 order-1 sm:order-2 hidden sm:block dark:text-white dark:bg-black ">
+          <div className=" bg-gray-50 min-w-[200px] md:w-[230px] lg:w-[300px] shrink-0 border selection:rounded-md  overflow-x-auto  order-1 sm:order-2 hidden sm:block dark:text-white dark:bg-black">
+            
             <MetadataPanel
               selectedImage={selectedImage}
               getMetadata={getMetadata}

@@ -17,9 +17,13 @@ module.exports = {
   		}
   	},
   	extend: {
-			fontFamily: {
-			raleway: ['Raleway', 'system-ui', 'sans-serif'],
-			},
+  		fontFamily: {
+  			raleway: [
+  				'Raleway',
+  				'system-ui',
+  				'sans-serif'
+  			]
+  		},
   		colors: {
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',

@@ -9,7 +9,7 @@ import { ClipLoader } from "react-spinners";
 
 //comonents
 
-import { Separator } from "../../components/ui/separator";
+
 import ImageGrid from "../../components/custom/imageGrid";
 import TopBar from "../../components/custom/topbar";
 
@@ -43,7 +43,9 @@ export default function Viewer() {
 
   return (
     <>
-    <div className="relative col-span-full row-span-full flex flex-col h-full overflow-hidden ">
+    
+    <div className="relative col-span-full row-span-full flex flex-col gap-2 pb-10 md:pb-0">
+    
        <TopBar
          selectedImage={selectedImage}
          setSelectedImage={setSelectedImage}
@@ -58,7 +60,7 @@ export default function Viewer() {
           <ClipLoader loading={isFetching} />
          </div>
     </div>) : 
-    <div className="col-span-full bg-green-50 max-h-full">
+    <div className="row-span-1 max-h-[95%]">
       <ImageGrid
            data={data}
           selectedImage={selectedImage}

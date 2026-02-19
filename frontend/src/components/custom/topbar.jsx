@@ -1,9 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import {useMediaQuery } from '@react-hook/media-query'
 import { useRef } from "react";
 import PageGridTitle from "./PageGridTitle";
 import { Button } from "../ui/button";
-import { Container } from "postcss";
+import DesktopMenu from "../../components/custom/desktopMenu";
+import { ThemeContext } from "../../context/darkModeContext";
+import { MdDarkMode, MdOutlineDarkMode } from "react-icons/md";
+import { Link } from "react-router";
+
 
 
 export default function TopBar({
@@ -16,6 +20,7 @@ export default function TopBar({
 }) {
   const filenameRef = useRef(null);
   const matches = useMediaQuery('only screen and (min-width: 600px)')
+  const { darkMode, handleDarkModeToggle } = useContext(ThemeContext);
 
   useEffect(() => {
     if (selectedImage && filenameRef.current) {
@@ -49,11 +54,30 @@ export default function TopBar({
     })
   }
 
+  const UploadButton = () => {
+    return (
+      <div className="pr-2 ml-auto no-slash">
+      <Button variant="outline" size="xs" className=" p-1">
+        <Link to={'/upload'}>Upload</Link>
+      </Button>
+      </div>
+    )
+  }
+
   return (
     <div
       id="topbar"
-      className={`flex items-center z-10 shadow-md bg-yellow-200 border-2 rounded-2xl ${selectedImage ? "border-t-2": null} border-gray-400 text-black dark:text-white dark:bg-black`}
-    >
+      className={`flex items-center h-fit z-10 shadow-md border-2 rounded-2xl ${selectedImage ? "border-t-2": null} border-gray-400 text-black dark:text-white dark:bg-black`}
+      >
+        <div className="z-10"><DesktopMenu /></div>
+        <button onClick={handleDarkModeToggle} className="pr-1">
+           {darkMode ? (
+                        <MdOutlineDarkMode size={"2em"} className="bg-black rounded-2xl" />
+                      ) : (
+                        <MdDarkMode size={"2em"} />
+                        
+                      )}
+        </button>
       {matches ?  <PageGridTitle
         className="pt-5 text-black dark:text-white"
         title={"Viewer"}
@@ -61,8 +85,8 @@ export default function TopBar({
         subDescription={"Select an image to view options"}
         color={"grey"}
       />: null}
-      <div id="topbarmenu-wrapper" className="inline-block ml-2 ">
-        <div id="topbarmenu" className="flex flex-wrap gap-2 items-center">
+      <div id="topbarmenu-wrapper" className="flex-1 ml-2 h-full ">
+        <div id="topbarmenu" className="flex flex-wrap sm:gap-2 items-center justify-start h-full overflow-hidden">
          {selectedImage ? (
   <>
     <Button
@@ -91,16 +115,21 @@ export default function TopBar({
         
         {sectionKeys.map((key) => (
           <Button key={key} onClick={() => scrollToSection(key)} variant="outline" size="sm"
-          className="m-1 sm:m-2">
+          className="m-1 p-0 sm:m-2">
             {key}
           </Button>
           
         ))}
-        
+        <UploadButton/>
       </>
     )}
+    
   </>
-) : <span className="text-xs">Select an image to view data and access data menu where you can edit and download metadata</span>}
+
+) : 
+<>
+<span className="text-xs">Select an image to view data and access data menu where you can edit and download metadata</span> 
+<UploadButton/></>}
         </div>
       </div>
     </div>

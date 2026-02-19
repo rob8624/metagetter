@@ -32,7 +32,7 @@ export function DataTools({ refs, selectedImage, isEditing, setIsEditing }) {
         <div className="flex gap-2 items-center">
          <Switch id="data-tools-menu" checked={showMenu} onCheckedChange={(checked) => setShowMenu(checked)} /> 
       
-                <Label htmlFor="data-tools-menu" className={`${showMenu ? 'text-bold' : 'text-muted-foreground'} text-sm`}
+                <Label htmlFor="data-tools-menu" className={`${showMenu ? 'text-bold p-2' : 'text-muted-foreground'} text-sm`}
                >Data Tools Menu</Label>
           
         <div/>
@@ -42,7 +42,7 @@ export function DataTools({ refs, selectedImage, isEditing, setIsEditing }) {
         <div id="data-menu-wrapper" className={`${showMenu ? 'showMenu' : null}`}>
         <Menubar>
           <MenubarMenu>
-            <MenubarTrigger className="p-2" onClick={() => setIsEditing(!isEditing)}>{isEditing? 
+            <MenubarTrigger className="" onClick={() => setIsEditing(!isEditing)}>{isEditing? 
               <Button variant="destructive">Cancel</Button> : 
             <Button variant="outline">Edit Data</Button>}</MenubarTrigger>
           </MenubarMenu>

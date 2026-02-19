@@ -23,6 +23,7 @@ import Dashboard from './pages/app/dashboard';
 import { Toaster } from "./components/ui/sonner"
 import { PrivateRoutes } from './pages/auth/privateRoutes';
 import FindOutMore from './components/custom/findOutMore';
+import Faq from './pages/app/faq';
 
 
 //Context 
@@ -46,6 +47,8 @@ function App() {
  
  const { pathname } = useLocation()
  const isHomePage = pathname === '/'
+ const isViewer = pathname === '/viewer/'
+ 
 
 
 
@@ -67,18 +70,19 @@ const bgImageStyles = {
  
 return (
     <>
-    <div id="site-wrapper" className='flex flex-col h-screen w-full items-center overflow-hidden dark:bg-black'
+    <div id="site-wrapper" className='flex flex-col overflow-scroll h-fit sm:h-full w-full items-center sm:overflow-hidden dark:bg-black'
     style={isHomePage ? 
         bgImageStyles : {}}>
-          <div className='fixed top-2 left-2 z-50 text-xs font-raleway opacity-70'>{VERSION_MESSAGE}</div>
+          
     <UserDataProvider >
      
         <MenuDataProvider>
         
-             <Header/>
-          
+          { !isViewer ? <Header/> : null}   
          
-          <div className='flex-grow grid grid-cols-12 grid-rows-10 w-4/5 m-10 overflow-hidden'>
+        
+         
+          <div className='flex-grow grid grid-cols-12 grid-rows-10 w-4/5 overflow-hidden'>
             {/* <AppContent /> */}
             <Routes>
                 {/* Home route with the dropzone */}
@@ -88,13 +92,14 @@ return (
                                 {/* Sign in route */}
                 <Route path="/signin" element={<SignIn/>} />
                 <Route path="/register" element={<SignupForm/>} />
-                <Route path="/dashboard" element={<Dashboard/>}/>
+                <Route path="/questions" element={<Faq/>} />
+                
                 
                 <Route path="/password-reset/confirm/:uid/:token" element={<PasswordReset/>} />
 
                 {/* Dashboard routes */}
                   <Route element={<PrivateRoutes />}>
-                    
+                    <Route path="/dashboard" element={<Dashboard/>}/>
                     <Route path="/upload" element={<Upload/>} />
                     <Route path="/viewer" element={<Viewer/>} />
                   </Route>
@@ -103,7 +108,7 @@ return (
             <Toaster />
           </div>
           
-          <footer>
+          <footer className='fixed bottom-2 left-2 z-50 text-xs font-raleway bg-white'>
             <Footer />
           </footer>
           

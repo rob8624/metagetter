@@ -37,7 +37,7 @@ export default function DetailPanel({ data, selectedImage, sectionRefs }) {
 
   return (
     // ✅ SINGLE scroll container
-    <div className="h-full overflow-y-auto" id="detail-scroll-container">
+    <div className="h-full" id="detail-scroll-container">
       {Object.entries(selectedData.grouped_metadata).map(([key, value]) => (
         <div key={key} className="mb-12">
           

@@ -56,11 +56,11 @@ const MetadataPanel = ({ selectedImage, data, showPanel, setShowPanel, }) => {
     if (!data) return null;
 
     return (
-      <div className="flex gap-2 flex-wrap dark:text-white dark:bg-black">
+      <div className="flex gap-2 flex-wrap dark:text-white dark:bg-black  w-full">
         {Object.entries(data).map(([key, value]) => (
           <div 
             key={key} 
-            className={`flex flex-col items-center justify-center h-auto max-w-full ${styles.color} rounded-md`}
+            className={`flex flex-col items-center justify-center h-auto  ${styles.color} rounded-md min-w-0 break-words`}
           >
             <div className={styles.padding}>
               <span className="font-bold text-xs">{key}:</span>
@@ -71,7 +71,7 @@ const MetadataPanel = ({ selectedImage, data, showPanel, setShowPanel, }) => {
                   )) :
                   typeof value === 'object' ? 
                     Object.entries(value).map(([key, value]) => 
-                      <div key={key} className="text-xs text-wrap w-content">
+                      <div key={key} className="text-xs text-wrap break-words">
                         <span className="font-bold">{key}:</span>{value}
                       </div>) 
                     : 
@@ -115,7 +115,7 @@ const MetadataPanel = ({ selectedImage, data, showPanel, setShowPanel, }) => {
   return (
     selectedImage ? (
       (showPanel || matches) ? (
-         <div className="clear-both">
+         <>
           {!matches && (
             <Button 
               onClick={(e) => {
@@ -127,7 +127,8 @@ const MetadataPanel = ({ selectedImage, data, showPanel, setShowPanel, }) => {
               Close
             </Button>
           )}
-          <div className="clear-both shadow-xl border-black border-1 rounded-lg" >
+          <div className="p-5" >
+            
             <LocationDataProcess data={locationData}/>
             <h3 className="text-lg font-semibold mb-4">Metadata Summary</h3>
             
@@ -135,12 +136,12 @@ const MetadataPanel = ({ selectedImage, data, showPanel, setShowPanel, }) => {
               <img
                 src={selectedImage?.image_thumbnail_url}
                 alt={selectedImage?.id}
-                className="w-full h-48 object-cover rounded border"
+                className=" object-cover rounded border"
               />
             </div>
 
-            <ScrollArea className="h-96">
-              <div className="text-sm w-full">
+            
+              <div className="text-sm ">
                 {summaryConfig.map(({ key, title, styles, useChart }) => (
                   <div key={key}>
                     <div className="font-lg font-bold mb-2">{title}</div>
@@ -152,9 +153,10 @@ const MetadataPanel = ({ selectedImage, data, showPanel, setShowPanel, }) => {
                   </div>
                 ))}
               </div>
-            </ScrollArea>
+            
+         
           </div>
-        </div>
+        </>
       ) : (
         // Only show toggle on mobile when panel is closed
         <Button 
@@ -169,7 +171,7 @@ const MetadataPanel = ({ selectedImage, data, showPanel, setShowPanel, }) => {
       )
     ) : (
       <div className="flex items-center justify-center text-gray-500">
-        <p>Select an image to view its metadata</p>
+        <p>Metadata summary</p>
       </div>
     )
   );
