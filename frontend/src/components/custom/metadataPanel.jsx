@@ -1,4 +1,4 @@
-import { ScrollArea } from "../../components/ui/scroll-area";
+
 import { getSelectedData } from "./detailPanel";
 import { DataTypeChart } from "./charts/dataTypeChart";
 import { useMediaQuery } from "@react-hook/media-query";

@@ -32,7 +32,7 @@ import { UserDataProvider } from './context/userContext';
 import { ThemeContext } from './context/darkModeContext'
 
 //Settings
-import { BACKGROUND_IMAGE_URL, VERSION_MESSAGE } from './siteSettings';
+import { BACKGROUND_IMAGE_URL} from './siteSettings';
 
 
 preload(`${BACKGROUND_IMAGE_URL}`, { as: 'image' });
