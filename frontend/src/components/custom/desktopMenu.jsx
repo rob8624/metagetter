@@ -18,6 +18,7 @@ import ProfileSheet from "./profileSlider";
 import {useMediaQuery } from '@react-hook/media-query'
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 
 //context
@@ -51,9 +52,18 @@ export default function DesktopMenu() {
   }, [setLoggedIn]); 
   
   
+  const { pathname } = useLocation()
+  
+  
+  const topDropdownStyles = `
+  [&>div.absolute]:bottom-full 
+  [&>div.absolute]:top-auto 
+  [&>div.absolute>*]:mb-1.5 
+  [&>div.absolute>*]:mt-0
+  [&>div.absolute>*]:origin-bottom-center
+`;
 
-  
-  
+const navMenuClassName = !matches && pathname !== '/viewer/' ? topDropdownStyles : '';
 
 let navigate = useNavigate();
 
@@ -63,7 +73,7 @@ let navigate = useNavigate();
   return (
     <>
     <div className="flex">
-    <NavigationMenu className={` bg-transparent [&_button]:px-4 [&_button]:py-2 [&_button]:bg-white/10 [&_button]:backdrop-blur-sm [&_button]:rounded-lg [&_button]:border [&_button]:border-white/20 [&_button]:hover:bg-white/20`}>
+    <NavigationMenu className={`${navMenuClassName} bg-transparent [&_button]:px-4 [&_button]:py-2 [&_button]:bg-white/10 [&_button]:backdrop-blur-sm [&_button]:rounded-lg [&_button]:border [&_button]:border-white/20 [&_button]:hover:bg-white/20`}>
     {menuData.map((item, index) => (
       <NavigationMenuList key={index}>
         
@@ -90,7 +100,7 @@ let navigate = useNavigate();
     </NavigationMenu>
     
     { loggedIn ?
-    <NavigationMenu >
+    <NavigationMenu className={navMenuClassName}>
       <NavigationMenuList >
        <NavigationMenuItem>
           <NavigationMenuTrigger className="text-black dark:text-white">User Menu</NavigationMenuTrigger>
