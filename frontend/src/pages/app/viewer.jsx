@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState, useRef } from "react";
+import { useState, useRef} from "react";
 //services
 import axiosInstance from "../../services/api";
 
@@ -32,6 +32,8 @@ export default function Viewer() {
   const [isEditing, setIsEditing] = useState(false)  
   const sectionRefs = useRef({});
   const imagesRef = useRef(null);
+  const detailPanelRef = useRef(null);
+
 
   const { data, isFetching } = useQuery({
     queryKey: ["images"],
@@ -53,6 +55,7 @@ export default function Viewer() {
          sectionRefs={sectionRefs}
        isEditing={isEditing}
          imagesRef={imagesRef}
+         detailPanelRef={detailPanelRef}
       />
     
     { isFetching ? (<div className="flex col-span-full row-span-full justify-center items-center">
@@ -69,6 +72,7 @@ export default function Viewer() {
           isEditing={isEditing}
            setIsEditing={setIsEditing}
          imagesRef={imagesRef}
+         detailPanelRef={detailPanelRef}
         
         /></div>}
       </div>
@@ -77,37 +81,3 @@ export default function Viewer() {
 }
 
 
-//  <div>
-//       <TopBar
-//         selectedImage={selectedImage}
-//         setSelectedImage={setSelectedImage}
-//         data={data}
-//         sectionRefs={sectionRefs}
-//         isEditing={isEditing}
-//         imagesRef={imagesRef}
-//       />
-//     <div/>
-//       <Separator />
-//       {isFetching ? (
-//         <div className="flex flex-col justify-center items-center mt-40">
-//           <ClipLoader loading={isFetching} />
-         
-//             <svg class="mr-3 size-5 animate-spin ..." viewBox="0 0 24 24"></svg>
-//             Processing…
-          
-//         </div>
-//       ) : (
-//         <div>
-//         <ImageGrid
-//           data={data}
-//           selectedImage={selectedImage}
-//           setSelectedImage={setSelectedImage}
-//           sectionRefs={sectionRefs}
-//           isEditing={isEditing}
-//           setIsEditing={setIsEditing}
-//           imagesRef={imagesRef}
-        
-//         />
-//         </div>
-//       )}
-//       </div>

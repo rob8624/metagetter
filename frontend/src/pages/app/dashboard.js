@@ -117,7 +117,7 @@ export default function Dashboard({ children }) {
                 buttonColor={'bg-green-500'}
                 backgroundColor={'bg-white'}
                 icon={<FaCompressArrowsAlt className="pr-2 text-2xl"/>}
-                link={'/viewer/'}
+                link={'/questions'}
                 enabled={true}
                 className={'sm:col-span-2'}
                 />

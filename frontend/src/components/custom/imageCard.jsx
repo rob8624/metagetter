@@ -114,7 +114,7 @@ const ImageCard = ({
     <>
     
       <div
-        className={`flex flex-col items-center justify-center min-h-0 hover:scale-100 w-1/3 sm:w-40 lg:w-60 items-center${className}`}
+        className={`flex flex-col items-center justify-center min-h-0 hover:scale-100 w-32 sm:w-40 lg:w-60 shrink-0 ${className}`}
       >
         <div
           className={`${imageZoomed && "scale-[1.6] translate-y-6 z-50 bg-white"} cursor-pointer shadow-xl border-2 rounded-md  transition-all duration-200  

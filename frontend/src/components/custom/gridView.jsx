@@ -27,6 +27,7 @@ const GridView = ({
   imagesRef,
   setImageZoomed,
   imageZoomed,
+  detailPanelRef
 }) => {
   const [openDropdownId, setOpenDropdownId] = useState(null);
 
@@ -34,15 +35,15 @@ const GridView = ({
     <>
       <div
         className="flex flex-col sm:flex-row gap-2
-       dark:text-white dark:bg-black h-full sm:pb-24"
+       dark:text-white dark:bg-black h-full sm:pb-24 flex-shrink"
         ref={(el) => (refs.current.summary = el)}
        >
         
 
-        <div className="flex-grow flex flex-col h-full sm:grid sm:grid-cols-5 auto-rows-auto ">
+        <div className="flex-grow flex flex-col h-full sm:grid sm:grid-cols-5 auto-rows-auto">
           <div
             ref={imagesRef}
-            className="flex flex-wrap items-center justify-center col-span-5 gap-5 sm:gap-0"
+            className="flex flex-wrap items-center justify-center sm:col-span-5 gap-5 sm:gap-0"
           >
             {data.map((item) => (
               <ImageCard
@@ -68,15 +69,16 @@ const GridView = ({
               />
             ))}
 
-            {selectedImage ? (
+            
+          </div>
+          {selectedImage ? (
               <DataTools
                 selectedImage={selectedImage}
                 isEditing={isEditing}
                 setIsEditing={setIsEditing}
               />
             ) : null}
-          </div>
-            <div className="col-span-full overflow-auto max-h-80 sm:max-h-none">
+            <div className="col-span-full overflow-auto max-h-80 sm:max-h-none" ref={detailPanelRef}>
                 {isEditing ? (
                   <EditForm
                     data={data}
@@ -91,6 +93,7 @@ const GridView = ({
                     data={data}
                     setSelectedImage={setSelectedImage}
                     sectionRefs={sectionRefs}
+                    
                   />
                 
                 )}

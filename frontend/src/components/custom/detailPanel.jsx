@@ -28,7 +28,7 @@ export const getSelectedData = (data, selectedImage) => {
 
 
 
-export default function DetailPanel({ data, selectedImage, sectionRefs }) {
+export default function DetailPanel({ data, selectedImage, sectionRefs}) {
   const selectedData = getSelectedData(data, selectedImage);
 
   if (!selectedData) {

@@ -47,7 +47,7 @@ function App() {
  
  const { pathname } = useLocation()
  const isHomePage = pathname === '/'
- const isViewer = pathname === '/viewer/'
+ const isViewer = pathname.startsWith('/viewer')
  
 
 
@@ -70,7 +70,7 @@ const bgImageStyles = {
  
 return (
     <>
-    <div id="site-wrapper" className='flex flex-col overflow-scroll h-fit sm:h-full w-full items-center sm:overflow-hidden dark:bg-black'
+    <div id="site-wrapper" className='flex flex-col overflow-scroll min-h-screen sm:h-full w-full items-center sm:overflow-hidden dark:bg-black'
     style={isHomePage ? 
         bgImageStyles : {}}>
           
@@ -82,7 +82,7 @@ return (
          
         
          
-          <div className='flex-grow grid grid-cols-12 grid-rows-10 w-4/5 overflow-hidden'>
+          <div className='flex-grow grid grid-cols-12 grid-rows-10 sm:w-4/5 overflow-hidden'>
             {/* <AppContent /> */}
             <Routes>
                 {/* Home route with the dropzone */}
@@ -108,7 +108,7 @@ return (
             <Toaster />
           </div>
           
-          <footer className='fixed bottom-2 left-2 z-50 text-xs font-raleway bg-white'>
+          <footer className='text-xs font-raleway bg-white'>
             <Footer />
           </footer>
           

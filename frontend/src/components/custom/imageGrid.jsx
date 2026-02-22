@@ -16,7 +16,7 @@ import GridView from "./gridView";
 
 
 
-export default function ImageGrid({ data, selectedImage, setSelectedImage, sectionRefs, imagesRef, isEditing, setIsEditing }) {
+export default function ImageGrid({ data, selectedImage, setSelectedImage, sectionRefs, imagesRef, detailPanelRef, isEditing, setIsEditing }) {
   //state
   
   
@@ -93,6 +93,7 @@ const handleImageClick = (item) => {
           imagesRef={imagesRef}
           setImageZoomed={setImageZoomed}
           imageZoomed={imageZoomed}
+          detailPanelRef={detailPanelRef}
         />
     
         

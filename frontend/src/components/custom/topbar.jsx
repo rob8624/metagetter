@@ -10,13 +10,15 @@ import { Link } from "react-router";
 
 
 
+
 export default function TopBar({
   selectedImage,
   setSelectedImage,
   data,
   sectionRefs,
   isEditing,
-  imagesRef
+  imagesRef,
+  detailPanelRef,
 }) {
   const filenameRef = useRef(null);
   const matches = useMediaQuery('only screen and (min-width: 600px)')
@@ -48,10 +50,11 @@ export default function TopBar({
   };
 
   const scrollToTop = () => {
-    imagesRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    })
+    console.log(detailPanelRef.current)
+    detailPanelRef.current?.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
   }
 
   const UploadButton = () => {
@@ -67,9 +70,9 @@ export default function TopBar({
   return (
     <div
       id="topbar"
-      className={`flex items-center h-fit z-10 shadow-md border-2 rounded-2xl ${selectedImage ? "border-t-2": null} border-gray-400 text-black dark:text-white dark:bg-black`}
+      className={`flex flex-col sm:flex-row items-center z-10 shadow-md border-2 rounded-2xl ${selectedImage ? "border-t-2": null} border-gray-400 text-black dark:text-white dark:bg-black`}
       >
-        <div className="z-10"><DesktopMenu /></div>
+        <div className="z-30 flex"><DesktopMenu />
         <button onClick={handleDarkModeToggle} className="pr-1">
            {darkMode ? (
                         <MdOutlineDarkMode size={"2em"} className="bg-black rounded-2xl" />
@@ -78,6 +81,7 @@ export default function TopBar({
                         
                       )}
         </button>
+        </div>
       {matches ?  <PageGridTitle
         className="pt-5 text-black dark:text-white"
         title={"Viewer"}
