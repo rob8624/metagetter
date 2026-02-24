@@ -34,6 +34,8 @@ import { ThemeContext } from './context/darkModeContext'
 //Settings
 import { BACKGROUND_IMAGE_URL} from './siteSettings';
 
+//Tanstack
+
 
 preload(`${BACKGROUND_IMAGE_URL}`, { as: 'image' });
 
@@ -41,10 +43,8 @@ preload(`${BACKGROUND_IMAGE_URL}`, { as: 'image' });
 function App() {
   const [showFindOutMore, setShowFindOutMore] = useState(false)
   const { setDarkMode } = useContext(ThemeContext)
+  
 
- 
-
- 
  const { pathname } = useLocation()
  const isHomePage = pathname === '/'
  const isViewer = pathname.startsWith('/viewer')
@@ -58,6 +58,8 @@ function App() {
   setDarkMode(false)
  }
  }, [pathname, setDarkMode])
+
+ 
  
 
 const bgImageStyles = {

@@ -55,7 +55,7 @@ const Header = () => {
         <div className="flex w-screen sm:flex-col items-center justify-between gap-2">
           <Link to="/" className="">
             <img
-              className="h-14 sm:h-32 m-2 rounded-md opacity-90 bg-black"
+              className="h-14 sm:h-48 m-2 rounded-md opacity-90"
               src={HEADER_LOGO}
               alt="Logo"
               onClick={handleLogoClick}/>

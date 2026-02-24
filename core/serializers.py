@@ -14,9 +14,7 @@ from imagekit.cachefiles import ImageCacheFile
 
 
 from core.views import ImageMetadata, UserImages
-
-
-
+from core.models import Questions
 
 
 
@@ -484,6 +482,13 @@ class MetadataEditSerializer(serializers.Serializer):
         
         return data
 
+
+
+class QuestionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Questions
+        fields = ['id', 'title', 'content', 'active', 'created_at', 'updated_at']
+    
 
 
 

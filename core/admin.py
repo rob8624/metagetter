@@ -3,7 +3,7 @@ import json
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
-from .models import Profile, UserImages, Image, ImageMetadata
+from .models import Profile, UserImages, Image, Questions
 
 # Unregister the default User admin
 admin.site.unregister(User)
@@ -45,7 +45,15 @@ class UserImagesAdmin(admin.ModelAdmin):
 
     def image_url(self, obj):
         return obj.image.file.url
+    
 
 
-# Register your Image model
+@admin.register(Questions)
+class QuestionsAdmin(admin.ModelAdmin):
+    list_display = ("title", "active", "created_at")
+    list_filter = ("active",)
+    search_fields = ("title", "content")
+
+
+
 admin.site.register(Image)

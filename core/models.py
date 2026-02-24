@@ -96,3 +96,18 @@ class Image(models.Model):
     def __str__(self):
         return self.image.name
     
+
+class Questions(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+
+    def __str__(self):
+        return self.title
+    
+    class Meta:
+        verbose_name = "Question"
+        verbose_name_plural = "Questions"

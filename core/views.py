@@ -21,7 +21,7 @@ from django.contrib.auth import get_user_model
 
 
 #project models
-from .models import UserImages, ImageMetadata, Profile
+from .models import UserImages, ImageMetadata, Profile, Questions
 
 #django utils
 from django.utils import timezone
@@ -41,6 +41,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth.decorators import user_passes_test
 from rest_framework import permissions
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.permissions import AllowAny
 
 #drf imports
 from rest_framework import status
@@ -48,9 +49,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from rest_framework.generics import ListAPIView
 
 #serializers
-from .serializers import UserImagesSerializer, ImageListSerializer, MetadataEditSerializer
+from .serializers import UserImagesSerializer, ImageListSerializer, MetadataEditSerializer,  QuestionsSerializer
 
 #exitool
 import exiftool
@@ -442,3 +444,14 @@ class UserImagesViewSet(viewsets.ModelViewSet):
 
             
 logger.info("Logging system check", extra={"user_id": "system", "ip": "127.0.0.1"})
+
+
+class QuestionListView(ListAPIView):
+    serializer_class = QuestionsSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        return Questions.objects.filter(active=True).order_by('id')
+    
+
+       
