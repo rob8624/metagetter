@@ -3,7 +3,9 @@ import json
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
-from .models import Profile, UserImages, Image, Questions
+from .models import Profile, UserImages, Image, Questions, TermsAndConditions
+
+from django_summernote.admin import SummernoteModelAdmin
 
 # Unregister the default User admin
 admin.site.unregister(User)
@@ -49,10 +51,16 @@ class UserImagesAdmin(admin.ModelAdmin):
 
 
 @admin.register(Questions)
-class QuestionsAdmin(admin.ModelAdmin):
+class QuestionsAdmin(SummernoteModelAdmin):
     list_display = ("title", "active", "created_at")
     list_filter = ("active",)
     search_fields = ("title", "content")
+    summernote_fields = '__all__'
+
+@admin.register(TermsAndConditions)
+class TermsAdmin(SummernoteModelAdmin):
+    summernote_fields = ('content',)
+    list_display = ['version', 'is_active', 'created_at']
 
 
 

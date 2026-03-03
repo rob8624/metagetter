@@ -111,3 +111,36 @@ class Questions(models.Model):
     class Meta:
         verbose_name = "Question"
         verbose_name_plural = "Questions"
+
+
+
+class TermsAndConditions(models.Model):
+    content = models.TextField()
+    version = models.CharField(max_length=20)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        if self.is_active:
+            TermsAndConditions.objects.exclude(pk=self.pk).update(is_active=False)
+        super().save(*args, **kwargs)
+    
+    def __str__(self):
+        return f"Terms v{self.version}" 
+    
+    class Meta:
+        verbose_name = "Terms and Conditions"
+        verbose_name_plural = "Terms and Conditions"
+    
+class USerTermsAcceptance(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='terms_acceptances')
+    terms = models.ForeignKey(TermsAndConditions, on_delete=models.CASCADE)
+    accepted_at = models.DateTimeField(auto_now_add=True)
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+
+    class Meta:
+        unique_together = ['user', 'terms']
+        
+
+    def __str__(self):
+        return f"{self.user.username} accepted v{self.terms.version}"

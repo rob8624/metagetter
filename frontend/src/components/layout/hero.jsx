@@ -83,12 +83,15 @@ export default function Hero({ setShowFindOutMore }) {
               Edit. Download. Delete.
             </p>
         </div>
-        <div className="flex items-center justify-center flex-row gap-x-3 text-xl font-bold">
+        <div className="flex items-center justify-center flex-row gap-x-1 sm:gap-x-3 text-xs sm:text-xl font-bold">
           <Button onClick={handleclick}>Upload</Button>
           <Button onClick={handleDiscover}>Discovever</Button>
           {loggedIn ? null : <Button>
             <Link to="/register">Register</Link>
           </Button>}
+          <Button>
+            <Link to="/questions">FAQ</Link>
+          </Button>
         </div>
  
 </div>

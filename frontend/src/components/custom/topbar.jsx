@@ -8,7 +8,7 @@ import { ThemeContext } from "../../context/darkModeContext";
 import { MdDarkMode, MdOutlineDarkMode } from "react-icons/md";
 import { Link } from "react-router";
 
-
+import { HEADER_LOGO } from "../../siteSettings";  
 
 
 export default function TopBar({
@@ -59,9 +59,11 @@ export default function TopBar({
 
   const UploadButton = () => {
     return (
-      <div className="pr-2 ml-auto no-slash">
-      <Button variant="outline" size="xs" className=" p-1">
-        <Link to={'/upload'}>Upload</Link>
+      <div className="pr-2 ml-auto no-slash flex">
+        <img src={HEADER_LOGO} alt="logo" className="h-10"/>
+      <Button variant="outline" size="xs" className="bg-black text-white dark:bg-white
+       dark:text-white m-1 pl-1 pr-1 shadow-sm">
+        <Link to={'/upload'} className="font-raleway">Upload</Link>
       </Button>
       </div>
     )
@@ -124,6 +126,7 @@ export default function TopBar({
           </Button>
           
         ))}
+        
         <UploadButton/>
       </>
     )}

@@ -4,6 +4,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../../components/ui/accordion";
+import { Button } from "../../components/ui/button";
+import { Link } from "react-router-dom"
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -36,8 +38,11 @@ export default function Faq() {
 
 
   return (
+    <>
     <div className="col-span-full row-span-full flex flex-col gap-2 items-center pt-10">
       <div className="text-4xl sm:text-6xl font-raleway">FAQ</div>
+      <Button><Link to={'/'}>BACK</Link>
+      </Button>
       <div className="w-full flex justify-center">
         
             <Accordion
@@ -48,12 +53,18 @@ export default function Faq() {
             {items.map((item) => (
             <AccordionItem key={item.id} value={item.id} className="border-b px-4 last:border-b-0">
                 <AccordionTrigger className="font-bold font-raleway text-lg">{item.title}</AccordionTrigger>
-                <AccordionContent>{item.content}</AccordionContent>
+                <AccordionContent>
+                  <div className="prose">
+                  <div dangerouslySetInnerHTML={{ __html: item.content }} />
+                </div>
+                </AccordionContent>
             </AccordionItem>
             ))}
         </Accordion>
        
       </div>
     </div>
+    
+    </>
   );
 }

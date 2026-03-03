@@ -46,5 +46,6 @@ urlpatterns = [
     re_path(r'^fp/', include('django_drf_filepond.urls')),
     path('admin/', admin.site.urls),
     path('faqs/', QuestionListView.as_view(), name='faq-list'),
+    path('summernote/', include('django_summernote.urls')),
     
 ]

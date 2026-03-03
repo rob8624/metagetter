@@ -17,8 +17,12 @@ import {
   FormMessage,
 } from "../../components/ui/form"
 import { Input } from "../../components/ui/input"
+import { Checkbox } from "../../components/ui/checkbox"
+import { Field } from "../../components/ui/field";
+import { FieldLabel } from "../../components/ui/field";
 import  { ThemeContext }  from '../../context/darkModeContext'
 import authService from '../../services/authServices.js'
+
 
 
 
@@ -55,8 +59,11 @@ export function SignupForm() {
       email: "",
       password: "",
       confirmPassword: "",
+      termsCheckbox: false,
     },
   })
+
+  const termsAccepted = form.watch("termsCheckbox")
 
  
 const onSubmit = async (data) => {
@@ -92,6 +99,8 @@ const onSubmit = async (data) => {
   }
 }
 
+
+
   
   
   
@@ -99,16 +108,22 @@ const onSubmit = async (data) => {
     <>
     <div className="col-span-full sm:col-start-4 sm:col-span-6 row-start-1 row-span-full overflow-auto">
             
-        <div className={`flex flex-col gap-10 mt-10 sm:mb-16 p-6 rounded-lg shadow-lg
+        <div className={`flex flex-col  mt-10 sm:mb-16 p-6 rounded-lg shadow-lg text-center
           ${darkMode ? 'border border-gray-700 bg-black text-white' : 'border border-gray-200 bg-white text-black'}`}>
           <div>
             <h1 className="text-2xl font-bold">Please use the below form to register</h1>
             <p>
-                <span className="font-bold">Email</span> must be unique, and will be used to reset password if needed.<br />
-                <span className="font-bold">Username</span> is used to log into your account.
+                <span className="font-bold">Email</span> must be unique, and will be used to reset password if needed.
+                <span className="font-bold"> Username</span> is used to log into your account.
             </p>
           </div>
-          
+          <div className="items-center justify-center flex flex-col mb-5">
+                <div className="text-red-900 text-2xl">You must agree to out terms and privacy policy. By checking the box on the registration form</div>
+                <div>
+              Accepting, will state you have read and agree to our terms and privacy policy.
+            
+            </div>   
+          </div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -211,11 +226,30 @@ const onSubmit = async (data) => {
                     )}
                   />
                 </div>
+                <div className="col-span-full flex justify-center items-center">
+                  <FormField
+                    control={form.control}
+                    name="termsCheckbox"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Field orientation="horizontal">
+                            <Checkbox id="termsCheckbox" name="termsCheckbox" checked={field.value} onCheckedChange={field.onChange}/>
+                            <FieldLabel htmlFor="termsCheckbox" className="text-lg">
+                              Accept terms and conditions
+                            </FieldLabel>
+                          </Field>
+                        </FormControl>
+                      
+                      </FormItem>
+                      )}
+                    /> 
+                </div>
               </div>
               
               {/* Button outside the grid, full width */}
               <div className="mt-8 flex justify-between">
-                <Button type="submit" className={`w-fit ${darkMode ? 'bg-black hover:bg-blue-700 text-white' : ''}`}>
+                <Button type="submit" disabled={!termsAccepted} className={`w-fit ${darkMode ? 'bg-black hover:bg-blue-700 text-white' : ''}`}>
                   Sign Up
                 </Button>
                  <Button className="w-20">
