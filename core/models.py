@@ -132,7 +132,7 @@ class TermsAndConditions(models.Model):
         verbose_name = "Terms and Conditions"
         verbose_name_plural = "Terms and Conditions"
     
-class USerTermsAcceptance(models.Model):
+class UserTermsAcceptance(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='terms_acceptances')
     terms = models.ForeignKey(TermsAndConditions, on_delete=models.CASCADE)
     accepted_at = models.DateTimeField(auto_now_add=True)

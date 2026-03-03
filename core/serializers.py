@@ -14,7 +14,9 @@ from imagekit.cachefiles import ImageCacheFile
 
 
 from core.views import ImageMetadata, UserImages
-from core.models import Questions
+from core.models import Questions, TermsAndConditions
+
+
 
 
 
@@ -490,6 +492,11 @@ class QuestionsSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'content', 'active', 'created_at', 'updated_at']
     
 
+
+class TermsSerliazer(serializers.ModelSerializer):
+    class Meta:
+        model = TermsAndConditions
+        fields = ['id', 'content', 'version', 'created_at', 'is_active']
 
 
 

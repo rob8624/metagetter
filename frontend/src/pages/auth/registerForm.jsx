@@ -118,7 +118,9 @@ const onSubmit = async (data) => {
             </p>
           </div>
           <div className="items-center justify-center flex flex-col mb-5">
-                <div className="text-red-900 text-2xl">You must agree to out terms and privacy policy. By checking the box on the registration form</div>
+                <div className="text-red-900 text-2xl">You must agree to out 
+                  <span className="text-bold text-black underline"><Link to='/terms'> Terms of Service </Link></span>
+                and privacy policy. By checking the box on the registration form</div>
                 <div>
               Accepting, will state you have read and agree to our terms and privacy policy.
             

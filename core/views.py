@@ -21,7 +21,7 @@ from django.contrib.auth import get_user_model
 
 
 #project models
-from .models import UserImages, ImageMetadata, Profile, Questions
+from .models import UserImages, ImageMetadata, Profile, Questions, TermsAndConditions
 
 #django utils
 from django.utils import timezone
@@ -454,4 +454,18 @@ class QuestionListView(ListAPIView):
         return Questions.objects.filter(active=True).order_by('id')
     
 
-       
+class ActiveTermsView(APIView):
+    permission_classes = [AllowAny]
+
+
+    def get(self, request):
+        terms = TermsAndConditions.objects.filter(is_active=True).first()
+        if not terms:
+            return Response({"detail": "No active terms found."}, status=status.HTTP_404_NOT_FOUND)
+        
+        return Response({
+            "id": terms.id,
+            "content": terms.content,
+            "version": terms.version,
+            "created_at": terms.created_at
+        })
