@@ -48,14 +48,7 @@ export default function Hero({ setShowFindOutMore }) {
   
   
   
-  //handling click conditional, passing state to signin form 
-  const handleclick = () => {
-        if (loggedIn) {
-          navigate("/dashboard")
-        } else {
-          navigate("/signin", { state : { fromHero:true }})
-        }
-   }
+ 
   
   return (
     <>
@@ -84,7 +77,7 @@ export default function Hero({ setShowFindOutMore }) {
             </p>
         </div>
         <div className="flex items-center justify-center flex-row gap-x-1 sm:gap-x-3 text-xs sm:text-xl font-bold">
-          <Button onClick={handleclick}>Upload</Button>
+          
           <Button onClick={handleDiscover}>Discovever</Button>
           {loggedIn ? null : <Button>
             <Link to="/register">Register</Link>

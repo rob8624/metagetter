@@ -1,7 +1,8 @@
 import { LoginForm } from "../../components/ui/login-form"
+import { Button } from "../../components/ui/button";
+import { Link } from "react-router-dom";
 
 
-// import authService from "../../services/authServices";
 
 
 
@@ -17,7 +18,11 @@ export default function SignIn() {
                     <LoginForm>
                         dasd
                     </LoginForm>
-                    <div className="absolute top-0">Close</div>
+                    <div className="absolute top-0">
+                         <Button size='xs' asChild>
+                            <Link to="/">Cancel</Link>
+                        </Button>
+                    </div>
                 </div>
                 
             </div>

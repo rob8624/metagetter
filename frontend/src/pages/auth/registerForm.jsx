@@ -33,6 +33,10 @@ const formSchema = z.object({
   username: z.string().min(2, ({
     message: "username"
   })),
+  
+  termsCheckbox: z.boolean(true, {
+  errorMap: () => ({ message: "You must accept the terms and conditions." }),
+}),
 
   email: z.string().email({
     message: "Please enter a valid email address.",
@@ -44,6 +48,7 @@ const formSchema = z.object({
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
+
 });
 
 export function SignupForm() {
@@ -111,14 +116,14 @@ const onSubmit = async (data) => {
         <div className={`flex flex-col  mt-10 sm:mb-16 p-6 rounded-lg shadow-lg text-center
           ${darkMode ? 'border border-gray-700 bg-black text-white' : 'border border-gray-200 bg-white text-black'}`}>
           <div>
-            <h1 className="text-2xl font-bold">Please use the below form to register</h1>
+            <h1 className="text-xl font-bold">Please use the below form to register</h1>
             <p>
                 <span className="font-bold">Email</span> must be unique, and will be used to reset password if needed.
                 <span className="font-bold"> Username</span> is used to log into your account.
             </p>
           </div>
           <div className="items-center justify-center flex flex-col mb-5">
-                <div className="text-red-900 text-2xl">You must agree to out 
+                <div className="text-red-900 text-base">You must agree to out 
                   <span className="text-bold text-black underline"><Link to='/terms'> Terms of Service </Link></span>
                 and privacy policy. By checking the box on the registration form</div>
                 <div>
