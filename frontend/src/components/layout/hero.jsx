@@ -20,7 +20,7 @@ import gsap from "gsap";
 export default function Hero({ setShowFindOutMore }) {
  
   const { loggedIn } = UseLoggedIn();
-  const navigate = useNavigate();
+
 
   const heroTitle = useRef(null);
   const heroContainer = useRef(null);
