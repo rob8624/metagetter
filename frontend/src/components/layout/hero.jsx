@@ -6,7 +6,7 @@ import { Button } from "../ui/button";
 
 
 //router
-import { useNavigate } from 'react-router-dom';
+
 import { Link } from "react-router";
 
 //hooks
