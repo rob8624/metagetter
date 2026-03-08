@@ -186,9 +186,9 @@ DEFAULT_FILE_STORAGE = 'metagetter.storage_backends.PublicMediaStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-ALLOWED_HOSTS=['metagetter-production.up.railway.app', 'localhost', str(os.getenv('RAILWAY_PUBLIC_DOMAIN'))]
+ALLOWED_HOSTS=['metagetter-production.up.railway.app', 'localhost', 'http://' + str(os.getenv('RAILWAY_PUBLIC_DOMAIN'))]
 
-CSRF_TRUSTED_ORIGINS=['http://localhost:8000', 'http://localhost:3000', 'https://metagetter-production.up.railway.app', str(os.getenv('RAILWAY_PUBLIC_DOMAIN'))]
+CSRF_TRUSTED_ORIGINS=['http://localhost:8000', 'http://localhost:3000', 'https://metagetter-production.up.railway.app', 'http://' + str(os.getenv('RAILWAY_PUBLIC_DOMAIN'))]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
