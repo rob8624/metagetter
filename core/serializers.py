@@ -22,7 +22,7 @@ from core.models import Questions, TermsAndConditions, ImageMetadata, UserImages
 class CustomUserCreateSerializer(UserCreateSerializer):
 
         
-    password_retype = serializers.CharField(write_only=True)
+    re_password = serializers.CharField(write_only=True)
     email = serializers.EmailField(required=True, 
                                    validators=[UniqueValidator(queryset=User.objects.all(), message="Email already exists.")])
 
@@ -39,17 +39,17 @@ class CustomUserCreateSerializer(UserCreateSerializer):
 
     def validate(self, attrs):
         print("VALIDATION RUNNING")
-        if attrs.get("password") != attrs.get("password_retype"):
+        if attrs.get("password") != attrs.get("re_password"):
             raise serializers.ValidationError("Passwords do not match")
         
         
         #removing password reture from atts as field does not exist in User model    
-        attrs.pop("password_retype", None)
+        attrs.pop("re_password", None)
         return super().validate(attrs)
 
     class Meta(UserCreateSerializer.Meta):
         model = User
-        fields = ("id", "username", "email", "password", "password_retype")
+        fields = ("id", "username", "email", "password", "re_password")
 
     
 

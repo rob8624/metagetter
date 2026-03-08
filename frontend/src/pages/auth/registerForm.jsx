@@ -76,7 +76,7 @@ export function SignupForm() {
       username: data.username,
       email: data.email,
       password: data.password,
-      password_retype: data.confirmPassword,
+      re_password: data.confirmPassword,
     });
 
     // Success
