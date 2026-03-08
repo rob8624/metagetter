@@ -70,39 +70,37 @@ export function SignupForm() {
 
   const termsAccepted = form.watch("termsCheckbox")
 
- 
-const onSubmit = async (data) => {
+  const onSubmit = async (data) => {
   try {
     const response = await authService.register({
       username: data.username,
       email: data.email,
       password: data.password,
-      re_password: data.confirmPassword
+      password_retype: data.confirmPassword,
     });
 
-    // Success case
+    // Success
     toast(`Registered! You can now sign in, thanks ${data.username}`);
-    navigate('/signin'); 
+    navigate('/signin');
     console.log('Registration successful:', response);
+
   } catch (error) {
-    if (error.response && error.response.status === 400) {
+    if (error.response && error.response.status === 400 && error.response.data) {
      
-      if (error.response.data.email) {
-        toast(`Sorry, that email address is already in use`);
-      } else if (error.response.data.username) {
-        toast(`Sorry, that username is already taken`);
-      } else if (error.response.data.password) {
-        toast(`Password error: ${error.response.data.password[0]}`);
-      } else {
-       
-        toast(`Registration failed: ${Object.values(error.response.data).flat()[0]}`);
-      }
+      Object.entries(error.response.data).forEach(([field, messages]) => {
+        messages.forEach((msg) => {
+          toast(`Error: ${msg}`);
+        });
+      });
+
     } else {
+      
       toast('An unexpected error occurred during registration');
       console.error('Registration error:', error);
     }
   }
-}
+};
+
 
 
 
@@ -111,7 +109,7 @@ const onSubmit = async (data) => {
   
   return (
     <>
-    <div className="col-span-full sm:col-start-4 sm:col-span-6 row-start-1 row-span-full overflow-auto">
+    <div className="col-span-full lg:col-start-4 lg:col-span-6 row-start-1 row-span-full overflow-auto">
             
         <div className={`flex flex-col  mt-10 sm:mb-16 p-6 rounded-lg shadow-lg text-center
           ${darkMode ? 'border border-gray-700 bg-black text-white' : 'border border-gray-200 bg-white text-black'}`}>

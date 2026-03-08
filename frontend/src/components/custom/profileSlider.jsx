@@ -93,7 +93,7 @@ export default function ProfileSheet({ isOpen, setIsOpen }) {
           <dl className="flex flex-wrap gap-x-8 gap-y-2 items-center justify-center sm:justify-start">
             <div className="flex gap-2 items-center">
               <dt className="font-bold">ID#</dt>
-              <dd>{userData.id}</dd>
+              <dd>{userData.public_id_number}</dd>
             </div>
           
             <div className="flex gap-2 items-center">

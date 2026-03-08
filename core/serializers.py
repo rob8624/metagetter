@@ -1,6 +1,7 @@
 from collections import defaultdict
 from datetime import datetime
 from django.core.validators import EmailValidator
+from rest_framework.validators import UniqueValidator
 import re
 
 from djoser.serializers import UserCreateSerializer, UserSerializer
@@ -12,22 +13,43 @@ from imagekit.processors import ResizeToFill
 from imagekit.processors import ResizeToFit
 from imagekit.cachefiles import ImageCacheFile
 
-
-from core.views import ImageMetadata, UserImages
-from core.models import Questions, TermsAndConditions
+from core.models import Questions, TermsAndConditions, ImageMetadata, UserImages
 
 
 
 
 
 class CustomUserCreateSerializer(UserCreateSerializer):
+
+        
+    password_retype = serializers.CharField(write_only=True)
+    email = serializers.EmailField(required=True, 
+                                   validators=[UniqueValidator(queryset=User.objects.all(), message="Email already exists.")])
+
+    username = serializers.CharField(
+        required=True,
+        validators=[UniqueValidator(queryset=User.objects.all(), message="This username is already taken.")]
+    )
+
+
+
     def __init__(self, *args, **kwargs):
         print("Custom serializer instantiated")
         super().__init__(*args, **kwargs)
+
+    def validate(self, attrs):
+        print("VALIDATION RUNNING")
+        if attrs.get("password") != attrs.get("password_retype"):
+            raise serializers.ValidationError("Passwords do not match")
         
+        
+        #removing password reture from atts as field does not exist in User model    
+        attrs.pop("password_retype", None)
+        return super().validate(attrs)
+
     class Meta(UserCreateSerializer.Meta):
         model = User
-        fields = ('dsfsdfsdf', 'dsfsdf', 'sdfsdf', 'dsfdsfsdf')
+        fields = ("id", "username", "email", "password", "password_retype")
 
     
 

@@ -68,8 +68,8 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'core.custom_middleware.DuplicateEmailMiddleware',
-    'core.custom_middleware.UserProfileData',
+    
+    
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -230,7 +230,7 @@ else:
 
 
 DJOSER = {
-    'USER_CREATE_PASSWORD_RETYPE': True,
+    
     'PASSWORD_RESET_CONFIRM_URL': 'password-reset/confirm/{uid}/{token}',
     'SERIALIZERS': {
         'user_create': 'core.serializers.CustomUserCreateSerializer',
