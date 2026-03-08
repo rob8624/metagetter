@@ -101,12 +101,29 @@ WSGI_APPLICATION = 'metagetter.wsgi.application'
 
 
 #checking against Railway env varible, so must match. If False, run dev database.
-DATABASE_URL = os.getenv('DATABASE_URL') #Railway env
+
+
+
+
+#IF USING RAILWAY CLI, UN-COMMENT THIS CODE AND USE PARSE() ON DJ_DATABASE_URL 
+#TO DIRECTELY INJECT DB URL. CONFIG() WILL ALWAYS USE ENV VARIBLES WHICH IS 
+#RAILWAYS INTENAL DB ADDRESS AND CANNOT BE ACCESSED FROM OUTISED RAILWAY
+#UNLIKE THE PUBLIC DB ADDRESS.
+# RAILWAY_CLI = True
+# def get_database_url(database_cli):
+#      if database_cli:
+#           return os.getenv('DATABASE_PUBLIC_URL') 
+#      else:
+#           return os.getenv('DATABASE_URL') 
+#DATABASE_URL = get_database_url(RAILWAY_CLI)
+
+DATABASE_URL = os.getenv('DATABASE_URL')
+
 
 if DATABASE_URL:
   
     DATABASES = {
-        'default': dj_database_url.config(default=DATABASE_URL)
+        'default': dj_database_url.config(DATABASE_URL)
     }
 else:
     
