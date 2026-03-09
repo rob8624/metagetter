@@ -72,7 +72,7 @@ export default function TopBar({
   return (
     <div
       id="topbar"
-      className={`flex flex-col sm:flex-row items-center z-10 shadow-md border-2 rounded-2xl ${selectedImage ? "border-t-2": null} border-gray-400 text-black dark:text-white dark:bg-black`}
+      className={`flex flex-col sm:flex-row items-center z-10 sm:p-1 shadow-md border-2 rounded-2xl ${selectedImage ? "border-t-2": null} border-gray-400 text-black dark:text-white dark:bg-black`}
       >
         <div className="z-30 flex"><DesktopMenu />
         <button onClick={handleDarkModeToggle} className="pr-1">
@@ -91,6 +91,7 @@ export default function TopBar({
         subDescription={"Select an image to view options"}
         color={"grey"}
       />: null}
+      
       <div id="topbarmenu-wrapper" className="flex-1 ml-2 h-full ">
         <div id="topbarmenu" className="flex flex-wrap sm:gap-2 items-center justify-start h-full overflow-hidden">
          {selectedImage ? (

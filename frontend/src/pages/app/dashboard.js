@@ -86,7 +86,7 @@ export default function Dashboard({ children }) {
                 <DashboardCard 
                 title={'Upload'} 
                 description={'Click here to start uploading images'}
-                footer={'You can upload a maximun of five images'}
+                footer={'You can upload a maximun of four images'}
                 showButton={true}
                 buttonName={'Upload'}
                 buttonColor={'bg-green-500'}
