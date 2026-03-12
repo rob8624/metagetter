@@ -6,7 +6,7 @@ import uuid
 from django.utils import timezone
 
 from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFill
+
 from imagekit.processors import ResizeToFit
 
 
