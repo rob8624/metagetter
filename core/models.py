@@ -21,7 +21,7 @@ class Profile(models.Model):
     joined_date = models.DateTimeField(auto_now_add=True)
     images_uploaded = models.PositiveIntegerField(default=0)
     active = models.BooleanField(default=True)
-    public_id_number = models.UUIDField(default=uuid.uuid4, editable=False, null=True) 
+    public_id_number = models.UUIDField(default=uuid.uuid4, editable=False, unique=True) 
 
     def count_total_images(self):
         count = UserImages.objects.filter(user=self.user).count()
@@ -72,11 +72,11 @@ class UserImages(models.Model):
     
     def delete(self, *args, **kwargs):
         if self.image and self.image.file:
-            print(self.image.file)
-            self.image.file.delete(save=False)
+            try:
+                self.image.file.delete(save=False)
+            except Exception:
+                pass
 
-        self.image.file.delete()
-            
         super().delete(*args, **kwargs)
 
 
