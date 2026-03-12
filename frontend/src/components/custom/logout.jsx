@@ -57,6 +57,7 @@ export default function Logout() {
   const timer = setTimeout(() => {
         queryClient.clear()
         setLoggedIn(false);
+        localStorage.removeItem('loggedin')
         authService.logout()
         navigate('/');
         setIsOpen(false);

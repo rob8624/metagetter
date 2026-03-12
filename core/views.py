@@ -106,7 +106,7 @@ class UserProfileCachedView(APIView):
         user = request.user
         
         fresh_data = {
-            'id': user.id,
+            'public_id_number': user.profile.public_id_number,
             'username': user.username,
             'email': user.email,
             'active': user.is_active,
@@ -114,7 +114,7 @@ class UserProfileCachedView(APIView):
             'uploaded_images': user.profile.count_total_images(),  # Fresh count!
             'last_login': user.last_login.isoformat() if user.last_login else None,
         }
-        print(fresh_data)
+      
         
       
         

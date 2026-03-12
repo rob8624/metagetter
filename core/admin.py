@@ -12,6 +12,7 @@ admin.site.unregister(User)
 
 class ProfileInline(admin.StackedInline):
     model = Profile
+    readonly_fields = ('public_id_number',)
 
 class UserImagesInline(admin.StackedInline):
     model = UserImages

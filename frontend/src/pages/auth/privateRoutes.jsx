@@ -11,5 +11,5 @@ export function PrivateRoutes() {
 
   return loggedIn
     ? <Outlet />
-    : <Navigate to="/signin" replace />;
+    : <Navigate to="/" replace />;
 }

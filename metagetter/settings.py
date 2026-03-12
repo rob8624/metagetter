@@ -68,8 +68,8 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'core.custom_middleware.DuplicateEmailMiddleware',
-    'core.custom_middleware.UserProfileData',
+    
+    
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -101,13 +101,31 @@ WSGI_APPLICATION = 'metagetter.wsgi.application'
 
 
 #checking against Railway env varible, so must match. If False, run dev database.
-DATABASE_URL = os.getenv('DATABASE_URL') #Railway env
+
+
+
+
+#IF USING RAILWAY CLI, UN-COMMENT THIS CODE AND USE PARSE() ON DJ_DATABASE_URL 
+#TO DIRECTELY INJECT DB URL. CONFIG() WILL ALWAYS USE ENV VARIBLES WHICH IS 
+#RAILWAYS INTENAL DB ADDRESS AND CANNOT BE ACCESSED FROM OUTISED RAILWAY
+#UNLIKE THE PUBLIC DB ADDRESS.
+# RAILWAY_CLI = True
+# def get_database_url(database_cli):
+#      if database_cli:
+#           return os.getenv('DATABASE_PUBLIC_URL') 
+#      else:
+#           return os.getenv('DATABASE_URL') 
+#DATABASE_URL = get_database_url(RAILWAY_CLI)
+
+DATABASE_URL = os.getenv('DATABASE_URL')
+
 
 if DATABASE_URL:
   
     DATABASES = {
         'default': dj_database_url.config(default=DATABASE_URL)
     }
+
 else:
     
     DATABASES = {
@@ -186,9 +204,19 @@ DEFAULT_FILE_STORAGE = 'metagetter.storage_backends.PublicMediaStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+RAILWAY_DOMAIN = os.getenv("RAILWAY_PUBLIC_DOMAIN")
+
 ALLOWED_HOSTS=['metagetter-production.up.railway.app', 'localhost']
 
+if RAILWAY_DOMAIN:
+    ALLOWED_HOSTS += [RAILWAY_DOMAIN]
+
+
 CSRF_TRUSTED_ORIGINS=['http://localhost:8000', 'http://localhost:3000', 'https://metagetter-production.up.railway.app']
+
+if RAILWAY_DOMAIN:
+    CSRF_TRUSTED_ORIGINS += [f'https://{RAILWAY_DOMAIN}']
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -230,7 +258,7 @@ else:
 
 
 DJOSER = {
-    'USER_CREATE_PASSWORD_RETYPE': True,
+    
     'PASSWORD_RESET_CONFIRM_URL': 'password-reset/confirm/{uid}/{token}',
     'SERIALIZERS': {
         'user_create': 'core.serializers.CustomUserCreateSerializer',
