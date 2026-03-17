@@ -52,10 +52,16 @@ const formSchema = z.object({
 });
 
 export function SignupForm() {
+  
   const { darkMode } = useContext(ThemeContext)
   const navigate = useNavigate();
 
-
+  //get terms version 
+  
+  
+  
+  
+  
   // Define form
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -77,6 +83,8 @@ export function SignupForm() {
       email: data.email,
       password: data.password,
       re_password: data.confirmPassword,
+      terms_accepted: data.termsCheckbox,
+      
     });
 
     // Success

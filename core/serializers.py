@@ -13,7 +13,7 @@ from imagekit.processors import ResizeToFill
 from imagekit.processors import ResizeToFit
 from imagekit.cachefiles import ImageCacheFile
 
-from core.models import Questions, TermsAndConditions, ImageMetadata, UserImages
+from core.models import Questions, TermsAndConditions, ImageMetadata, UserImages, UserTermsAcceptance
 
 
 
@@ -31,6 +31,9 @@ class CustomUserCreateSerializer(UserCreateSerializer):
         validators=[UniqueValidator(queryset=User.objects.all(), message="This username is already taken.")]
     )
 
+    terms_accepted = serializers.BooleanField(required=True, write_only=True)
+
+
 
 
     def __init__(self, *args, **kwargs):
@@ -42,14 +45,36 @@ class CustomUserCreateSerializer(UserCreateSerializer):
         if attrs.get("password") != attrs.get("re_password"):
             raise serializers.ValidationError("Passwords do not match")
         
+        if not attrs.get("terms_accepted"):
+            raise serializers.ValidationError("You must accept the terms and conditions")   
         
-        #removing password reture from atts as field does not exist in User model    
+        
+        #removing password/terms reture from atts as field does not exist in User model 
+        attrs.pop("terms_accepted", None)
         attrs.pop("re_password", None)
         return super().validate(attrs)
+    
+    def create(self, validated_data):
+        user = super().create(validated_data)
+
+        terms = TermsAndConditions.objects.filter(is_active=True).first()
+        
+        if not terms:
+            raise serializers.ValidationError("No active terms found.")
+        
+        UserTermsAcceptance.objects.create(
+            user = user,
+            terms = terms,
+            ip_address = self.context['request'].META.get('REMOTE_ADDR')
+        )
+
+        return user
+
+
 
     class Meta(UserCreateSerializer.Meta):
         model = User
-        fields = ("id", "username", "email", "password", "re_password")
+        fields = ("id", "username", "email", "password", "re_password", "terms_accepted")
 
     
 

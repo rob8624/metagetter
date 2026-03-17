@@ -29,6 +29,14 @@ class Profile(models.Model):
         self.save()
         return count
     
+    def str(self):
+        return f"{self.user}'s Profile"
+    
+    class Meta:
+        verbose_name = "Profile"
+        verbose_name_plural = "Profiles"
+
+    
 
 
 class ImageMetadata(models.Model):
@@ -133,6 +141,7 @@ class TermsAndConditions(models.Model):
         verbose_name = "Terms and Conditions"
         verbose_name_plural = "Terms and Conditions"
     
+
 class UserTermsAcceptance(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='terms_acceptances')
     terms = models.ForeignKey(TermsAndConditions, on_delete=models.CASCADE)
@@ -145,3 +154,11 @@ class UserTermsAcceptance(models.Model):
 
     def __str__(self):
         return f"{self.user.username} accepted v{self.terms.version}"
+    
+
+class PrivacyPolicy(models.Model):
+    content = models.TextField()
+    version = models.CharField(max_length=20)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=False)  
+

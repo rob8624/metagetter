@@ -98,6 +98,8 @@ class AuthService {
         throw error;
        }
     }
+
+    
 }
 
 

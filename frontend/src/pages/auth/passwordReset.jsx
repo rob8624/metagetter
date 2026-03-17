@@ -122,6 +122,7 @@ export default function PasswordReset() {
     
 
     return (
+        <div className="col-span-full">
         <div className="flex flex-col justify-center items-center h-80 gap-5 pt-10 ">
             <div className="text-1xl">Reset your password using the form below</div>
             
@@ -154,6 +155,7 @@ export default function PasswordReset() {
            
         </form>
            
+        </div>
         </div>
     )
     }
