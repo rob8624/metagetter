@@ -21,11 +21,12 @@ import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orien
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import FilePondPluginImageTransform from 'filepond-plugin-image-transform';
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 
 // Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, 
-  FilePondPluginImageTransform, FilePondPluginFileValidateSize);
+  FilePondPluginImageTransform, FilePondPluginFileValidateSize, FilePondPluginFileValidateType);
 
 // Our app
 export default function Upload() {
@@ -40,7 +41,7 @@ export default function Upload() {
   const [checked, setChecked] = useState(true)
 
   //countdown state 
-  const [count, setCount] = useState(5)
+  const [count, setCount] = useState(3)
 
   const navigate = useNavigate();
 
@@ -140,6 +141,8 @@ export default function Upload() {
             allowMultiple={true}
             maxFiles={4}
             allowFileSizeValidation={true}
+            allowFileTypeValidation={true}
+            acceptedFileTypes={['image/png', 'image/jpg']}
             maxFileSize={'5MB'}
             labelMaxFileSizeExceeded={'File is too large sorry'}
             labelMaxFileSize={'Upload size limit {filesize}'}
@@ -208,8 +211,7 @@ export default function Upload() {
     <ul className="list-disc list-inside space-y-1">
       <li>Size: 5MB max</li>
       <li>Format: JPG or PNG</li>
-      <li>Resolution: at least 1024×1024</li>
-    </ul>
+      </ul>
   </div>
 </div>
       </div>

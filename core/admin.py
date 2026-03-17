@@ -3,7 +3,8 @@ import json
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
-from .models import Profile, UserImages, Image, Questions, TermsAndConditions
+from .models import Profile, UserImages, Image, Questions, TermsAndConditions, UserTermsAcceptance, PrivacyPolicy
+
 
 from django_summernote.admin import SummernoteModelAdmin
 
@@ -20,8 +21,14 @@ class UserImagesInline(admin.StackedInline):
     can_delete = True  # Allow deletion of individual images
     readonly_fields = ['upload_id', 'created_at']  # Make some fields read-only
 
+class UserTermsAcceptanceInline(admin.TabularInline):
+    model = UserTermsAcceptance
+    extra = 0
+    readonly_fields = ("terms", "accepted_at", "ip_address")
+    can_delete = False
+
 class UserAdmin(BaseUserAdmin):
-    inlines = (ProfileInline, UserImagesInline)
+    inlines = (ProfileInline, UserImagesInline, UserTermsAcceptanceInline)
 
 # Register the custom User admin
 admin.site.register(User, UserAdmin)
@@ -62,6 +69,12 @@ class QuestionsAdmin(SummernoteModelAdmin):
 class TermsAdmin(SummernoteModelAdmin):
     summernote_fields = ('content',)
     list_display = ['version', 'is_active', 'created_at']
+
+@admin.register(PrivacyPolicy)
+class PrivacyAdmin(SummernoteModelAdmin):
+    summernote_fields = ('content',)
+    list_display = ['version', 'is_active', 'created_at']
+
 
 
 

@@ -87,6 +87,8 @@ def home(request):
     return HttpResponse('HELLO')
 
 
+
+
 class ImageLimitPermission(permissions.BasePermission):
     def has_permission(self, request, view):
         if not request.user or not request.user.is_authenticated:
@@ -96,7 +98,7 @@ class ImageLimitPermission(permissions.BasePermission):
         if image_count >= 4:
             raise PermissionDenied(detail="Upload limit of 4 images reached.")
         return True
-
+    
 
 class UserProfileCachedView(APIView):
     permission_classes = [IsAuthenticated]
@@ -469,3 +471,5 @@ class ActiveTermsView(APIView):
             "version": terms.version,
             "created_at": terms.created_at
         })
+
+
