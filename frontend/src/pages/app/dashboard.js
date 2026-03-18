@@ -81,7 +81,7 @@ export default function Dashboard({ children }) {
       <>
        <div className="col-start-full col-span-full row-span-full 
       lg:col-start-4 lg:col-span-6 lg:row-start-2 lg:row-span-7 overflow-auto lg:overflow-visible">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div>
                 <DashboardCard 
                 title={'Upload'} 

@@ -11,7 +11,7 @@ const taskArray = ["textFile", "json", "deletedata", "singledownload", "xmp"]
         textFile: ".txt",
         json: ".json",
         deletedata: ".jpg",
-        singledownload: "Single Download",
+        singledownload: ".jpg",
         xmp: ".xmp"
       }
 

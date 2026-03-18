@@ -16,6 +16,8 @@ import Upload from './pages/app/upload';
 import Viewer from './pages/app/viewer';
 import Faq from './pages/app/faq';
 import Terms from './pages/app/terms';
+import PrivacyPolicy from './pages/app/privacy';
+
 
 //Components
 import Header from './components/layout/header'; 
@@ -34,6 +36,7 @@ import { ThemeContext } from './context/darkModeContext'
 
 //Settings
 import { BACKGROUND_IMAGE_URL} from './siteSettings';
+
 
 //Tanstack
 
@@ -97,6 +100,7 @@ return (
                 <Route path="/register" element={<SignupForm/>} />
                 <Route path="/questions" element={<Faq/>} />
                 <Route path="/terms" element={<Terms/>} />
+                <Route path="/privacy" element={<PrivacyPolicy/>} />
                 
                 
                 <Route path="/password-reset/confirm/:uid/:token" element={<PasswordReset/>} />

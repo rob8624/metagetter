@@ -142,7 +142,7 @@ export default function Upload() {
             maxFiles={4}
             allowFileSizeValidation={true}
             allowFileTypeValidation={true}
-            acceptedFileTypes={['image/png', 'image/jpg']}
+            acceptedFileTypes={['image/png', 'image/jpeg']}
             maxFileSize={'5MB'}
             labelMaxFileSizeExceeded={'File is too large sorry'}
             labelMaxFileSize={'Upload size limit {filesize}'}
