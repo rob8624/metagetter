@@ -24,7 +24,7 @@ const handleBlobDownload = (response, task, image) => {
         const link = document.createElement("a");
         link.href = url;
         
-        link.download = `image_${image.id}_${task}${taskFileExtensionMap[task]}`;
+        link.download = `MetaGetter_${image.upload_name}${taskFileExtensionMap[task]}`;
 
         // Fix: Properly assign download attribute in all cases
        

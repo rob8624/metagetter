@@ -38,7 +38,7 @@ import { ThemeContext } from './context/darkModeContext'
 import { BACKGROUND_IMAGE_URL} from './siteSettings';
 
 
-//Tanstack
+import CookieConsent from "react-cookie-consent";
 
 
 preload(`${BACKGROUND_IMAGE_URL}`, { as: 'image' });
@@ -119,7 +119,13 @@ return (
           <footer className='text-xs font-raleway bg-white'>
             <Footer />
           </footer>
-          
+          <CookieConsent
+          cookieName="userCookieConsent"
+          location="bottom"
+          expires={1}
+          enableDeclineButton  
+          buttonText="Accept">This website uses cookies to enhance the user experience.
+          For more info <span>Privay</span> <span>Cookies</span></CookieConsent>
         </MenuDataProvider>
       
     </UserDataProvider>

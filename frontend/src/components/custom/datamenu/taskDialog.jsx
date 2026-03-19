@@ -121,7 +121,7 @@ export function TaskDialog({ selectedImage, task}) {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{`${taskMenu.modalMessage}`} from {selectedImage?.upload_name}
-              <img src={selectedImage.image_thumbnail_url} alt="iamge"/>
+              <img src={selectedImage.image_thumbnail_url} alt="image"/>
             </DialogTitle>
             {handleTask(task)}
           </DialogHeader>
