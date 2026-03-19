@@ -16,6 +16,8 @@ import Upload from './pages/app/upload';
 import Viewer from './pages/app/viewer';
 import Faq from './pages/app/faq';
 import Terms from './pages/app/terms';
+import PrivacyPolicy from './pages/app/privacy';
+
 
 //Components
 import Header from './components/layout/header'; 
@@ -35,7 +37,8 @@ import { ThemeContext } from './context/darkModeContext'
 //Settings
 import { BACKGROUND_IMAGE_URL} from './siteSettings';
 
-//Tanstack
+
+import CookieConsent from "react-cookie-consent";
 
 
 preload(`${BACKGROUND_IMAGE_URL}`, { as: 'image' });
@@ -97,6 +100,7 @@ return (
                 <Route path="/register" element={<SignupForm/>} />
                 <Route path="/questions" element={<Faq/>} />
                 <Route path="/terms" element={<Terms/>} />
+                <Route path="/privacy" element={<PrivacyPolicy/>} />
                 
                 
                 <Route path="/password-reset/confirm/:uid/:token" element={<PasswordReset/>} />
@@ -115,7 +119,13 @@ return (
           <footer className='text-xs font-raleway bg-white'>
             <Footer />
           </footer>
-          
+          <CookieConsent
+          cookieName="userCookieConsent"
+          location="bottom"
+          expires={1}
+          enableDeclineButton  
+          buttonText="Accept">This website uses cookies to enhance the user experience.
+          For more info <span>Privay</span> <span>Cookies</span></CookieConsent>
         </MenuDataProvider>
       
     </UserDataProvider>

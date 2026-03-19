@@ -21,7 +21,8 @@ from django.contrib.auth import get_user_model
 
 
 #project models
-from .models import UserImages, ImageMetadata, Profile, Questions, TermsAndConditions
+from .models import UserImages, ImageMetadata, Profile, Questions, TermsAndConditions, PrivacyPolicy
+
 
 #django utils
 from django.utils import timezone
@@ -472,4 +473,19 @@ class ActiveTermsView(APIView):
             "created_at": terms.created_at
         })
 
+class ActivePrivacyView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        privacy_policy = PrivacyPolicy.objects.filter(is_active=True).first()
+        if not privacy_policy:
+            return Response({"detail": "No active privacy policy found."}, status=status.HTTP_404_NOT_FOUND)
+
+        return Response({
+            "id": privacy_policy.id,
+            "content": privacy_policy.content,
+            "version": privacy_policy.version,
+            "created_at": privacy_policy.created_at
+        })
+        
 

@@ -24,7 +24,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView
 )
-from core.views import UserProfileCachedView,  CustomJWTCreateView, FilePondProcessView, CanUploadImagesView, UserImagesViewSet, QuestionListView, ActiveTermsView
+from core.views import UserProfileCachedView,  CustomJWTCreateView, FilePondProcessView, CanUploadImagesView, UserImagesViewSet, QuestionListView, ActiveTermsView, ActivePrivacyView
 from rest_framework_simplejwt.views import TokenBlacklistView
 
 router = DefaultRouter()
@@ -47,6 +47,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('faqs/', QuestionListView.as_view(), name='faq-list'),
     path('terms/', ActiveTermsView.as_view(), name='terms'),
+    path('privacy/', ActivePrivacyView.as_view(), name='privacy'),
     path('summernote/', include('django_summernote.urls')),
     
 ]
