@@ -43,7 +43,7 @@ export default function Dashboard({ children }) {
     buttonName, footer, buttonColor, backgroundColor, icon, link, enabled, className}) => {
     return (
         <>
-        <Card className={`${backgroundColor} ${className} h-full shadow-lg border-2 border-black dark:border-white dark:bg-black sm:hover:scale-105 sm:transition-all sm:duration-300 ease-in`}>
+        <Card className={`${backgroundColor} ${className} h-full shadow-lg border-2 border-black dark:border-white dark:bg-black`}>
       <CardHeader>
         <CardTitle className="flex justify-center min-h-0">{title}</CardTitle>
         <CardDescription className="flex justify-center min-h-0">{description}</CardDescription>
@@ -80,7 +80,7 @@ export default function Dashboard({ children }) {
     return(
       <>
        <div className="col-start-full col-span-full row-span-full 
-      lg:col-start-4 lg:col-span-6 lg:row-start-2 lg:row-span-7 overflow-auto lg:overflow-visible">
+      lg:col-start-4 lg:col-span-6 lg:row-start-2 lg:row-span-7 overflow-y-auto overflow-x-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div>
                 <DashboardCard 

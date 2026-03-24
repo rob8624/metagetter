@@ -7,7 +7,12 @@
 }
 
 html, #root, body {
-  height: 100dvh;}
+height: 100dvh;
+}
+
+#root {
+  overflow: scroll;
+}
 
 
 
@@ -16,6 +21,7 @@ body {
   font-family: 'Arial', sans-serif;
   font-size: 16px;
   line-height: 1.5;
+  
  
   
   

@@ -5,6 +5,7 @@ import { EditForm } from "./editing/editForm";
 import ImageCard from "./imageCard";
 import DetailPanel from "./detailPanel";
 import { DataTools } from "./datamenu/dataTools";
+import ImageToggle from "./imageToggle";
 
 // Grid View Component
 const GridView = ({
@@ -30,6 +31,7 @@ const GridView = ({
   detailPanelRef
 }) => {
   const [openDropdownId, setOpenDropdownId] = useState(null);
+  const [showImages, setShowImages] = useState(true)
 
   return (
     <>
@@ -66,17 +68,24 @@ const GridView = ({
                 setIsEditing={setIsEditing}
                 imageZoomed={imageZoomed?.id === item.id}
                 setImageZoomed={setImageZoomed}
+                showImages={showImages}
               />
             ))}
 
             
           </div>
           {selectedImage ? (
+            <>
+            <div className="flex flex-col">
+              <ImageToggle showImages={showImages} setShowImages={setShowImages}/>
               <DataTools
                 selectedImage={selectedImage}
                 isEditing={isEditing}
                 setIsEditing={setIsEditing}
               />
+              
+              </div>
+              </>
             ) : null}
             <div className="col-span-full overflow-auto max-h-80 sm:max-h-none" ref={detailPanelRef}>
                 {isEditing ? (

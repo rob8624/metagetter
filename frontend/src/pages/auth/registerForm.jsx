@@ -117,7 +117,7 @@ export function SignupForm() {
   
   return (
     <>
-    <div className="col-span-full lg:col-start-4 lg:col-span-6 row-start-1 row-span-full overflow-auto">
+    <div className="col-span-full lg:col-start-4 lg:col-span-6 row-start-1 row-span-full overflow-auto ">
             
         <div className={`flex flex-col  mt-10 sm:mb-16 p-6 rounded-lg shadow-lg text-center
           ${darkMode ? 'border border-gray-700 bg-black text-white' : 'border border-gray-200 bg-white text-black'}`}>

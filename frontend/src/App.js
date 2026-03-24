@@ -27,6 +27,9 @@ import Dashboard from './pages/app/dashboard';
 import { Toaster } from "./components/ui/sonner"
 import { PrivateRoutes } from './pages/auth/privateRoutes';
 import FindOutMore from './components/custom/findOutMore';
+import News from './components/custom/news';
+
+
 
 
 //Context 
@@ -37,8 +40,11 @@ import { ThemeContext } from './context/darkModeContext'
 //Settings
 import { BACKGROUND_IMAGE_URL} from './siteSettings';
 
-
+//Cookie banner
 import CookieConsent from "react-cookie-consent";
+
+
+
 
 
 preload(`${BACKGROUND_IMAGE_URL}`, { as: 'image' });
@@ -46,6 +52,8 @@ preload(`${BACKGROUND_IMAGE_URL}`, { as: 'image' });
 
 function App() {
   const [showFindOutMore, setShowFindOutMore] = useState(false)
+  
+  
   const { setDarkMode } = useContext(ThemeContext)
   
 
@@ -70,13 +78,15 @@ const bgImageStyles = {
   backgroundImage: `url(${BACKGROUND_IMAGE_URL})`,
   // backgroundSize: `100% 100%`,  re-apply this for images to stop distortion of scale
   opacity: '0.9',
-  backgroundRepeat: 'repeat'
+  backgroundRepeat: 'repeat',
+  height: '100%',
+  
 }
  
  
 return (
     <>
-    <div id="site-wrapper" className='flex flex-col overflow-scroll min-h-screen sm:h-full w-full items-center sm:overflow-hidden dark:bg-black'
+    <div id="site-wrapper" className='flex flex-col overflow-scroll min-h-full sm:h-full w-full items-center sm:overflow-hidden dark:bg-black'
     style={isHomePage ? 
         bgImageStyles : {}}>
           
@@ -96,6 +106,7 @@ return (
                 <FindOutMore setShowFindOutMore={setShowFindOutMore}/> : 
                 <Hero setShowFindOutMore={setShowFindOutMore} />} />\
                                 {/* Sign in route */}
+                         
                 <Route path="/signin" element={<SignIn/>} />
                 <Route path="/register" element={<SignupForm/>} />
                 <Route path="/questions" element={<Faq/>} />
@@ -112,6 +123,7 @@ return (
                     <Route path="/viewer" element={<Viewer/>} />
                   </Route>
               </Routes>
+             {showFindOutMore ? null : <News />}
             
             <Toaster />
           </div>
