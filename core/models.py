@@ -64,7 +64,7 @@ class UserImages(models.Model):
                                       format='JPEG',
                                       options={'quality': 60})
     metadata = models.ForeignKey(ImageMetadata, on_delete=models.SET_NULL, null=True, related_name="user_images")
-    created_at = models.DateTimeField(default=timezone.now) 
+    created_at = models.DateTimeField(default=timezone.now, db_index=True) 
     upload_id = models.CharField(null=True, max_length=50)
     upload_name = models.CharField(null=True, max_length=200)
     
