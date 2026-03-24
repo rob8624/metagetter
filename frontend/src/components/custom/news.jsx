@@ -11,7 +11,7 @@ export default function News() {
         return response.data
     }
  
-    const { data: items , isLoading, error } = useQuery(
+    const { data: items , isLoading } = useQuery(
         {
             queryKey:['News'],
             queryFn: fetchNews
