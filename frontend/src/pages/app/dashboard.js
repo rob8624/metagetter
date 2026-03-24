@@ -80,7 +80,7 @@ export default function Dashboard({ children }) {
     return(
       <>
        <div className="col-start-full col-span-full row-span-full 
-      lg:col-start-4 lg:col-span-6 lg:row-start-2 lg:row-span-7 overflow-y-auto overflow-x-hidden">
+      lg:col-start-4 lg:col-span-6 lg:row-start-2 lg:row-span-7 overflow-y-auto overflow-x-hidden p-2 sm:p-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div>
                 <DashboardCard 

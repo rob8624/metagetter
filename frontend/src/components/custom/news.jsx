@@ -14,7 +14,9 @@ export default function News() {
     const { data: items , isLoading } = useQuery(
         {
             queryKey:['News'],
-            queryFn: fetchNews
+            queryFn: fetchNews,
+            refetchOnMount: false,
+            refetchOnWindowFocus: false,
         }
     )
 
@@ -31,7 +33,7 @@ export default function News() {
                           <span className='relative top-[3px]'><FaBolt/></span>
 
                         </div>
-                        <div>{isLoading && <div>Loading...</div>}</div>
+                        <div>{isLoading && <div className="text-xs">Fetching news...</div>}</div>
                         <div>{items?.map((item) => {
                             return (
                                 <div key={item.id}>
