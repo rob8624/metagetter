@@ -13,7 +13,7 @@ from imagekit.processors import ResizeToFill
 from imagekit.processors import ResizeToFit
 from imagekit.cachefiles import ImageCacheFile
 
-from core.models import Questions, TermsAndConditions, ImageMetadata, UserImages, UserTermsAcceptance
+from core.models import Questions, TermsAndConditions, ImageMetadata, UserImages, UserTermsAcceptance, News
 
 
 
@@ -547,3 +547,7 @@ class TermsSerliazer(serializers.ModelSerializer):
 
 
 
+class NewsSerliazer(serializers.ModelSerializer):
+    class Meta:
+        model = News
+        fields = ['id', 'title', 'content', 'created_at', 'updated_at', 'visable']

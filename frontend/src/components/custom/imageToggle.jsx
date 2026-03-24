@@ -3,6 +3,8 @@ import { Switch } from "../ui/switch"
 import { Label } from "../ui/label"
 
 
+//toggles wether images are showing in viewer. showImages sets hidden/flex on imageCard component
+
 export default function ImageToggle ({showImages, setShowImages}) {
     return (
       <div className="flex gap-2 items-center m-2">

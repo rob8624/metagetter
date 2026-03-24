@@ -3,7 +3,7 @@ import json
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
-from .models import Profile, UserImages, Image, Questions, TermsAndConditions, UserTermsAcceptance, PrivacyPolicy
+from .models import Profile, UserImages, Image, Questions, TermsAndConditions, UserTermsAcceptance, PrivacyPolicy, News
 
 
 from django_summernote.admin import SummernoteModelAdmin
@@ -74,6 +74,12 @@ class TermsAdmin(SummernoteModelAdmin):
 class PrivacyAdmin(SummernoteModelAdmin):
     summernote_fields = ('content',)
     list_display = ['version', 'is_active', 'created_at']
+
+@admin.register(News)
+class NewsAdmin(SummernoteModelAdmin):
+    summernote_fields = ('content',)
+    list_display = ['title', 'created_at', 'updated_at', 'visable']
+
 
 
 

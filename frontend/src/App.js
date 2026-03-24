@@ -27,7 +27,7 @@ import Dashboard from './pages/app/dashboard';
 import { Toaster } from "./components/ui/sonner"
 import { PrivateRoutes } from './pages/auth/privateRoutes';
 import FindOutMore from './components/custom/findOutMore';
-import News from './components/custom/news';
+
 
 
 
@@ -123,7 +123,7 @@ return (
                     <Route path="/viewer" element={<Viewer/>} />
                   </Route>
               </Routes>
-             {showFindOutMore ? null : <News />}
+            
             
             <Toaster />
           </div>

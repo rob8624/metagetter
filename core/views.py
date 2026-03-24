@@ -21,7 +21,7 @@ from django.contrib.auth import get_user_model
 
 
 #project models
-from .models import UserImages, ImageMetadata, Profile, Questions, TermsAndConditions, PrivacyPolicy
+from .models import UserImages, ImageMetadata, Profile, Questions, TermsAndConditions, PrivacyPolicy, News
 
 
 #django utils
@@ -53,7 +53,7 @@ from rest_framework.decorators import action
 from rest_framework.generics import ListAPIView
 
 #serializers
-from .serializers import UserImagesSerializer, ImageListSerializer, MetadataEditSerializer,  QuestionsSerializer
+from .serializers import UserImagesSerializer, ImageListSerializer, MetadataEditSerializer,  QuestionsSerializer, NewsSerliazer
 
 #exitool
 import exiftool
@@ -487,5 +487,13 @@ class ActivePrivacyView(APIView):
             "version": privacy_policy.version,
             "created_at": privacy_policy.created_at
         })
+    
+class NewsView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        news_items = News.objects.filter(visable=True)
+        serializer = NewsSerliazer(news_items, many=True)
+        return Response(serializer.data)    
         
 

@@ -1,9 +1,9 @@
 
 //react hooks
 import { useEffect, useRef } from "react";
-
 import { Button } from "../ui/button";
 
+import News from '../custom/news';
 
 //router
 
@@ -53,7 +53,7 @@ export default function Hero({ setShowFindOutMore }) {
   return (
     <>
 
-  <div className="row-start-2 row-span-3 col-start-3 col-span-8 flex flex-col justify-center items-center text-black font-raleway gap-4"
+  <div className="row-start-4 sm:row-start-3 row-span-3 col-start-3 col-span-8 flex flex-col justify-center items-center text-black font-raleway gap-4"
   ref={heroContainer}>
    
      
@@ -86,6 +86,7 @@ export default function Hero({ setShowFindOutMore }) {
             <Link to="/questions">FAQ</Link>
           </Button>
         </div>
+        <News />
  
 </div>
 
