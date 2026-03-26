@@ -65,7 +65,7 @@ export function EditForm({ data, selectedImage, isEditing, setIsEditing }) {
         Copyright: "",
         DateCreated: "",
         CreatorWorkEmail: "",
-        CreatorWorkURL: metaData.CreatorWorkURL || "",
+        CreatorWorkURL: "",
       });
     }
   }, [selectedImage, metaData, form]);
