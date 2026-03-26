@@ -32,7 +32,7 @@ const handleBlobDownload = (response, task, image) => {
         document.body.appendChild(link);
         link.click();
         link.remove();
-        window.URL.revokeObjectURL(url);
+        setTimeout(() => window.URL.revokeObjectURL(url), 5000);
 
 }
 
